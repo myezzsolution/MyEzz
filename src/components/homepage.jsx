@@ -35,7 +35,7 @@ const restaurantData = [
   { name: "Uncles Corner", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896218263-b4nlxb15sq-1755896215689_u7omyq_screenshot_2025-08-2.png", offer: "Sandwich Special", tags: ["Pure Veg"], operating_hours: "11:00 AM - 8:00 PM" },
   { name: "Smootheory", distance: 1.5, cuisines: ["Beverages","Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896873401-ea65fq82wb-1755896874535_z9819f_smooth.webp", offer: "Smoothie Special", tags: ["Pure Veg"], operating_hours: "10:00 AM - 11:00 PM" },
   { name: "SK Pizza Corner", distance: 2.1, cuisines: ["North Indian","Non-Jain"], rating: 4.5, reviews: 890, time: "35-40", price: 350, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755894071789-hubgy8gqkdi-1755894061118_6fiz8r_skpizza.png", offer: "Free Delivery", tags: ["Pure Veg"], operating_hours: "10:00 AM - 11:00 PM" },
-  { name: "House of Delicious", distance: 2.0, cuisines: ["Fast Food", "Pizza"], rating: 4.5, reviews: 950, time: "20-25", price: 250,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPWCWaCblsD8fNHr4nUFVIYwADmh6azLUM9g&s", offer: "10% DISCOUNT!", tags: ["Pure Veg"], operating_hours: "11:00 AM - 11:30 PM"},
+  { name: "House of Delicious", distance: 2.0, cuisines: ["Fast Food", "Pizza","Jain"], rating: 4.5, reviews: 950, time: "20-25", price: 250,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPWCWaCblsD8fNHr4nUFVIYwADmh6azLUM9g&s", offer: "10% DISCOUNT!", tags: ["Pure Veg"], operating_hours: "11:00 AM - 11:30 PM"},
 ];
 //--Restraunt Menu Data--//
 const menuData = {
