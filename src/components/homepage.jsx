@@ -14,29 +14,29 @@ const LogoutIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 
 
 //--Restaurant List--//
 const restaurantData = [
-  { name: "Patel Juice Centre", distance: 1.2, cuisines: ["Beverages","Non-Jain"], rating: 4.2, reviews: 1250, time: "25-30", price: 290, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755895645330-qq2u7eyebo-1755895642484_i5db00_screenshot_2025-08-2.png", offer: "Fresh Juice", tags: ["Pure Veg"], operating_hours: "12:30 PM - 12:00 AM" },
-  { name: "BE Bytes", distance: 1.2, cuisines: ["Non-Jain","Jain"], rating: 4.2, reviews: 1250, time: "25-30", price: 290, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755897266181-y9qdcu4jom-1755897261379_xih865_screenshot_2025-08-2.png", offer: "20% OFF", tags: ["Pure Veg", "Jain"], operating_hours: "5:00 PM - 11:00 PM" },
-  { name: "Ramanandi Pizza", distance: 1.5, cuisines: ["Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755895245660-oq6po7fzegk-1755895242769_7f0us3_screenshot_2025-08-2.png", offer: "Healthy Pizza", tags: ["Pure Veg", "Jain"], operating_hours: "5:30 PM - 11:30 PM" },
-  { name: "House of Sushi", distance: 1.8, cuisines: ["Non-Jain"], rating: 4.7, reviews: 456, time: "30-35", price: 250, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755895047529-4y55icdw9dm-1755895044352_3c20aj_screenshot_2025-08-2.png", offer: "Sushi Special", tags: ["Pure Veg"], operating_hours: "4:30 PM - 12:30 AM" },
-  { name: "Priya Foods", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755967552470-eepyzuoq3ok-1755967550136_uh38t9_screenshot_2025-08-2.png", offer: "South Special", tags: ["Pure Veg", "Jain"], operating_hours: "12:00 PM - 8:00 PM" },
-  { name: "Cafe Jethwa", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896696134-jaos24jzwt-1755896696639_3oinel_cafe_jhetwa.webp", offer: "Burger Special", tags: ["Pure Veg"], operating_hours: "3:30 PM - 12:00 AM" },
-  { name: "Norchi", distance: 1.5, cuisines: ["Non-Jain","Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896769129-f2b4gv9jouu-1755896769958_w8xzf7_norchi.webp", offer: "Bowl Special", tags: ["Pure Veg", "Jain"], operating_hours: "12:00 PM - 1:00 AM" },
-  { name: "Green Chatni Food", distance: 1.5, cuisines: ["Non-Jain","Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896032426-pdnyuevp18-1755896029141_2lrv8a_screenshot_2025-08-2.png", offer: "Thali Special", tags: ["Pure Veg", "Jain"], operating_hours: "11:00 AM - 3:00 PM & 7:00 PM - 11:00 PM" },
-  { name: "Sai Krupa Amritsar Kulcha", distance: 1.5, cuisines: ["Non-Jain", "Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896638027-lq36fl1reu-1755896638345_sp4v19_sai_amritsar.webp", offer: "Kulcha Special", tags: ["Pure Veg", "Jain"], operating_hours: "12:00 PM - 10:30 PM" },
-  { name: "Hungrill", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755895407874-lx8turec028-1755895405373_pwke1m_screenshot_2025-08-2.png", offer: "Grill Special", tags: ["Pure Veg"], operating_hours: "2:00 PM - 12:00 AM" },
+  { name: "Patel Juice Centre", distance: 1.2, cuisines: ["Beverages","Non-Jain"], rating: 4.2, reviews: 1250, time: "25-30", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755895645330-qq2u7eyebo-1755895642484_i5db00_screenshot_2025-08-2.png", offer: "Fresh Juice", tags: ["Pure Veg"], operating_hours: "12:30 PM - 12:00 AM" },
+  { name: "BE Bytes", distance: 1.2, cuisines: ["Non-Jain","Jain"], rating: 4.2, reviews: 1250, time: "25-30", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755897266181-y9qdcu4jom-1755897261379_xih865_screenshot_2025-08-2.png", offer: "20% OFF", tags: ["Pure Veg", "Jain"], operating_hours: "5:00 PM - 11:00 PM" },
+  { name: "Ramanandi Pizza", distance: 1.5, cuisines: ["Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755895245660-oq6po7fzegk-1755895242769_7f0us3_screenshot_2025-08-2.png", offer: "Healthy Pizza", tags: ["Pure Veg", "Jain"], operating_hours: "5:30 PM - 11:30 PM" },
+  { name: "House of Sushi", distance: 1.8, cuisines: ["Non-Jain"], rating: 4.7, reviews: 456, time: "30-35", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755895047529-4y55icdw9dm-1755895044352_3c20aj_screenshot_2025-08-2.png", offer: "Sushi Special", tags: ["Pure Veg"], operating_hours: "4:30 PM - 12:30 AM" },
+  { name: "Priya Foods", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755967552470-eepyzuoq3ok-1755967550136_uh38t9_screenshot_2025-08-2.png", offer: "South Special", tags: ["Pure Veg", "Jain"], operating_hours: "12:00 PM - 8:00 PM" },
+  { name: "Cafe Jethwa", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896696134-jaos24jzwt-1755896696639_3oinel_cafe_jhetwa.webp", offer: "Burger Special", tags: ["Pure Veg"], operating_hours: "3:30 PM - 12:00 AM" },
+  { name: "Norchi", distance: 1.5, cuisines: ["Non-Jain","Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896769129-f2b4gv9jouu-1755896769958_w8xzf7_norchi.webp", offer: "Bowl Special", tags: ["Pure Veg", "Jain"], operating_hours: "12:00 PM - 1:00 AM" },
+  { name: "Green Chatni Food", distance: 1.5, cuisines: ["Non-Jain","Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896032426-pdnyuevp18-1755896029141_2lrv8a_screenshot_2025-08-2.png", offer: "Thali Special", tags: ["Pure Veg", "Jain"], operating_hours: "11:00 AM - 3:00 PM & 7:00 PM - 11:00 PM" },
+  { name: "Sai Krupa Amritsar Kulcha", distance: 1.5, cuisines: ["Non-Jain", "Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896638027-lq36fl1reu-1755896638345_sp4v19_sai_amritsar.webp", offer: "Kulcha Special", tags: ["Pure Veg", "Jain"], operating_hours: "12:00 PM - 10:30 PM" },
+  { name: "Hungrill", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755895407874-lx8turec028-1755895405373_pwke1m_screenshot_2025-08-2.png", offer: "Grill Special", tags: ["Pure Veg"], operating_hours: "2:00 PM - 12:00 AM" },
   { name: "Shree Veggie Adda", distance: 1.5, cuisines: ["Non-Jain","Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896267775-ck9hev3y3cv-1755896264923_z0tldz_screenshot_2025-08-2.png", offer: "Wrap Special", tags: ["Pure Veg", "Jain"], operating_hours: "1:00 PM - 12:00 AM" },
-  { name: "Tasty Table Fast Food", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896412981-13pqv741h8gc-1755896410270_3816y3_screenshot_2025-08-2.png", offer: "Combo Special", tags: ["Pure Veg"], operating_hours: "12:00 PM - 12:00 AM" },
-  { name: "Maharashtra Shashan", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755967474303-8lzl5yzy3zc-1755967470582_z8bjcp_screenshot_2025-08-2.png", offer: "Frankie Special", tags: ["Pure Veg"], operating_hours: "1:00 PM - 12:00 AM" },
-  { name: "Panishkar Tastearaunt", distance: 3.2, cuisines: ["Maharashtrian", "Jain"], rating: 4.3, reviews: 980, time: "25-30", price: 400, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755895156171-raymcdxas7r-1755895153279_sxb6yi_screenshot_2025-08-2.png", offer: "Combo Offer", tags: ["Jain"], operating_hours: "1:00 PM - 12:00 AM" },
-  { name: "Dilkhush Dabeli Centre", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896715383-80mw8vrcv84-1755896716549_vlofwv_dilkush.jpeg", offer: "Dabeli Special", tags: ["Pure Veg"], operating_hours: "5:00 PM - 11:00 PM" },
-  { name: "Cheese on Fire", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896661911-0cg4twwpjd1p-1755896662494_fuqc5i_cheese_on_fire.webp", offer: "Fire Special", tags: ["Pure Veg"], operating_hours: "12:30 PM - 12:30 AM" },
-  { name: "Magic Momos", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896743463-7tpmwsdj748-1755896744446_9d01m2_momos_mgic.webp", offer: "Momo Special", tags: ["Pure Veg"], operating_hours: "12:00 PM - 12:00 AM" },
-  { name: "Mocktails on Fire", distance: 1.5, cuisines: ["Beverages", "Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896728798-kaqi5vk2xhj-1755896729685_ww2fhh_mocktails.webp", offer: "Mocktail Special", tags: ["Pure Veg"], operating_hours: "11:00 AM - 11:00 PM" },
-  { name: "Uncles Corner", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896218263-b4nlxb15sq-1755896215689_u7omyq_screenshot_2025-08-2.png", offer: "Sandwich Special", tags: ["Pure Veg"], operating_hours: "11:00 AM - 8:00 PM" },
-  { name: "Smootheory", distance: 1.5, cuisines: ["Beverages","Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", price: 180, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896873401-ea65fq82wb-1755896874535_z9819f_smooth.webp", offer: "Smoothie Special", tags: ["Pure Veg"], operating_hours: "10:00 AM - 11:00 PM" },
-  { name: "SK Pizza Corner", distance: 2.1, cuisines: ["North Indian","Non-Jain"], rating: 4.5, reviews: 890, time: "35-40", price: 350, image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755894071789-hubgy8gqkdi-1755894061118_6fiz8r_skpizza.png", offer: "Free Delivery", tags: ["Pure Veg"], operating_hours: "10:00 AM - 11:00 PM" },
-  { name: "House of Delicious", distance: 2.0, cuisines: ["Fast Food", "Pizza","Jain"], rating: 4.5, reviews: 950, time: "20-25", price: 250,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPWCWaCblsD8fNHr4nUFVIYwADmh6azLUM9g&s", offer: "10% DISCOUNT!", tags: ["Pure Veg"], operating_hours: "11:00 AM - 11:30 PM"},
-  { name: "THE ART CAFE", distance: 2.8, cuisines: ["Cafe", "Fast Food", "Italian", "Jain"], rating: 4.4, reviews: 980, time: "25-30", price: 220, image: "https://content.jdmagicbox.com/v2/comp/mumbai/g3/022pxx22.xx22.231108080504.z3g3/catalogue/the-art-cafe-chembur-west-mumbai-fast-food-hfeh5w3bwa-250.jpg", offer: "Free Delivery in Tilak Nagar", tags: ["Pure Veg", "Jain"], operating_hours: "11:00 AM - 1:00 AM"},
+  { name: "Tasty Table Fast Food", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896412981-13pqv741h8gc-1755896410270_3816y3_screenshot_2025-08-2.png", offer: "Combo Special", tags: ["Pure Veg"], operating_hours: "12:00 PM - 12:00 AM" },
+  { name: "Maharashtra Shashan", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755967474303-8lzl5yzy3zc-1755967470582_z8bjcp_screenshot_2025-08-2.png", offer: "Frankie Special", tags: ["Pure Veg"], operating_hours: "1:00 PM - 12:00 AM" },
+  { name: "Panishkar Tastearaunt", distance: 3.2, cuisines: ["Maharashtrian", "Jain"], rating: 4.3, reviews: 980, time: "25-30", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755895156171-raymcdxas7r-1755895153279_sxb6yi_screenshot_2025-08-2.png", offer: "Combo Offer", tags: ["Jain"], operating_hours: "1:00 PM - 12:00 AM" },
+  { name: "Dilkhush Dabeli Centre", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896715383-80mw8vrcv84-1755896716549_vlofwv_dilkush.jpeg", offer: "Dabeli Special", tags: ["Pure Veg"], operating_hours: "5:00 PM - 11:00 PM" },
+  { name: "Cheese on Fire", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896661911-0cg4twwpjd1p-1755896662494_fuqc5i_cheese_on_fire.webp", offer: "Fire Special", tags: ["Pure Veg"], operating_hours: "12:30 PM - 12:30 AM" },
+  { name: "Magic Momos", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896743463-7tpmwsdj748-1755896744446_9d01m2_momos_mgic.webp", offer: "Momo Special", tags: ["Pure Veg"], operating_hours: "12:00 PM - 12:00 AM" },
+  { name: "Mocktails on Fire", distance: 1.5, cuisines: ["Beverages", "Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896728798-kaqi5vk2xhj-1755896729685_ww2fhh_mocktails.webp", offer: "Mocktail Special", tags: ["Pure Veg"], operating_hours: "11:00 AM - 11:00 PM" },
+  { name: "Uncles Corner", distance: 1.5, cuisines: ["Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896218263-b4nlxb15sq-1755896215689_u7omyq_screenshot_2025-08-2.png", offer: "Sandwich Special", tags: ["Pure Veg"], operating_hours: "11:00 AM - 8:00 PM" },
+  { name: "Smootheory", distance: 1.5, cuisines: ["Beverages","Non-Jain"], rating: 4.6, reviews: 1500, time: "20-25", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755896873401-ea65fq82wb-1755896874535_z9819f_smooth.webp", offer: "Smoothie Special", tags: ["Pure Veg"], operating_hours: "10:00 AM - 11:00 PM" },
+  { name: "SK Pizza Corner", distance: 2.1, cuisines: ["North Indian","Non-Jain"], rating: 4.5, reviews: 890, time: "35-40", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755894071789-hubgy8gqkdi-1755894061118_6fiz8r_skpizza.png", offer: "Free Delivery", tags: ["Pure Veg"], operating_hours: "10:00 AM - 11:00 PM" },
+  { name: "House of Delicious", distance: 2.0, cuisines: ["Fast Food", "Pizza","Jain"], rating: 4.5, reviews: 950, time: "20-25",  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPWCWaCblsD8fNHr4nUFVIYwADmh6azLUM9g&s", offer: "10% DISCOUNT!", tags: ["Pure Veg"], operating_hours: "11:00 AM - 11:30 PM"},
+  { name: "THE ART CAFE", distance: 2.8, cuisines: ["Cafe", "Fast Food", "Italian", "Jain"], rating: 4.4, reviews: 980, time: "25-30", image: "https://content.jdmagicbox.com/v2/comp/mumbai/g3/022pxx22.xx22.231108080504.z3g3/catalogue/the-art-cafe-chembur-west-mumbai-fast-food-hfeh5w3bwa-250.jpg", offer: "Free Delivery in Tilak Nagar", tags: ["Pure Veg", "Jain"], operating_hours: "11:00 AM - 1:00 AM"},
 ];
 //--Restraunt Menu Data--//
 const menuData = {
@@ -2324,6 +2324,21 @@ const menuData = {
 
 
 };
+const categoryFilters = [
+  { name: 'Pizza', keywords: ['pizza', 'pizzatta'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557648908-f3yzue48jb4-1756557650705_hsfuv5_screenshot_2025-08-3.png' },
+  { name: 'Sandwich', keywords: ['sandwich', 'panini', 'bagel'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552327686-rhswl7x25uh-1756552327877_35f5o9_screenshot_2025-08-3.png' },
+  { name: 'Rolls & Wraps', keywords: ['roll', 'frankie', 'wrap'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557561163-4v9aunjt71f-1756557563014_zdepzl_screenshot_2025-08-3.png' },
+  { name: 'Burger', keywords: ['burger'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557328450-pmk9jldolg-1756557330397_m33evn_screenshot_2025-08-3.png' },
+  { name: 'Street Food', keywords: ['vada pav', 'samosa', 'dabeli', 'bhel', 'pakoda', 'dhokla', 'locho', 'khamani', 'patra', 'chaat', 'pav', 'pudla', 'bhurji', 'idli'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557328450-pmk9jldolg-1756557330397_m33evn_screenshot_2025-08-3.png' },
+  { name: 'Breads & Kulcha', keywords: ['kulcha', 'garlic bread', 'roti', 'naan', 'paratha', 'bun maska'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557214213-k5uo08e6do-1756557215834_tm6edh_screenshot_2025-08-3.png' },
+  { name: 'Chinese', keywords: ['noodles', 'manchurian', 'ramen', 'schezwan', 'hakka'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756556600027-5ktrv5mxz6b-1756556600301_mzvjpe_screenshot_2025-08-3.png' },
+  { name: 'Momos', keywords: ['momos'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557061089-powevnv8brq-1756557061231_soqr9p_screenshot_2025-08-3.png' },
+  { name: 'Pasta', keywords: ['pasta', 'spaghetti'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557131451-77u7ytc8hjh-1756557132811_xpym3t_screenshot_2025-08-3.png' },
+  { name: 'Sushi', keywords: ['sushi'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552882328-c8w8if74axq-1756552883691_shkbyo_screenshot_2025-08-3.png' },
+  { name: 'Fries', keywords: ['fries', 'wedges', 'twister'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552720273-nor1l0jr2w-1756552722137_2vbqus_screenshot_2025-08-3.png' },
+  { name: 'Desserts', keywords: ['waffle', 'pastry', 'brownie', 'cake', 'falooda', 'sundae', 'sheera'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552423146-33vmee7qwcc-1756552425289_3gqwk8_screenshot_2025-08-3.png' },
+  { name: 'Beverages', keywords: ['juice', 'shake', 'tea', 'coffee', 'lassi', 'mojito', 'boba', 'blossom', 'limbu', 'coco'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552468201-sb2j0y8fah-1756552470016_6s1tf6_screenshot_2025-08-3.png' },
+];
 
 
 // --- COMPONENTS ---
@@ -2402,7 +2417,7 @@ const RestaurantCard = ({ name, distance, cuisines, rating, reviews, time, price
             <div className="flex justify-between items-center text-sm text-gray-600 mt-2">
                 <span>{distance} km</span>
                 <span>{time} mins</span>
-                <span>₹{price} for two</span>
+                
             </div>
         </div>
     </div>
@@ -2479,8 +2494,15 @@ const HomePage = ({ setSelectedRestaurant }) => {
     );
 };
 
+
 const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems }) => {
+    const [selectedCategory, setSelectedCategory] = useState('All');
     const items = menuData[restaurant.name] || [];
+
+    // Reset filter when the restaurant changes to avoid showing a stale filter
+    useEffect(() => {
+        setSelectedCategory('All');
+    }, [restaurant]);
 
     const addToCart = (item) => {
         setCartItems(prevItems => {
@@ -2491,6 +2513,25 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems }) => 
             return [...prevItems, { ...item, quantity: 1 }];
         });
     };
+
+    // Dynamically find which categories are available in the current restaurant's menu
+    const availableCategories = categoryFilters.filter(category =>
+        items.some(item =>
+            category.keywords.some(keyword =>
+                item.name.toLowerCase().includes(keyword)
+            )
+        )
+    );
+
+    // Filter the menu items based on the currently selected category
+    const filteredMenuItems = selectedCategory === 'All'
+        ? items
+        : items.filter(item => {
+            const categoryInfo = categoryFilters.find(cat => cat.name === selectedCategory);
+            if (!categoryInfo) return false;
+            const lowerCaseName = item.name.toLowerCase();
+            return categoryInfo.keywords.some(keyword => lowerCaseName.includes(keyword));
+        });
 
     return (
         <div className="max-w-screen-xl mx-auto p-4 sm:p-8 text-gray-800">
@@ -2510,28 +2551,76 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems }) => 
                         </div>
                         <span>•</span>
                         <span>{restaurant.time} mins</span>
-                        <span>•</span>
-                        <span>₹{restaurant.price} for two</span>
+                        
+                        
                     </div>
                 </div>
-                <div className="p-6">
-                    <h3 className="text-2xl font-bold mb-4">Menu</h3>
-                    <div className="space-y-4">
-                        {items.map((item, index) => (
-                            <div key={index} className="flex justify-between items-center p-4 rounded-lg bg-gray-50">
-                                <div>
-                                    <h4 className="font-semibold">{item.name}</h4>
-                                    <p className="text-sm text-gray-500">₹{item.price}</p>
+
+                {/* --- CATEGORY FILTER UI --- */}
+                {availableCategories.length > 0 && (
+                    <div className="p-6 border-t">
+                        <h3 className="text-xl font-bold mb-4">Categories</h3>
+                        <div className="flex space-x-4 overflow-x-auto pb-4 -mb-4">
+                            {/* "All" button is always first */}
+                            <button
+                                onClick={() => setSelectedCategory('All')}
+                                className={`flex-shrink-0 text-center p-2 rounded-lg transition-all duration-200 ${selectedCategory === 'All' ? 'bg-orange-100' : 'hover:bg-gray-100'}`}
+                            >
+                                <div className={`w-20 h-20 flex items-center justify-center rounded-full mx-auto mb-2 border-2 ${selectedCategory === 'All' ? 'border-orange-500' : 'border-transparent'}`}>
+                                    <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center">
+                                        <span className="text-lg font-semibold text-gray-700">All</span>
+                                    </div>
                                 </div>
-                                <button onClick={() => addToCart(item)} className="px-4 py-2 text-sm font-bold text-orange-500 border border-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition-colors">ADD</button>
-                            </div>
-                        ))}
+                                <span className={`text-sm font-semibold ${selectedCategory === 'All' ? 'text-orange-600' : 'text-gray-600'}`}>
+                                    All
+                                </span>
+                            </button>
+
+                            {/* Dynamically rendered category buttons */}
+                            {availableCategories.map((cat) => (
+                                <button
+                                    key={cat.name}
+                                    onClick={() => setSelectedCategory(cat.name)}
+                                    className={`flex-shrink-0 text-center p-2 rounded-lg transition-all duration-200 ${selectedCategory === cat.name ? 'bg-orange-100' : 'hover:bg-gray-100'}`}
+                                >
+                                    <div className={`w-20 h-20 rounded-full mx-auto mb-2 border-2 ${selectedCategory === cat.name ? 'border-orange-500' : 'border-transparent'}`}>
+                                        <img src={cat.image} alt={cat.name} className="w-full h-full object-cover rounded-full" />
+                                    </div>
+                                    <span className={`text-sm font-semibold ${selectedCategory === cat.name ? 'text-orange-600' : 'text-gray-600'}`}>
+                                        {cat.name}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
                     </div>
+                )}
+
+                {/* --- FILTERED MENU LIST --- */}
+                <div className="p-6">
+                    <h3 className="text-2xl font-bold mb-4">
+                        {selectedCategory === 'All' ? 'Full Menu' : selectedCategory}
+                    </h3>
+                    {filteredMenuItems.length > 0 ? (
+                        <div className="space-y-4">
+                            {filteredMenuItems.map((item, index) => (
+                                <div key={index} className="flex justify-between items-center p-4 rounded-lg bg-gray-50">
+                                    <div>
+                                        <h4 className="font-semibold">{item.name}</h4>
+                                        {item.price && <p className="text-sm text-gray-500">₹{item.price}</p>}
+                                    </div>
+                                    {item.price && <button onClick={() => addToCart(item)} className="px-4 py-2 text-sm font-bold text-orange-500 border border-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition-colors">ADD</button>}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                         <p className="text-gray-500 text-center py-8">No items found in this category for this restaurant.</p>
+                    )}
                 </div>
             </div>
         </div>
     );
 };
+
 
 const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, onPayNow }) => {
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
