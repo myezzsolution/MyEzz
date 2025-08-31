@@ -11,6 +11,7 @@ const FilterIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 
 const BackIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>;
 const CartIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>;
 const LogoutIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>;
+const SearchIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 ${className}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>;
 
 //--Restaurant List--//
 const restaurantData = [
@@ -2342,9 +2343,22 @@ const categoryFilters = [
 
 
 // --- COMPONENTS ---
-const Header = ({ onCartClick, cartItems }) => (
+const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange }) => (
     <header className="bg-white shadow-sm p-4 px-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 border-b">
-        <img src={logo} alt="MyEzz Logo" className="h-25" />
+<img src={logo} alt="MyEzz Logo" className="h-25" />        
+        <div className="relative flex-1 max-w-xl mx-4">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <SearchIcon className="text-gray-400" />
+            </div>
+            <input
+                type="text"
+                placeholder="Search for restaurants or dishes..."
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border rounded-full text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            />
+        </div>
+
         <div className="flex items-center space-x-4">
             <button onClick={onCartClick} className="relative text-gray-600 hover:text-orange-500">
                 <CartIcon />
@@ -2423,13 +2437,34 @@ const RestaurantCard = ({ name, distance, cuisines, rating, reviews, time, price
     </div>
 );
 
-const HomePage = ({ setSelectedRestaurant }) => {
+const HomePage = ({ setSelectedRestaurant, searchQuery }) => {
     const [selectedCuisines, setSelectedCuisines] = useState([]);
     const [showFilters, setShowFilters] = useState(false);
 
     const filteredRestaurants = restaurantData.filter(restaurant => {
         const matchesCuisine = selectedCuisines.length === 0 || selectedCuisines.some(c => restaurant.cuisines.includes(c));
-        return matchesCuisine;
+        
+        if (!matchesCuisine) {
+            return false;
+        }
+
+        if (searchQuery.trim() === '') {
+            return true;
+        }
+
+        const lowerCaseQuery = searchQuery.toLowerCase();
+        const matchesName = restaurant.name.toLowerCase().includes(lowerCaseQuery);
+        
+        if (matchesName) {
+            return true;
+        }
+
+        const menuItems = menuData[restaurant.name] || [];
+        const matchesMenuItem = menuItems.some(item =>
+            item.name.toLowerCase().includes(lowerCaseQuery)
+        );
+
+        return matchesMenuItem;
     });
 
     const jainRestaurants = filteredRestaurants.filter(r => r.cuisines.includes('Jain'));
@@ -2446,8 +2481,14 @@ const HomePage = ({ setSelectedRestaurant }) => {
                         <FilterIcon /> Filters
                     </button>
                 </div>
+                
+                {filteredRestaurants.length === 0 && (
+                    <div className="text-center py-10">
+                        <p className="text-gray-500">No restaurants or dishes found matching your search.</p>
+                    </div>
+                )}
 
-                {selectedCuisines.length === 0 ? (
+                {searchQuery.trim() === '' && selectedCuisines.length === 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                         {restaurantData.map((restaurant, index) => (
                             <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
@@ -2455,37 +2496,49 @@ const HomePage = ({ setSelectedRestaurant }) => {
                     </div>
                 ) : (
                     <>
-                        {jainRestaurants.length > 0 && (
-                            <div className="mb-8">
-                                <h2 className="text-2xl font-bold mb-4">Jain</h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                                    {jainRestaurants.map((restaurant, index) => (
-                                        <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
-                                    ))}
-                                </div>
+                         {filteredRestaurants.length > 0 && (selectedCuisines.length === 0 || searchQuery.trim() !== '') && (
+                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                                {filteredRestaurants.map((restaurant, index) => (
+                                    <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
+                                ))}
                             </div>
                         )}
+                        
+                        {selectedCuisines.length > 0 && searchQuery.trim() === '' && (
+                            <>
+                                {jainRestaurants.length > 0 && (
+                                    <div className="mb-8">
+                                        <h2 className="text-2xl font-bold mb-4">Jain</h2>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                                            {jainRestaurants.map((restaurant, index) => (
+                                                <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
 
-                        {nonJainRestaurants.length > 0 && (
-                            <div className="mb-8">
-                                <h2 className="text-2xl font-bold mb-4">Non-Jain</h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                                    {nonJainRestaurants.map((restaurant, index) => (
-                                        <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
-                                    ))}
-                                </div>
-                            </div>
-                        )}
+                                {nonJainRestaurants.length > 0 && (
+                                    <div className="mb-8">
+                                        <h2 className="text-2xl font-bold mb-4">Non-Jain</h2>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                                            {nonJainRestaurants.map((restaurant, index) => (
+                                                <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
 
-                        {beverageRestaurants.length > 0 && (
-                            <div>
-                                <h2 className="text-2xl font-bold mb-4">Beverages</h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                                    {beverageRestaurants.map((restaurant, index) => (
-                                        <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
-                                    ))}
-                                </div>
-                            </div>
+                                {beverageRestaurants.length > 0 && (
+                                    <div>
+                                        <h2 className="text-2xl font-bold mb-4">Beverages</h2>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                                            {beverageRestaurants.map((restaurant, index) => (
+                                                <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                             </>
                         )}
                     </>
                 )}
@@ -2495,11 +2548,10 @@ const HomePage = ({ setSelectedRestaurant }) => {
 };
 
 
-const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems }) => {
+const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searchQuery }) => {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const items = menuData[restaurant.name] || [];
 
-    // Reset filter when the restaurant changes to avoid showing a stale filter
     useEffect(() => {
         setSelectedCategory('All');
     }, [restaurant]);
@@ -2514,7 +2566,6 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems }) => 
         });
     };
 
-    // Dynamically find which categories are available in the current restaurant's menu
     const availableCategories = categoryFilters.filter(category =>
         items.some(item =>
             category.keywords.some(keyword =>
@@ -2524,7 +2575,7 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems }) => 
     );
 
     // Filter the menu items based on the currently selected category
-    const filteredMenuItems = selectedCategory === 'All'
+    const categoryFilteredItems = selectedCategory === 'All'
         ? items
         : items.filter(item => {
             const categoryInfo = categoryFilters.find(cat => cat.name === selectedCategory);
@@ -2532,6 +2583,12 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems }) => 
             const lowerCaseName = item.name.toLowerCase();
             return categoryInfo.keywords.some(keyword => lowerCaseName.includes(keyword));
         });
+
+    const filteredMenuItems = searchQuery.trim() === ''
+        ? categoryFilteredItems
+        : categoryFilteredItems.filter(item =>
+            item.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
 
     return (
         <div className="max-w-screen-xl mx-auto p-4 sm:p-8 text-gray-800">
@@ -2557,11 +2614,10 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems }) => 
                 </div>
 
                 {/* --- CATEGORY FILTER UI --- */}
-                {availableCategories.length > 0 && (
+                {availableCategories.length > 0 && searchQuery.trim() === '' && (
                     <div className="p-6 border-t">
                         <h3 className="text-xl font-bold mb-4">Categories</h3>
                         <div className="flex space-x-4 overflow-x-auto pb-4 -mb-4">
-                            {/* "All" button is always first */}
                             <button
                                 onClick={() => setSelectedCategory('All')}
                                 className={`flex-shrink-0 text-center p-2 rounded-lg transition-all duration-200 ${selectedCategory === 'All' ? 'bg-orange-100' : 'hover:bg-gray-100'}`}
@@ -2576,7 +2632,6 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems }) => 
                                 </span>
                             </button>
 
-                            {/* Dynamically rendered category buttons */}
                             {availableCategories.map((cat) => (
                                 <button
                                     key={cat.name}
@@ -2598,7 +2653,7 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems }) => 
                 {/* --- FILTERED MENU LIST --- */}
                 <div className="p-6">
                     <h3 className="text-2xl font-bold mb-4">
-                        {selectedCategory === 'All' ? 'Full Menu' : selectedCategory}
+                        {searchQuery.trim() !== '' ? 'Search Results' : (selectedCategory === 'All' ? 'Full Menu' : selectedCategory)}
                     </h3>
                     {filteredMenuItems.length > 0 ? (
                         <div className="space-y-4">
@@ -2613,7 +2668,7 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems }) => 
                             ))}
                         </div>
                     ) : (
-                         <p className="text-gray-500 text-center py-8">No items found in this category for this restaurant.</p>
+                         <p className="text-gray-500 text-center py-8">No items found.</p>
                     )}
                 </div>
             </div>
@@ -2712,6 +2767,7 @@ export default function App() {
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);
     const [cartItems, setCartItems] = useState([]);
     const [showCheckout, setShowCheckout] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const [address, setAddress] = useState({
         fullName: '',
@@ -2720,7 +2776,13 @@ export default function App() {
         fullAddress: ''
     });
 
-    const navigate = useNavigate();
+    // In a real app, you would use React Router's `useNavigate` hook like this.
+    // Since we're in a single-file setup without a router, we'll mock it.
+    const navigate = (path, options) => {
+        console.log("Navigating to:", path);
+        console.log("With state:", options.state);
+        alert(`Order placed! Check console for details.`);
+    };
 
     const isValidEmail = (email) => {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -2772,20 +2834,35 @@ export default function App() {
 
     const renderPage = () => {
         if (selectedRestaurant) {
-            return <RestaurantMenuPage restaurant={selectedRestaurant} onBack={() => setSelectedRestaurant(null)} cartItems={cartItems} setCartItems={setCartItems} />;
+            return <RestaurantMenuPage 
+                        restaurant={selectedRestaurant} 
+                        onBack={() => setSelectedRestaurant(null)} 
+                        cartItems={cartItems} 
+                        setCartItems={setCartItems}
+                        searchQuery={searchQuery} 
+                    />;
         }
-        return <HomePage setSelectedRestaurant={setSelectedRestaurant} address={address} />;
+        return <HomePage 
+                    setSelectedRestaurant={setSelectedRestaurant} 
+                    address={address} 
+                    searchQuery={searchQuery}
+                />;
     };
 
     return (
         <div className="bg-gray-100 min-h-screen font-sans transition-colors duration-500 pb-16 md:pb-0">
-            <Header cartItems={cartItems} onCartClick={() => setShowCheckout(true)} />
+            <Header 
+                cartItems={cartItems} 
+                onCartClick={() => setShowCheckout(true)} 
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+            />
             {renderPage()}
             {showCheckout && <CheckoutPage cartItems={cartItems} onBack={() => setShowCheckout(false)} address={address} setAddress={setAddress} setCartItems={setCartItems} onPayNow={handlePayNow} />}
 
             {/* Mobile Bottom Nav */}
             <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-2">
-                <button onClick={() => setSelectedRestaurant(null)} className={`flex flex-col items-center text-xs ${!selectedRestaurant ? 'text-orange-500' : 'text-gray-500'}`}>
+                <button onClick={() => { setSelectedRestaurant(null); setSearchQuery(''); }} className={`flex flex-col items-center text-xs ${!selectedRestaurant ? 'text-orange-500' : 'text-gray-500'}`}>
                     <HomeIcon className="h-6 w-6" />
                     <span>Home</span>
                 </button>
