@@ -21,10 +21,10 @@ Just your favorite **vada pav, momos, frankies and more** delivered hot & fresh.
 ## 🍴 Menu Highlights  
 Here’s what you can munch on (and yes, prices are 🔥 same as the grill!):  
 
-- 🥔 Vada Pav @ ₹20  
-- 🥟 Steamed Momos (6 pcs) @ ₹60  
-- 🌯 Veg Frankie @ ₹50  
-- 🍹 Fresh Lime Soda @ ₹25  
+- 🥔 Vada Pav  
+- 🥟 Steamed Momos 
+- 🌯 Veg Frankie 
+- 🍹 Fresh Lime Soda 
 
 *(Menu may change daily but the vibes are always delicious 😋)*  
 
