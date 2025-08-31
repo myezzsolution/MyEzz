@@ -194,7 +194,7 @@ const menuData = {
   { name: "Panini Grill Cheese Sandwich", price: 140, isVeg: true }
 ],
 
-"THE ART CAFE": [
+"The Art Cafe": [
     // Tea Time Bites
     { "name": "Bun Maska", "price": 20, "isVeg": true },
     { "name": "Bun Maska (Grilled)", "price": 50, "isVeg": true },
