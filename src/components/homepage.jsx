@@ -2776,13 +2776,8 @@ export default function App() {
         fullAddress: ''
     });
 
-    // In a real app, you would use React Router's `useNavigate` hook like this.
-    // Since we're in a single-file setup without a router, we'll mock it.
-    const navigate = (path, options) => {
-        console.log("Navigating to:", path);
-        console.log("With state:", options.state);
-        alert(`Order placed! Check console for details.`);
-    };
+    const navigate = useNavigate();
+
 
     const isValidEmail = (email) => {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
