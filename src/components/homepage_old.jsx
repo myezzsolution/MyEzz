@@ -44,34 +44,34 @@ const menuData = {
   { name: "Cheese Masala Vada Pav", price: 60, isVeg: true },
   { name: "Masala Samosa Pav", price: 60, isVeg: true },
   { name: "Cheese Masala Samosa Pav", price: 80, isVeg: true },
-  { name: "Pav Sandwich (Half)", price: 50, isVeg: true },
-  { name: "Pav Sandwich (Full)", price: 90, isVeg: true },
+  { name: "Pav Sandwich (Half) (JAIN)", price: 50, isVeg: true },
+  { name: "Pav Sandwich (Full) (JAIN)", price: 90, isVeg: true },
   { name: "Masala Pav (Half)", price: 50, isVeg: true },
   { name: "Masala Pav (Full)", price: 90, isVeg: true },
-  { name: "Thecha Vada Pav", price: 50, isVeg: true },
+  { name: "Thecha Vada Pav (JAIN)", price: 50, isVeg: true },
   { name: "Thecha Pav", price: 50, isVeg: true },
   { name: "Chakna Pav", price: 60, isVeg: true },
   { name: "Korean Cream Cheese Pav", price: 90, isVeg: true },
-  { name: "Peri Peri Paneer Pav", price: 90, isVeg: true },
-  { name: "Masala Khari", price: 100, isVeg: true },
+  { name: "Peri Peri Paneer Pav (JAIN)", price: 90, isVeg: true },
+  { name: "Masala Khari (JAIN)", price: 100, isVeg: true },
   { name: "Tawa Vada Fry", price: 120, isVeg: true },
 
-  { name: "The OG Bagel (Half)", price: 120, isVeg: true },
-  { name: "The OG Bagel (Full)", price: 230, isVeg: true },
-  { name: "B.E. Bytes Special Bagel (Half)", price: 120, isVeg: true },
-  { name: "B.E. Bytes Special Bagel (Full)", price: 230, isVeg: true },
+  { name: "The OG Bagel (Half) (JAIN)", price: 120, isVeg: true },
+  { name: "The OG Bagel (Full) (JAIN)", price: 230, isVeg: true },
+  { name: "B.E. Bytes Special Bagel (Half) (JAIN)", price: 120, isVeg: true },
+  { name: "B.E. Bytes Special Bagel (Full) (JAIN)", price: 230, isVeg: true },
   { name: "Avocado Cream Cheese Bagel (Half)", price: 140, isVeg: true },
   { name: "Avocado Cream Cheese Bagel (Full)", price: 270, isVeg: true },
   { name: "Jalapeno Corn Cheese Bagel (Half)", price: 120, isVeg: true },
   { name: "Jalapeno Corn Cheese Bagel (Full)", price: 230, isVeg: true },
   { name: "Italian Bagel (Half)", price: 120, isVeg: true },
   { name: "Italian Bagel (Full)", price: 230, isVeg: true },
-  { name: "Paneer Tikka Bagel (Half)", price: 120, isVeg: true },
-  { name: "Paneer Tikka Bagel (Full)", price: 230, isVeg: true },
+  { name: "Paneer Tikka Bagel (Half) (JAIN)", price: 120, isVeg: true },
+  { name: "Paneer Tikka Bagel (Full) (JAIN)", price: 230, isVeg: true },
   { name: "Pesto Bagel (Half)", price: 120, isVeg: true },
   { name: "Pesto Bagel (Full)", price: 230, isVeg: true },
-  { name: "Peri Peri Bagel (Half)", price: 120, isVeg: true },
-  { name: "Peri Peri Bagel (Full)", price: 230, isVeg: true },
+  { name: "Peri Peri Bagel (Half) (JAIN)", price: 120, isVeg: true },
+  { name: "Peri Peri Bagel (Full) (JAIN)", price: 230, isVeg: true },
   { name: "Chocolate Bagel", price: 100, isVeg: true },
   { name: "Peanut Butter & Jam Bagel (Half)", price: 100, isVeg: true },
   { name: "Peanut Butter & Jam Bagel (Full)", price: 190, isVeg: true },
@@ -79,8 +79,8 @@ const menuData = {
   { name: "Plain Dip", price: null, isVeg: true },
   { name: "Pesto Dip", price: null, isVeg: true },
   { name: "Peri Peri Dip", price: null, isVeg: true },
-  { name: "Classic Dough Balls", price: 100, isVeg: true },
-  { name: "Peri Peri Dough Balls", price: 100, isVeg: true },
+  { name: "Classic Dough Balls (JAIN)", price: 100, isVeg: true },
+  { name: "Peri Peri Dough Balls (JAIN)", price: 100, isVeg: true },
   { name: "Nutella Dough Balls", price: 100, isVeg: true },
   { name: "Churro Dough Balls", price: 100, isVeg: true },
 
@@ -563,145 +563,145 @@ const menuData = {
 ],
 //--Seven Spices--//
 "Seven Spices Fast Food": [
-    { "name": "Italian Paneer Roll (Wheat Maida)", "price": 240, "isVeg": true },
-    { "name": "Italian Paneer Roll (Rumali Roll)", "price": 260, "isVeg": true },
-    { "name": "Cheese Jalepino Paneer Roll (Wheat Maida)", "price": 240, "isVeg": true },
-    { "name": "Cheese Jalepino Paneer Roll (Rumali Roll)", "price": 260, "isVeg": true },
-    { "name": "Afghani Paneer Roll (Wheat Maida)", "price": 210, "isVeg": true },
-    { "name": "Afghani Paneer Roll (Rumali Roll)", "price": 230, "isVeg": true },
-    { "name": "Malai Paneer Roll (Wheat Maida)", "price": 210, "isVeg": true },
-    { "name": "Malai Paneer Roll (Rumali Roll)", "price": 230, "isVeg": true },
-    { "name": "Tandoori Paneer Roll (Wheat Maida)", "price": 200, "isVeg": true },
-    { "name": "Tandoori Paneer Roll (Rumali Roll)", "price": 220, "isVeg": true },
-    { "name": "Peri-Peri Paneer Roll (Wheat Maida)", "price": 220, "isVeg": true },
-    { "name": "Peri-Peri Paneer Roll (Rumali Roll)", "price": 240, "isVeg": true },
-    { "name": "Schezwan Paneer Roll (Wheat Maida)", "price": 190, "isVeg": true },
-    { "name": "Schezwan Paneer Roll (Rumali Roll)", "price": 210, "isVeg": true },
-    { "name": "Achari Paneer Roll (Wheat Maida)", "price": 190, "isVeg": true },
-    { "name": "Achari Paneer Roll (Rumali Roll)", "price": 210, "isVeg": true },
-    { "name": "Garlic Paneer Roll (Wheat Maida)", "price": 190, "isVeg": true },
-    { "name": "Garlic Paneer Roll (Rumali Roll)", "price": 210, "isVeg": true },
-    { "name": "Pudina Paneer Roll (Wheat Maida)", "price": 200, "isVeg": true },
-    { "name": "Pudina Paneer Roll (Rumali Roll)", "price": 220, "isVeg": true },
-    { "name": "Angara Paneer Tikka Roll (Wheat Maida)", "price": 190, "isVeg": true },
-    { "name": "Angara Paneer Tikka Roll (Rumali Roll)", "price": 210, "isVeg": true },
-    { "name": "Pasanda Paneer Tikka Roll (Wheat Maida)", "price": 190, "isVeg": true },
-    { "name": "Pasanda Paneer Tikka Roll (Rumali Roll)", "price": 210, "isVeg": true },
-    { "name": "Masala Paneer Tikka Roll (Wheat Maida)", "price": 180, "isVeg": true },
-    { "name": "Masala Paneer Tikka Roll (Rumali Roll)", "price": 200, "isVeg": true },
-    { "name": "Chatpata Paneer Tikka Roll (Wheat Maida)", "price": 180, "isVeg": true },
-    { "name": "Chatpata Paneer Tikka Roll (Rumali Roll)", "price": 200, "isVeg": true },
-    { "name": "Lemon Paneer Tikka Roll (Wheat Maida)", "price": 170, "isVeg": true },
-    { "name": "Lemon Paneer Tikka Roll (Rumali Roll)", "price": 190, "isVeg": true },
-    { "name": "Paneer Roll (Dry) (Wheat Maida)", "price": 180, "isVeg": true },
-    { "name": "Paneer Roll (Dry) (Rumali Roll)", "price": 200, "isVeg": true },
-    { "name": "Extra Cheese", "price": 30, "isVeg": true },
+    { "name": "Italian Paneer Roll (Wheat Maida) (JAIN)", "price": 240, "isVeg": true },
+    { "name": "Italian Paneer Roll (Rumali Roll) (JAIN)", "price": 260, "isVeg": true },
+    { "name": "Cheese Jalepino Paneer Roll (Wheat Maida) (JAIN)", "price": 240, "isVeg": true },
+    { "name": "Cheese Jalepino Paneer Roll (Rumali Roll) (JAIN)", "price": 260, "isVeg": true },
+    { "name": "Afghani Paneer Roll (Wheat Maida) (JAIN)", "price": 210, "isVeg": true },
+    { "name": "Afghani Paneer Roll (Rumali Roll) (JAIN)", "price": 230, "isVeg": true },
+    { "name": "Malai Paneer Roll (Wheat Maida) (JAIN)", "price": 210, "isVeg": true },
+    { "name": "Malai Paneer Roll (Rumali Roll) (JAIN)", "price": 230, "isVeg": true },
+    { "name": "Tandoori Paneer Roll (Wheat Maida) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Tandoori Paneer Roll (Rumali Roll) (JAIN)", "price": 220, "isVeg": true },
+    { "name": "Peri-Peri Paneer Roll (Wheat Maida) (JAIN)", "price": 220, "isVeg": true },
+    { "name": "Peri-Peri Paneer Roll (Rumali Roll) (JAIN)", "price": 240, "isVeg": true },
+    { "name": "Schezwan Paneer Roll (Wheat Maida) (JAIN)", "price": 190, "isVeg": true },
+    { "name": "Schezwan Paneer Roll (Rumali Roll) (JAIN)", "price": 210, "isVeg": true },
+    { "name": "Achari Paneer Roll (Wheat Maida) (JAIN)", "price": 190, "isVeg": true },
+    { "name": "Achari Paneer Roll (Rumali Roll) (JAIN)", "price": 210, "isVeg": true },
+    { "name": "Garlic Paneer Roll (Wheat Maida) (JAIN)", "price": 190, "isVeg": true },
+    { "name": "Garlic Paneer Roll (Rumali Roll) (JAIN)", "price": 210, "isVeg": true },
+    { "name": "Pudina Paneer Roll (Wheat Maida) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Pudina Paneer Roll (Rumali Roll) (JAIN)", "price": 220, "isVeg": true },
+    { "name": "Angara Paneer Tikka Roll (Wheat Maida) (JAIN)", "price": 190, "isVeg": true },
+    { "name": "Angara Paneer Tikka Roll (Rumali Roll) (JAIN)", "price": 210, "isVeg": true },
+    { "name": "Pasanda Paneer Tikka Roll (Wheat Maida) (JAIN)" , "price": 190, "isVeg": true },
+    { "name": "Pasanda Paneer Tikka Roll (Rumali Roll) (JAIN)", "price": 210, "isVeg": true },
+    { "name": "Masala Paneer Tikka Roll (Wheat Maida) (JAIN)", "price": 180, "isVeg": true },
+    { "name": "Masala Paneer Tikka Roll (Rumali Roll) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Chatpata Paneer Tikka Roll (Wheat Maida) (JAIN)", "price": 180, "isVeg": true },
+    { "name": "Chatpata Paneer Tikka Roll (Rumali Roll) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Lemon Paneer Tikka Roll (Wheat Maida) (JAIN)", "price": 170, "isVeg": true },
+    { "name": "Lemon Paneer Tikka Roll (Rumali Roll) (JAIN)", "price": 190, "isVeg": true },
+    { "name": "Paneer Roll (Dry) (Wheat Maida) (JAIN)", "price": 180, "isVeg": true },
+    { "name": "Paneer Roll (Dry) (Rumali Roll) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Extra Cheese (JAIN)", "price": 30, "isVeg": true },
 
-    { "name": "Italian Paneer Tikka (Half)", "price": 210, "isVeg": true },
-    { "name": "Italian Paneer Tikka (Full)", "price": 390, "isVeg": true },
-    { "name": "Cheese Jalepino Paneer Tikka (Half)", "price": 210, "isVeg": true },
-    { "name": "Cheese Jalepino Paneer Tikka (Full)", "price": 390, "isVeg": true },
-    { "name": "Afghani Paneer Tikka (Half)", "price": 180, "isVeg": true },
-    { "name": "Afghani Paneer Tikka (Full)", "price": 330, "isVeg": true },
-    { "name": "Malai Chaap Paneer Tikka (Half)", "price": 180, "isVeg": true },
-    { "name": "Malai Chaap Paneer Tikka (Full)", "price": 330, "isVeg": true },
-    { "name": "Tandoori Paneer Tikka (Half)", "price": 170, "isVeg": true },
-    { "name": "Tandoori Paneer Tikka (Full)", "price": 310, "isVeg": true },
-    { "name": "Peri-Peri Paneer Tikka (Half)", "price": 190, "isVeg": true },
-    { "name": "Peri-Peri Paneer Tikka (Full)", "price": 350, "isVeg": true },
-    { "name": "Schezwan Paneer Tikka (Half)", "price": 160, "isVeg": true },
-    { "name": "Schezwan Paneer Tikka (Full)", "price": 290, "isVeg": true },
-    { "name": "Achari Paneer Tikka (Half)", "price": 160, "isVeg": true },
-    { "name": "Achari Paneer Tikka (Full)", "price": 290, "isVeg": true },
-    { "name": "Garlic Paneer Tikka (Half)", "price": 160, "isVeg": true },
-    { "name": "Garlic Paneer Tikka (Full)", "price": 290, "isVeg": true },
-    { "name": "Pudina Paneer Tikka (Half)", "price": 170, "isVeg": true },
-    { "name": "Pudina Paneer Tikka (Full)", "price": 310, "isVeg": true },
-    { "name": "Angara Paneer Tikka (Half)", "price": 160, "isVeg": true },
-    { "name": "Angara Paneer Tikka (Full)", "price": 290, "isVeg": true },
-    { "name": "Pasanda Paneer Tikka (Half)", "price": 160, "isVeg": true },
-    { "name": "Pasanda Paneer Tikka (Full)", "price": 290, "isVeg": true },
-    { "name": "Masala Paneer Tikka (Half)", "price": 150, "isVeg": true },
-    { "name": "Masala Paneer Tikka (Full)", "price": 270, "isVeg": true },
-    { "name": "Chatpata Paneer Tikka (Half)", "price": 150, "isVeg": true },
-    { "name": "Chatpata Paneer Tikka (Full)", "price": 270, "isVeg": true },
-    { "name": "Lemon Paneer Tikka (Half)", "price": 140, "isVeg": true },
-    { "name": "Lemon Paneer Tikka (Full)", "price": 250, "isVeg": true },
-    { "name": "Paneer Tikka (Dry) (Half)", "price": 150, "isVeg": true },
-    { "name": "Paneer Tikka (Dry) (Full)", "price": 260, "isVeg": true },
-    { "name": "Extra Cheese", "price": 30, "isVeg": true },
+    { "name": "Italian Paneer Tikka (Half) (JAIN)", "price": 210, "isVeg": true },
+    { "name": "Italian Paneer Tikka (Full) (JAIN)", "price": 390, "isVeg": true },
+    { "name": "Cheese Jalepino Paneer Tikka (Half) (JAIN)", "price": 210, "isVeg": true },
+    { "name": "Cheese Jalepino Paneer Tikka (Full) (JAIN)", "price": 390, "isVeg": true },
+    { "name": "Afghani Paneer Tikka (Half) (JAIN)", "pr (JAIN)ice": 180, "isVeg": true },
+    { "name": "Afghani Paneer Tikka (Full) (JAIN)", "price": 330, "isVeg": true },
+    { "name": "Malai Chaap Paneer Tikka (Half) (JAIN)", "price": 180, "isVeg": true },
+    { "name": "Malai Chaap Paneer Tikka (Full) (JAIN)", "price": 330, "isVeg": true },
+    { "name": "Tandoori Paneer Tikka (Half) (JAIN)", "price": 170, "isVeg": true },
+    { "name": "Tandoori Paneer Tikka (Full) (JAIN)", "price": 310, "isVeg": true },
+    { "name": "Peri-Peri Paneer Tikka (Half) (JAIN)", "price": 190, "isVeg": true },
+    { "name": "Peri-Peri Paneer Tikka (Full) (JAIN)", "price": 350, "isVeg": true },
+    { "name": "Schezwan Paneer Tikka (Half) (JAIN)", "price": 160, "isVeg": true },
+    { "name": "Schezwan Paneer Tikka (Full) (JAIN)", "price": 290, "isVeg": true },
+    { "name": "Achari Paneer Tikka (Half) (JAIN)", "price": 160, "isVeg": true },
+    { "name": "Achari Paneer Tikka (Full) (JAIN)", "price": 290, "isVeg": true },
+    { "name": "Garlic Paneer Tikka (Half) (JAIN)", "price": 160, "isVeg": true },
+    { "name": "Garlic Paneer Tikka (Full) (JAIN)", "price": 290, "isVeg": true },
+    { "name": "Pudina Paneer Tikka (Half) (JAIN)", "price": 170, "isVeg": true },
+    { "name": "Pudina Paneer Tikka (Full) (JAIN)", "price": 310, "isVeg": true },
+    { "name": "Angara Paneer Tikka (Half) (JAIN)", "price": 160, "isVeg": true },
+    { "name": "Angara Paneer Tikka (Full) (JAIN)", "price": 290, "isVeg": true },
+    { "name": "Pasanda Paneer Tikka (Half) (JAIN)", "price": 160, "isVeg": true },
+    { "name": "Pasanda Paneer Tikka (Full) (JAIN)", "price": 290, "isVeg": true },
+    { "name": "Masala Paneer Tikka (Half) (JAIN)", "price": 150, "isVeg": true },
+    { "name": "Masala Paneer Tikka (Full) (JAIN)", "price": 270, "isVeg": true },
+    { "name": "Chatpata Paneer Tikka (Half) (JAIN)", "price": 150, "isVeg": true },
+    { "name": "Chatpata Paneer Tikka (Full) (JAIN)", "price": 270, "isVeg": true },
+    { "name": "Lemon Paneer Tikka (Half) (JAIN)", "price": 140, "isVeg": true },
+    { "name": "Lemon Paneer Tikka (Full) (JAIN)", "price": 250, "isVeg": true },
+    { "name": "Paneer Tikka (Dry) (Half) (JAIN)", "price": 150, "isVeg": true },
+    { "name": "Paneer Tikka (Dry) (Full) (JAIN)", "price": 260, "isVeg": true },
+    { "name": "Extra Cheese (JAIN)", "price": 30, "isVeg": true },
 
-    { "name": "Italian Chaap (Half)", "price": 200, "isVeg": true },
-    { "name": "Italian Chaap (Full)", "price": 380, "isVeg": true },
-    { "name": "Cheese Jalepino Chaap (Half)", "price": 200, "isVeg": true },
-    { "name": "Cheese Jalepino Chaap (Full)", "price": 380, "isVeg": true },
-    { "name": "Afghani Chaap (Half)", "price": 170, "isVeg": true },
-    { "name": "Afghani Chaap (Full)", "price": 320, "isVeg": true },
-    { "name": "Malai Chaap (Half)", "price": 170, "isVeg": true },
-    { "name": "Malai Chaap (Full)", "price": 320, "isVeg": true },
-    { "name": "Tandoori Chaap (Half)", "price": 160, "isVeg": true },
-    { "name": "Tandoori Chaap (Full)", "price": 300, "isVeg": true },
-    { "name": "Peri-Peri Chaap (Half)", "price": 180, "isVeg": true },
-    { "name": "Peri-Peri Chaap (Full)", "price": 340, "isVeg": true },
-    { "name": "Schezwan Chaap (Half)", "price": 150, "isVeg": true },
-    { "name": "Schezwan Chaap (Full)", "price": 280, "isVeg": true },
-    { "name": "Achari Chaap (Half)", "price": 150, "isVeg": true },
-    { "name": "Achari Chaap (Full)", "price": 280, "isVeg": true },
-    { "name": "Garlic Chaap (Half)", "price": 150, "isVeg": true },
-    { "name": "Garlic Chaap (Full)", "price": 280, "isVeg": true },
-    { "name": "Pudina Chaap (Half)", "price": 160, "isVeg": true },
-    { "name": "Pudina Chaap (Full)", "price": 300, "isVeg": true },
-    { "name": "Angara Chaap (Half)", "price": 150, "isVeg": true },
-    { "name": "Angara Chaap (Full)", "price": 280, "isVeg": true },
-    { "name": "Pasanda Chaap (Half)", "price": 150, "isVeg": true },
-    { "name": "Pasanda Chaap (Full)", "price": 280, "isVeg": true },
-    { "name": "Masala Chaap (Half)", "price": 140, "isVeg": true },
-    { "name": "Masala Chaap (Full)", "price": 260, "isVeg": true },
-    { "name": "Chatpata Chaap (Half)", "price": 140, "isVeg": true },
-    { "name": "Chatpata Chaap (Full)", "price": 260, "isVeg": true },
-    { "name": "Lemon Chaap (Half)", "price": 130, "isVeg": true },
-    { "name": "Lemon Chaap (Full)", "price": 240, "isVeg": true },
-    { "name": "Paneer Tikka (Half)", "price": 140, "isVeg": true },
-    { "name": "Paneer Tikka (Full)", "price": 250, "isVeg": true },
-    { "name": "Wheat & Maida Roti", "price": 30, "isVeg": true },
-    { "name": "Rumali Roti", "price": 50, "isVeg": true },
-    { "name": "Extra Cheese", "price": 30, "isVeg": true },
-    { "name": "Extra Cream", "price": 10, "isVeg": true },
+    { "name": "Italian Chaap (Half) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Italian Chaap (Full) (JAIN)", "price": 380, "isVeg": true },
+    { "name": "Cheese Jalepino Chaap (Half) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Cheese Jalepino Chaap (Full) (JAIN)", "price": 380, "isVeg": true },
+    { "name": "Afghani Chaap (Half) (JAIN)", "price": 170, "isVeg": true },
+    { "name": "Afghani Chaap (Full) (JAIN)", "price": 320, "isVeg": true },
+    { "name": "Malai Chaap (Half) (JAIN)", "price": 170, "isVeg": true },
+    { "name": "Malai Chaap (Full) (JAIN)", "price": 320, "isVeg": true },
+    { "name": "Tandoori Chaap (Half) (JAIN)", "price": 160, "isVeg": true },
+    { "name": "Tandoori Chaap (Full) (JAIN)", "price": 300, "isVeg": true },
+    { "name": "Peri-Peri Chaap (Half) (JAIN)", "price": 180, "isVeg": true },
+    { "name": "Peri-Peri Chaap (Full) (JAIN)", "price": 340, "isVeg": true },
+    { "name": "Schezwan Chaap (Half) (JAIN)", "price": 150, "isVeg": true },
+    { "name": "Schezwan Chaap (Full) (JAIN)", "price": 280, "isVeg": true },
+    { "name": "Achari Chaap (Half) (JAIN)", "price": 150, "isVeg": true },
+    { "name": "Achari Chaap (Full) (JAIN)", "price": 280, "isVeg": true },
+    { "name": "Garlic Chaap (Half) (JAIN)", "price": 150, "isVeg": true },
+    { "name": "Garlic Chaap (Full) (JAIN)", "price": 280, "isVeg": true },
+    { "name": "Pudina Chaap (Half) (JAIN)", "price": 160, "isVeg": true },
+    { "name": "Pudina Chaap (Full) (JAIN)", "price": 300, "isVeg": true },
+    { "name": "Angara Chaap (Half) (JAIN)", "price": 150, "isVeg": true },
+    { "name": "Angara Chaap (Full) (JAIN)", "price": 280, "isVeg": true },
+    { "name": "Pasanda Chaap (Half) (JAIN)", "price": 150, "isVeg": true },
+    { "name": "Pasanda Chaap (Full) (JAIN)", "price": 280, "isVeg": true },
+    { "name": "Masala Chaap (Half) (JAIN)", "price": 140, "isVeg": true },
+    { "name": "Masala Chaap (Full) (JAIN)", "price": 260, "isVeg": true },
+    { "name": "Chatpata Chaap (Half) (JAIN)", "price": 140, "isVeg": true },
+    { "name": "Chatpata Chaap (Full) (JAIN)", "price": 260, "isVeg": true },
+    { "name": "Lemon Chaap (Half) (JAIN)", "price": 130, "isVeg": true },
+    { "name": "Lemon Chaap (Full) (JAIN)", "price": 240, "isVeg": true },
+    { "name": "Paneer Tikka (Half) (JAIN)", "price": 140, "isVeg": true },
+    { "name": "Paneer Tikka (Full) (JAIN)", "price": 250, "isVeg": true },
+    { "name": "Wheat & Maida Roti (JAIN)", "price": 30, "isVeg": true },
+    { "name": "Rumali Roti (JAIN)", "price": 50, "isVeg": true },
+    { "name": "Extra Cheese (JAIN)", "price": 30, "isVeg": true },
+    { "name": "Extra Cream (JAIN)", "price": 10, "isVeg": true },
 
-    { "name": "Italian Chaap Roll (Wheat Maida)", "price": 230, "isVeg": true },
-    { "name": "Italian Chaap Roll (Rumali Roll)", "price": 250, "isVeg": true },
-    { "name": "Cheese Jalepino Chaap Roll (Wheat Maida)", "price": 230, "isVeg": true },
-    { "name": "Cheese Jalepino Chaap Roll (Rumali Roll)", "price": 250, "isVeg": true },
-    { "name": "Afghani Chaap Roll (Wheat Maida)", "price": 200, "isVeg": true },
-    { "name": "Afghani Chaap Roll (Rumali Roll)", "price": 220, "isVeg": true },
-    { "name": "Malai Chaap Roll (Wheat Maida)", "price": 200, "isVeg": true },
-    { "name": "Malai Chaap Roll (Rumali Roll)", "price": 220, "isVeg": true },
-    { "name": "Tandoori Chaap Roll (Wheat Maida)", "price": 190, "isVeg": true },
-    { "name": "Tandoori Chaap Roll (Rumali Roll)", "price": 210, "isVeg": true },
-    { "name": "Peri-Peri Chaap Roll (Wheat Maida)", "price": 210, "isVeg": true },
-    { "name": "Peri-Peri Chaap Roll (Rumali Roll)", "price": 230, "isVeg": true },
-    { "name": "Schezwan Chaap Roll (Wheat Maida)", "price": 180, "isVeg": true },
-    { "name": "Schezwan Chaap Roll (Rumali Roll)", "price": 200, "isVeg": true },
-    { "name": "Achari Chaap Roll (Wheat Maida)", "price": 180, "isVeg": true },
-    { "name": "Achari Chaap Roll (Rumali Roll)", "price": 200, "isVeg": true },
-    { "name": "Garlic Chaap Roll (Wheat Maida)", "price": 180, "isVeg": true },
-    { "name": "Garlic Chaap Roll (Rumali Roll)", "price": 200, "isVeg": true },
-    { "name": "Pudina Chaap Roll (Wheat Maida)", "price": 190, "isVeg": true },
-    { "name": "Pudina Chaap Roll (Rumali Roll)", "price": 210, "isVeg": true },
-    { "name": "Angara Chaap Roll (Wheat Maida)", "price": 180, "isVeg": true },
-    { "name": "Angara Chaap Roll (Rumali Roll)", "price": 200, "isVeg": true },
-    { "name": "Pasanda Chaap Roll (Wheat Maida)", "price": 180, "isVeg": true },
-    { "name": "Pasanda Chaap Roll (Rumali Roll)", "price": 200, "isVeg": true },
-    { "name": "Masala Chaap Roll (Wheat Maida)", "price": 170, "isVeg": true },
-    { "name": "Masala Chaap Roll (Rumali Roll)", "price": 190, "isVeg": true },
-    { "name": "Chatpata Chaap Roll (Wheat Maida)", "price": 170, "isVeg": true },
-    { "name": "Chatpata Chaap Roll (Rumali Roll)", "price": 190, "isVeg": true },
-    { "name": "Lemon Chaap Roll (Wheat Maida)", "price": 160, "isVeg": true },
-    { "name": "Lemon Chaap Roll (Rumali Roll)", "price": 180, "isVeg": true },
-    { "name": "Paneer Tikka Roll (Wheat Maida)", "price": 170, "isVeg": true },
-    { "name": "Paneer Tikka Roll (Rumali Roll)", "price": 190, "isVeg": true },
-    { "name": "Extra Cheese", "price": 30, "isVeg": true },
-    { "name": "Extra Cream", "price": 10, "isVeg": true }
+    { "name": "Italian Chaap Roll (Wheat Maida) (JAIN)", "price": 230, "isVeg": true },
+    { "name": "Italian Chaap Roll (Rumali Roll) (JAIN)", "price": 250, "isVeg": true },
+    { "name": "Cheese Jalepino Chaap Roll (Wheat Maida) (JAIN)", "price": 230, "isVeg": true },
+    { "name": "Cheese Jalepino Chaap Roll (Rumali Roll) (JAIN)", "price": 250, "isVeg": true },
+    { "name": "Afghani Chaap Roll (Wheat Maida) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Afghani Chaap Roll (Rumali Roll) (JAIN)", "price": 220, "isVeg": true },
+    { "name": "Malai Chaap Roll (Wheat Maida) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Malai Chaap Roll (Rumali Roll) (JAIN)", "price": 220, "isVeg": true },
+    { "name": "Tandoori Chaap Roll (Wheat Maida) (JAIN)", "price": 190, "isVeg": true },
+    { "name": "Tandoori Chaap Roll (Rumali Roll) (JAIN)", "price": 210, "isVeg": true },
+    { "name": "Peri-Peri Chaap Roll (Wheat Maida) (JAIN)", "price": 210, "isVeg": true },
+    { "name": "Peri-Peri Chaap Roll (Rumali Roll) (JAIN)", "price": 230, "isVeg": true },
+    { "name": "Schezwan Chaap Roll (Wheat Maida) (JAIN)", "price": 180, "isVeg": true },
+    { "name": "Schezwan Chaap Roll (Rumali Roll) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Achari Chaap Roll (Wheat Maida) (JAIN)", "price": 180, "isVeg": true },
+    { "name": "Achari Chaap Roll (Rumali Roll) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Garlic Chaap Roll (Wheat Maida) (JAIN)", "price": 180, "isVeg": true },
+    { "name": "Garlic Chaap Roll (Rumali Roll) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Pudina Chaap Roll (Wheat Maida) (JAIN)", "price": 190, "isVeg": true },
+    { "name": "Pudina Chaap Roll (Rumali Roll) (JAIN)", "price": 210, "isVeg": true },
+    { "name": "Angara Chaap Roll (Wheat Maida) (JAIN)", "price": 180, "isVeg": true },
+    { "name": "Angara Chaap Roll (Rumali Roll) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Pasanda Chaap Roll (Wheat Maida) (JAIN)", "price": 180, "isVeg": true },
+    { "name": "Pasanda Chaap Roll (Rumali Roll) (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Masala Chaap Roll (Wheat Maida) (JAIN)", "price": 170, "isVeg": true },
+    { "name": "Masala Chaap Roll (Rumali Roll) (JAIN)", "price": 190, "isVeg": true },
+    { "name": "Chatpata Chaap Roll (Wheat Maida) (JAIN)", "price": 170, "isVeg": true },
+    { "name": "Chatpata Chaap Roll (Rumali Roll) (JAIN)", "price": 190, "isVeg": true },
+    { "name": "Lemon Chaap Roll (Wheat Maida) (JAIN)", "price": 160, "isVeg": true },
+    { "name": "Lemon Chaap Roll (Rumali Roll) (JAIN)", "price": 180, "isVeg": true },
+    { "name": "Paneer Tikka Roll (Wheat Maida) (JAIN)", "price": 170, "isVeg": true },
+    { "name": "Paneer Tikka Roll (Rumali Roll) (JAIN)", "price": 190, "isVeg": true },
+    { "name": "Extra Cheese (JAIN)", "price": 30, "isVeg": true },
+    { "name": "Extra Cream (JAIN)", "price": 10, "isVeg": true }
   ],
 
 //--Norchi--//
@@ -715,10 +715,10 @@ const menuData = {
     { "name": "Salted Pop Corn Fries", "price": 130, "isVeg": true },
     { "name": "Peri Peri Pop Corn Fries", "price": 140, "isVeg": true },
     { "name": "Potato Wedges", "price": 160, "isVeg": true },
-    { "name": "Paneer Chilli", "price": 200, "isVeg": true },
+    { "name": "Paneer Chilli (JAIN)", "price": 200, "isVeg": true },
     { "name": "Mushroom Chilli", "price": 200, "isVeg": true },
     { "name": "Paneer Crispy", "price": 200, "isVeg": true },
-    { "name": "Veg Crispy", "price": 190, "isVeg": true },
+    { "name": "Veg Crispy (JAIN)", "price": 190, "isVeg": true },
     { "name": "Veg Manchurian", "price": 190, "isVeg": true },
     { "name": "Chilli Potato (NEW)", "price": 190, "isVeg": true },
     { "name": "Honey Chilli Potato (NEW)", "price": 190, "isVeg": true },
@@ -739,7 +739,7 @@ const menuData = {
     { "name": "Chilli Potato Roll (NEW)", "price": 200, "isVeg": true },
     { "name": "Honey Chilli Potato Roll (NEW)", "price": 200, "isVeg": true },
 
-    { "name": "Paneer Butter Masala & Jeera Rice", "price": 220, "isVeg": true },
+    { "name": "Paneer Butter Masala & Jeera Rice (JAIN)", "price": 220, "isVeg": true },
     { "name": "Paneer Kolhapuri & Jeera Rice", "price": 220, "isVeg": true },
     { "name": "Paneer Tikka Masala & Jeera Rice", "price": 220, "isVeg": true },
     { "name": "Mushroom Masala & Jeera Rice", "price": 220, "isVeg": true },
@@ -750,23 +750,23 @@ const menuData = {
     { "name": "Veg Kadhai & Jeera Rice", "price": 210, "isVeg": true },
     { "name": "Paneer Chilli & Fried Rice", "price": 220, "isVeg": true },
     { "name": "Mushroom Chilli & Fried Rice", "price": 220, "isVeg": true },
-    { "name": "Veg Manchurian & Fried Rice", "price": 220, "isVeg": true },
+    { "name": "Veg Manchurian & Fried Rice (JAIN)", "price": 220, "isVeg": true },
     { "name": "Paneer Crispy & Fried Rice", "price": 220, "isVeg": true },
     { "name": "Veg Crispy & Fried Rice", "price": 220, "isVeg": true },
-    { "name": "Paneer Chilli & Hakka Noodles", "price": 230, "isVeg": true },
+    { "name": "Paneer Chilli & Hakka Noodles (JAIN)", "price": 230, "isVeg": true },
     { "name": "Mushroom Chilli & Hakka Noodles", "price": 230, "isVeg": true },
     { "name": "Veg Manchurian & Hakka Noodles", "price": 220, "isVeg": true },
     { "name": "Paneer Crispy & Hakka Noodles", "price": 230, "isVeg": true },
     { "name": "Veg Crispy & Hakka Noodles", "price": 220, "isVeg": true },
 
-    { "name": "Veg Kolhapuri", "price": 200, "isVeg": true },
-    { "name": "Veg Kadhai", "price": 200, "isVeg": true },
+    { "name": "Veg Kolhapuri (JAIN)", "price": 200, "isVeg": true },
+    { "name": "Veg Kadhai (JAIN)", "price": 200, "isVeg": true },
     { "name": "Veg Makhani", "price": 200, "isVeg": true },
     { "name": "Paneer Kolhapuri", "price": 220, "isVeg": true },
     { "name": "Paneer Kadhai", "price": 220, "isVeg": true },
     { "name": "Paneer Butter Masala", "price": 220, "isVeg": true },
-    { "name": "Paneer Makhani", "price": 220, "isVeg": true },
-    { "name": "Paneer Tikka Masala", "price": 220, "isVeg": true },
+    { "name": "Paneer Makhani (JAIN)", "price": 220, "isVeg": true },
+    { "name": "Paneer Tikka Masala (JAIN)", "price": 220, "isVeg": true },
     { "name": "Paneer Bhurji", "price": 180, "isVeg": true },
     { "name": "Mushroom Masala", "price": 220, "isVeg": true },
 
@@ -1219,77 +1219,77 @@ const menuData = {
 
     "Ramanandi Pizza": [
   // Regular Base Pizza
-  { name: "Farm Pizza (Regular Base)", price: 220, isVeg: true },
-  { name: "Ramanandi Spl. Pizza (Regular Base)", price: 300, isVeg: true },
-  { name: "Masala Paneer Pizza (Regular Base)", price: 250, isVeg: true },
-  { name: "Only Cheese Pizza (Regular Base)", price: 240, isVeg: true },
-  { name: "Margherita Pizza (Regular Base)", price: 240, isVeg: true },
-  { name: "Corn & Cheese Pizza (Regular Base)", price: 240, isVeg: true },
-  { name: "Sezwan Pizza (Regular Base)", price: 240, isVeg: true },
+  { name: "Farm Pizza (Regular Base) (JAIN)", price: 220, isVeg: true },
+  { name: "Ramanandi Spl. Pizza (Regular Base) (JAIN)", price: 300, isVeg: true },
+  { name: "Masala Paneer Pizza (Regular Base) (JAIN)", price: 250, isVeg: true },
+  { name: "Only Cheese Pizza (Regular Base) (JAIN)", price: 240, isVeg: true },
+  { name: "Margherita Pizza (Regular Base) (JAIN)", price: 240, isVeg: true },
+  { name: "Corn & Cheese Pizza (Regular Base) (JAIN)", price: 240, isVeg: true },
+  { name: "Sezwan Pizza (Regular Base) (JAIN)", price: 240, isVeg: true },
 
   // Bhakhri Pizza (Wheat)
-  { name: "Farm Pizza (Bhakhri)", price: 220, isVeg: true },
-  { name: "Ramanandi Spl. Pizza (Bhakhri)", price: 300, isVeg: true },
-  { name: "Masala Paneer Pizza (Bhakhri)", price: 230, isVeg: true },
-  { name: "Vegetable Bhakhri Pizza", price: 200, isVeg: true },
-  { name: "Only Cheese Pizza (Bhakhri)", price: 220, isVeg: true },
-  { name: "Margherita Pizza (Bhakhri)", price: 180, isVeg: true },
-  { name: "Corn & Cheese Pizza (Bhakhri)", price: 200, isVeg: true },
-  { name: "Sezwan Pizza (Bhakhri)", price: 200, isVeg: true },
+  { name: "Farm Pizza (Bhakhri) (JAIN)", price: 220, isVeg: true },
+  { name: "Ramanandi Spl. Pizza (Bhakhri) (JAIN)", price: 300, isVeg: true },
+  { name: "Masala Paneer Pizza (Bhakhri) (JAIN)", price: 230, isVeg: true },
+  { name: "Vegetable Bhakhri Pizza (JAIN)", price: 200, isVeg: true },
+  { name: "Only Cheese Pizza (Bhakhri) (JAIN)", price: 220, isVeg: true },
+  { name: "Margherita Pizza (Bhakhri) (JAIN)", price: 180, isVeg: true },
+  { name: "Corn & Cheese Pizza (Bhakhri) (JAIN)", price: 200, isVeg: true },
+  { name: "Sezwan Pizza (Bhakhri) (JAIN)", price: 200, isVeg: true },
 
   // Bread Pizza
-  { name: "Vegetable Bread Pizza", price: 120, isVeg: true },
-  { name: "Masala Paneer Bread Pizza", price: 170, isVeg: true },
-  { name: "Only Cheese Bread Pizza", price: 150, isVeg: true },
-  { name: "Margherita Bread Pizza", price: 150, isVeg: true },
-  { name: "Cheese & Corn Bread Pizza", price: 120, isVeg: true },
+  { name: "Vegetable Bread Pizza (JAIN)", price: 120, isVeg: true },
+  { name: "Masala Paneer Bread Pizza (JAIN)", price: 170, isVeg: true },
+  { name: "Only Cheese Bread Pizza (JAIN)", price: 150, isVeg: true },
+  { name: "Margherita Bread Pizza (JAIN)", price: 150, isVeg: true },
+  { name: "Cheese & Corn Bread Pizza (JAIN)", price: 120, isVeg: true },
 
   // Bajri Pizza
-  { name: "Farm Pizza (Bajri)", price: 240, isVeg: true },
-  { name: "Ramanandi Spl. Pizza (Bajri)", price: 300, isVeg: true },
-  { name: "Masala Paneer Pizza (Bajri)", price: 230, isVeg: true },
-  { name: "Vegetable Bajri Pizza", price: 200, isVeg: true },
-  { name: "Only Cheese Pizza (Bajri)", price: 220, isVeg: true },
-  { name: "Margherita Pizza (Bajri)", price: 180, isVeg: true },
-  { name: "Corn & Cheese Pizza (Bajri)", price: 200, isVeg: true },
-  { name: "Sezwan Pizza (Bajri)", price: 200, isVeg: true },
+  { name: "Farm Pizza (Bajri) (JAIN)", price: 240, isVeg: true },
+  { name: "Ramanandi Spl. Pizza (Bajri) (JAIN)", price: 300, isVeg: true },
+  { name: "Masala Paneer Pizza (Bajri) (JAIN)", price: 230, isVeg: true },
+  { name: "Vegetable Bajri Pizza (JAIN)", price: 200, isVeg: true },
+  { name: "Only Cheese Pizza (Bajri) (JAIN)", price: 220, isVeg: true },
+  { name: "Margherita Pizza (Bajri) (JAIN)", price: 180, isVeg: true },
+  { name: "Corn & Cheese Pizza (Bajri) (JAIN)", price: 200, isVeg: true },
+  { name: "Sezwan Pizza (Bajri) (JAIN)", price: 200, isVeg: true },
 
   // Jawar Pizza
-  { name: "Farm Pizza (Jawar)", price: 240, isVeg: true },
-  { name: "Ramanandi Spl. Pizza (Jawar)", price: 300, isVeg: true },
-  { name: "Masala Paneer Pizza (Jawar)", price: 250, isVeg: true },
-  { name: "Vegetable Jawar Pizza", price: 200, isVeg: true },
-  { name: "Only Cheese Pizza (Jawar)", price: 220, isVeg: true },
-  { name: "Margherita Pizza (Jawar)", price: 220, isVeg: true },
-  { name: "Corn & Cheese Pizza (Jawar)", price: 200, isVeg: true },
-  { name: "Sezwan Pizza (Jawar)", price: 220, isVeg: true },
+  { name: "Farm Pizza (Jawar) (JAIN)", price: 240, isVeg: true },
+  { name: "Ramanandi Spl. Pizza (Jawar) (JAIN)", price: 300, isVeg: true },
+  { name: "Masala Paneer Pizza (Jawar) (JAIN)", price: 250, isVeg: true },
+  { name: "Vegetable Jawar Pizza (JAIN)", price: 200, isVeg: true },
+  { name: "Only Cheese Pizza (Jawar) (JAIN)", price: 220, isVeg: true },
+  { name: "Margherita Pizza (Jawar) (JAIN)", price: 220, isVeg: true },
+  { name: "Corn & Cheese Pizza (Jawar) (JAIN)", price: 200, isVeg: true },
+  { name: "Sezwan Pizza (Jawar) (JAIN)", price: 220, isVeg: true },
 
   // Besan Pudla (Chilla) - Jain items
-  { name: "Plain Pudla", price: 60, isVeg: true },
-  { name: "Vegetable Pudla", price: 90, isVeg: true },
-  { name: "Bread Pudla Plain", price: 80, isVeg: true },
-  { name: "Vegetable Bread Pudla", price: 100, isVeg: true },
-  { name: "Vegetable Pudla Sandwich", price: 100, isVeg: true },
-  { name: "Paneer Pudla Plain", price: 130, isVeg: true },
-  { name: "Paneer Pudla Vegetable", price: 130, isVeg: true },
-  { name: "Paneer Bread Pudla Plain", price: 130, isVeg: true },
-  { name: "Paneer Veg. Bread Pudla", price: 140, isVeg: true },
-  { name: "Paneer Pudla Sandwich Plain", price: 120, isVeg: true },
-  { name: "Paneer Veg. Pudla Sandwich", price: 140, isVeg: true },
+  { name: "Plain Pudla (JAIN)", price: 60, isVeg: true },
+  { name: "Vegetable Pudla (JAIN)", price: 90, isVeg: true },
+  { name: "Bread Pudla Plain (JAIN)", price: 80, isVeg: true },
+  { name: "Vegetable Bread Pudla (JAIN)", price: 100, isVeg: true },
+  { name: "Vegetable Pudla Sandwich (JAIN)", price: 100, isVeg: true },
+  { name: "Paneer Pudla Plain (JAIN)", price: 130, isVeg: true },
+  { name: "Paneer Pudla Vegetable (JAIN)", price: 130, isVeg: true },
+  { name: "Paneer Bread Pudla Plain (JAIN)", price: 130, isVeg: true },
+  { name: "Paneer Veg. Bread Pudla (JAIN)", price: 140, isVeg: true },
+  { name: "Paneer Pudla Sandwich Plain (JAIN)", price: 120, isVeg: true },
+  { name: "Paneer Veg. Pudla Sandwich (JAIN)", price: 140, isVeg: true },
 
   // Garlic Bread
-  { name: "Cheese Garlic Bread", price: 180, isVeg: true },
-  { name: "Corn & Cheese Garlic Bread", price: 190, isVeg: true },
-  { name: "Cheese & Onion Garlic Bread", price: 200, isVeg: true },
-  { name: "Vegetable Garlic Bread", price: 200, isVeg: true },
+  { name: "Cheese Garlic Bread (JAIN)", price: 180, isVeg: true },
+  { name: "Corn & Cheese Garlic Bread (JAIN)", price: 190, isVeg: true },
+  { name: "Cheese & Onion Garlic Bread (JAIN)", price: 200, isVeg: true },
+  { name: "Vegetable Garlic Bread (JAIN)", price: 200, isVeg: true },
 
   // Milkshakes With Ice Cream
-  { name: "Cold Coffee Shake", price: 120, isVeg: true },
-  { name: "Rose Shake", price: 120, isVeg: true },
-  { name: "Butterscotch Shake", price: 120, isVeg: true },
-  { name: "Mango Shake", price: 120, isVeg: true },
-  { name: "Chocolate Shake", price: 120, isVeg: true },
-  { name: "Thandai Shake", price: 120, isVeg: true }
+  { name: "Cold Coffee Shake (JAIN)", price: 120, isVeg: true },
+  { name: "Rose Shake (JAIN)", price: 120, isVeg: true },
+  { name: "Butterscotch Shake (JAIN)", price: 120, isVeg: true },
+  { name: "Mango Shake (JAIN)", price: 120, isVeg: true },
+  { name: "Chocolate Shake (JAIN)", price: 120, isVeg: true },
+  { name: "Thandai Shake (JAIN)", price: 120, isVeg: true }
 ],
 
 //--Hungrill--//
@@ -1383,10 +1383,10 @@ const menuData = {
   { name: "Mix Double Cheese Kulcha", price: 110, isVeg: true },
   { name: "Soya Double Cheese Kulcha", price: 110, isVeg: true },
 
-  { name: "Gobi Kulcha Jain", price: 60, isVeg: true },
-  { name: "Paneer Kulcha Jain", price: 60, isVeg: true },
-  { name: "Paneer Cheese Kulcha Jain", price: 80, isVeg: true },
-  { name: "Paneer Double Cheese Kulcha Jain", price: 110, isVeg: true },
+  { name: "Gobi Kulcha (JAIN)", price: 60, isVeg: true },
+  { name: "Paneer Kulcha (JAIN)", price: 60, isVeg: true },
+  { name: "Paneer Cheese Kulcha (JAIN)", price: 80, isVeg: true },
+  { name: "Paneer Double Cheese Kulcha (JAIN)", price: 110, isVeg: true },
   { name: "Soya Kulcha", price: 60, isVeg: true },
   { name: "Soya Paneer Kulcha", price: 70, isVeg: true },
   { name: "Soya Gobi Kulcha", price: 70, isVeg: true },
@@ -1867,17 +1867,14 @@ const menuData = {
 };
 
 // --- COMPONENTS ---
-const Header = ({ onCartClick, cartItems, onLogout }) => (
+import { useNavigate } from "react-router-dom"
+const Header = ({ onCartClick, cartItems }) => (
     <header className="bg-white shadow-sm p-4 px-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 border-b">
-        <img src="src\components\myezzlogopage0001removebgpreview2329-xmz0h-400w.png" alt="MyEzz Logo" className="h-8" onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/120x40/cccccc/ffffff?text=Logo'; }}/>
+        <img src="src\components\logo.png" alt="MyEzz Logo" className="h-15" />
         <div className="flex items-center space-x-4">
             <button onClick={onCartClick} className="relative text-gray-600 hover:text-orange-500">
-                <CartIcon/>
+                <CartIcon />
                 {cartItems.length > 0 && <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{cartItems.reduce((acc, item) => acc + item.quantity, 0)}</span>}
-            </button>
-            {/* Add the onClick handler to the logout button */}
-            <button onClick={onLogout} className="flex items-center text-gray-600 hover:text-orange-500">
-                <LogoutIcon/>
             </button>
         </div>
     </header>
@@ -1898,11 +1895,11 @@ const FilterCheckbox = ({ label, description, checked, onChange }) => (
 
 const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen }) => {
     const handleCuisineChange = (cuisine) => {
-        setSelectedCuisines(prev => 
+        setSelectedCuisines(prev =>
             prev.includes(cuisine) ? prev.filter(c => c !== cuisine) : [...prev, cuisine]
         );
     };
-    
+
     const clearFilters = () => {
         setSelectedCuisines([]);
     };
@@ -1927,7 +1924,7 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen }) => {
 const RestaurantCard = ({ name, distance, cuisines, rating, reviews, time, price, image, onClick }) => (
     <div onClick={onClick} className="bg-white rounded-xl shadow-md overflow-hidden group hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
         <div className="relative">
-            <img src={image} alt={name} className="w-full h-40 object-cover" onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Error'; }}/>
+            <img src={image} alt={name} className="w-full h-40 object-cover" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/600x400/cccccc/ffffff?text=Image+Error'; }} />
             <div className="absolute top-0 right-0 p-2">
                 <button className="text-white opacity-80 hover:opacity-100 hover:text-orange-500 transition-colors">
                     <HeartIcon />
@@ -1960,7 +1957,7 @@ const HomePage = ({ setSelectedRestaurant }) => {
         const matchesCuisine = selectedCuisines.length === 0 || selectedCuisines.some(c => restaurant.cuisines.includes(c));
         return matchesCuisine;
     });
-    
+
     const jainRestaurants = filteredRestaurants.filter(r => r.cuisines.includes('Jain'));
     const nonJainRestaurants = filteredRestaurants.filter(r => r.cuisines.includes('Non-Jain'));
     const beverageRestaurants = filteredRestaurants.filter(r => r.cuisines.includes('Beverages'));
@@ -1972,12 +1969,12 @@ const HomePage = ({ setSelectedRestaurant }) => {
                 <div className="flex justify-between items-center mb-4">
                     <p className="text-sm text-gray-600">{filteredRestaurants.length} restaurants found</p>
                     <button onClick={() => setShowFilters(!showFilters)} className="md:hidden flex items-center px-3 py-2 border rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-100">
-                        <FilterIcon/> Filters
+                        <FilterIcon /> Filters
                     </button>
                 </div>
-                
+
                 {selectedCuisines.length === 0 ? (
-                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                         {restaurantData.map((restaurant, index) => (
                             <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
                         ))}
@@ -1986,33 +1983,33 @@ const HomePage = ({ setSelectedRestaurant }) => {
                     <>
                         {jainRestaurants.length > 0 && (
                             <div className="mb-8">
-                                 <h2 className="text-2xl font-bold mb-4">Jain</h2>
+                                <h2 className="text-2xl font-bold mb-4">Jain</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                                  {jainRestaurants.map((restaurant, index) => (
-                                    <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
-                                  ))}
+                                    {jainRestaurants.map((restaurant, index) => (
+                                        <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
+                                    ))}
                                 </div>
                             </div>
                         )}
 
                         {nonJainRestaurants.length > 0 && (
-                             <div className="mb-8">
-                                 <h2 className="text-2xl font-bold mb-4">Non-Jain</h2>
+                            <div className="mb-8">
+                                <h2 className="text-2xl font-bold mb-4">Non-Jain</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                                  {nonJainRestaurants.map((restaurant, index) => (
-                                    <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
-                                  ))}
+                                    {nonJainRestaurants.map((restaurant, index) => (
+                                        <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
+                                    ))}
                                 </div>
                             </div>
                         )}
-                        
+
                         {beverageRestaurants.length > 0 && (
                             <div>
-                                 <h2 className="text-2xl font-bold mb-4">Beverages</h2>
+                                <h2 className="text-2xl font-bold mb-4">Beverages</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                                  {beverageRestaurants.map((restaurant, index) => (
-                                    <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
-                                  ))}
+                                    {beverageRestaurants.map((restaurant, index) => (
+                                        <RestaurantCard key={index} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
+                                    ))}
                                 </div>
                             </div>
                         )}
@@ -2043,7 +2040,7 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems }) => 
                 <span className="ml-2">Back to Restaurants</span>
             </button>
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <img src={restaurant.image} alt={restaurant.name} className="w-full h-48 object-cover"/>
+                <img src={restaurant.image} alt={restaurant.name} className="w-full h-48 object-cover" />
                 <div className="p-6">
                     <h2 className="text-3xl font-bold mb-2">{restaurant.name}</h2>
                     <p className="text-gray-500 mb-4">{restaurant.cuisines.join(', ')}</p>
@@ -2077,11 +2074,10 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems }) => 
     );
 };
 
-const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems }) => {
+const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, onPayNow }) => {
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    const deliveryFee = 25;
-    const taxes = subtotal * 0.18;
-    const total = subtotal + deliveryFee + taxes;
+    const deliveryFee = 30;
+    const total = subtotal + deliveryFee;
 
     const handleAddressChange = (e) => {
         const { name, value } = e.target;
@@ -2121,53 +2117,137 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems }) 
                 <div className="mt-6 pt-6 border-t space-y-2">
                     <div className="flex justify-between text-sm"><span>Subtotal</span><span>₹{subtotal.toFixed(2)}</span></div>
                     <div className="flex justify-between text-sm"><span>Delivery Fee</span><span>₹{deliveryFee.toFixed(2)}</span></div>
-                    <div className="flex justify-between text-sm"><span>Taxes & Charges</span><span>₹{taxes.toFixed(2)}</span></div>
                     <div className="flex justify-between font-bold text-lg"><span>Grand Total</span><span>₹{total.toFixed(2)}</span></div>
                 </div>
                 <div className="mt-6">
-                    <h3 className="font-bold mb-2">Delivery Address</h3>
-                    <input type="text" name="name" value={address.name} onChange={handleAddressChange} placeholder="Name" className="w-full p-2 mb-2 border rounded-md"/>
-                    <input type="text" name="line1" value={address.line1} onChange={handleAddressChange} placeholder="Address Line 1" className="w-full p-2 mb-2 border rounded-md"/>
-                    <input type="text" name="city" value={address.city} onChange={handleAddressChange} placeholder="City, State - Pincode" className="w-full p-2 mb-2 border rounded-md"/>
-                    <input type="text" name="phone" value={address.phone} onChange={handleAddressChange} placeholder="Phone Number" className="w-full p-2 border rounded-md"/>
+                    <h3 className="font-bold mb-2">Delivery Information</h3>
+                    <input
+                        type="text"
+                        name="fullName"
+                        value={address.fullName}
+                        onChange={handleAddressChange}
+                        placeholder="Full Name"
+                        className="w-full p-2 mb-2 border rounded-md"
+                    />
+                    <input
+                        type="email"
+                        name="emailId"
+                        value={address.emailId}
+                        onChange={handleAddressChange}
+                        placeholder="Email ID"
+                        className="w-full p-2 mb-2 border rounded-md"
+                    />
+                    <input
+                        type="tel"
+                        name="phoneNumber"
+                        value={address.phoneNumber}
+                        onChange={handleAddressChange}
+                        placeholder="Phone Number"
+                        className="w-full p-2 mb-2 border rounded-md"
+                    />
+                    <input
+                        type="text"
+                        name="fullAddress"
+                        value={address.fullAddress}
+                        onChange={handleAddressChange}
+                        placeholder="Full Delivery Address"
+                        className="w-full p-2 mb-2 border rounded-md"
+                    />
                 </div>
-                <button className="w-full mt-6 bg-orange-500 text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition-colors">Pay Now</button>
+                <button onClick={() => onPayNow(address)} className="w-full mt-6 bg-orange-500 text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition-colors">Pay Now</button>
             </div>
         </div>
     );
 };
 
 export default function App() {
-  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-  const [cartItems, setCartItems] = useState([]);
-  const [showCheckout, setShowCheckout] = useState(false);
-  const [address, setAddress] = useState({ name: 'Rajesh Kumar', line1: 'A-204, Green Valley Apartments, Sector 18', city: 'Noida, UP - 201301', phone: '+91 98765 43210' });
+    const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+    const [cartItems, setCartItems] = useState([]);
+    const [showCheckout, setShowCheckout] = useState(false);
+    
+    // REMOVED DEFAULT ADDRESS VALUES HERE
+    const [address, setAddress] = useState({
+        fullName: '',
+        emailId: '',
+        phoneNumber: '',
+        fullAddress: ''
+    });
 
-  const renderPage = () => {
-      if (selectedRestaurant) {
-          return <RestaurantMenuPage restaurant={selectedRestaurant} onBack={() => setSelectedRestaurant(null)} cartItems={cartItems} setCartItems={setCartItems} />;
-      }
-      return <HomePage setSelectedRestaurant={setSelectedRestaurant} address={address} />;
-  };
+    const navigate = useNavigate();
 
-  return (
-    <div className="bg-gray-100 min-h-screen font-sans transition-colors duration-500 pb-16 md:pb-0">
-      <Header cartItems={cartItems} onCartClick={() => setShowCheckout(true)} />
-      {renderPage()}
-      {showCheckout && <CheckoutPage cartItems={cartItems} onBack={() => setShowCheckout(false)} address={address} setAddress={setAddress} setCartItems={setCartItems} />}
-      
-      {/* Mobile Bottom Nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-2">
-          <button onClick={() => setSelectedRestaurant(null)} className={`flex flex-col items-center text-xs ${!selectedRestaurant ? 'text-orange-500' : 'text-gray-500'}`}>
-              <HomeIcon className="h-6 w-6"/>
-              <span>Home</span>
-          </button>
-          <button onClick={() => setShowCheckout(true)} className={`flex flex-col items-center text-xs relative ${cartItems.length > 0 ? 'text-orange-500' : 'text-gray-500'}`}>
-              <CartIcon className="h-6 w-6"/>
-              {cartItems.length > 0 && <span className="absolute -top-1 right-1 bg-orange-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">{cartItems.reduce((acc, item) => acc + item.quantity, 0)}</span>}
-              <span>Cart</span>
-          </button>
-      </nav>
-    </div>
-  );
+    const isValidEmail = (email) => {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    const isValidPhone = (phone) => {
+        const re = /^[0-9]{10}$/; // Simple 10-digit validation
+        return re.test(String(phone));
+    };
+
+    const handlePayNow = (addressData) => {
+        if (!addressData.fullName.trim() || !addressData.emailId.trim() || !addressData.phoneNumber.trim() || !addressData.fullAddress.trim()) {
+            alert("Please fill in all delivery information fields.");
+            return;
+        }
+
+        if (!isValidEmail(addressData.emailId)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+
+        if (!isValidPhone(addressData.phoneNumber)) {
+            alert("Please enter a valid 10-digit phone number.");
+            return;
+        }
+
+        const customerInfo = {
+            fullName: addressData.fullName,
+            phoneNumber: addressData.phoneNumber,
+            emailId: addressData.emailId,
+            fullAddress: addressData.fullAddress
+        };
+
+        const cartWithVendor = cartItems.map(item => ({
+            ...item,
+            vendor: selectedRestaurant ? selectedRestaurant.name : "Unknown Vendor"
+        }));
+
+        setShowCheckout(false);
+
+        navigate("/payment", {
+            state: {
+                customerInfo: customerInfo,
+                cart: cartWithVendor,
+            }
+        });
+    };
+
+    const renderPage = () => {
+        if (selectedRestaurant) {
+            return <RestaurantMenuPage restaurant={selectedRestaurant} onBack={() => setSelectedRestaurant(null)} cartItems={cartItems} setCartItems={setCartItems} />;
+        }
+        return <HomePage setSelectedRestaurant={setSelectedRestaurant} address={address} />;
+    };
+
+    return (
+        <div className="bg-gray-100 min-h-screen font-sans transition-colors duration-500 pb-16 md:pb-0">
+            <Header cartItems={cartItems} onCartClick={() => setShowCheckout(true)} />
+            {renderPage()}
+            {showCheckout && <CheckoutPage cartItems={cartItems} onBack={() => setShowCheckout(false)} address={address} setAddress={setAddress} onPayNow={handlePayNow} />}
+
+            {/* Mobile Bottom Nav */}
+            <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-2">
+                <button onClick={() => setSelectedRestaurant(null)} className={`flex flex-col items-center text-xs ${!selectedRestaurant ? 'text-orange-500' : 'text-gray-500'}`}>
+                    <HomeIcon className="h-6 w-6" />
+                    <span>Home</span>
+                </button>
+                <button onClick={() => setShowCheckout(true)} className={`flex flex-col items-center text-xs relative ${cartItems.length > 0 ? 'text-orange-500' : 'text-gray-500'}`}>
+                    <CartIcon className="h-6 w-6" />
+                    {cartItems.length > 0 && <span className="absolute -top-1 right-1 bg-orange-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">{cartItems.reduce((acc, item) => acc + item.quantity, 0)}</span>}
+                    <span>Cart</span>
+                </button>
+            </nav>
+        </div>
+    );
 }
