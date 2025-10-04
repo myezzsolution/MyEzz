@@ -360,8 +360,9 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
 
 const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, onPayNow }) => {
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const platformFee = cartItems.length > 0 ? 8 : 0;
     const deliveryFee = cartItems.length > 0? 30 : 0;
-    const total = subtotal + deliveryFee;
+    const total = subtotal + deliveryFee + platformFee;
 
     const handleAddressChange = (e) => {
         const { name, value } = e.target;
@@ -401,6 +402,7 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
                 <div className="mt-6 pt-6 border-t space-y-2">
                     <div className="flex justify-between text-sm"><span>Subtotal</span><span>₹{subtotal.toFixed(2)}</span></div>
                     <div className="flex justify-between text-sm"><span>Delivery Fee</span><span>₹{deliveryFee.toFixed(2)}</span></div>
+                    <div className="flex justify-between text-sm"><span>Platform Fee</span><span>₹{platformFee.toFixed(2)}</span></div>
                     <div className="flex justify-between font-bold text-lg"><span>Grand Total</span><span>₹{total.toFixed(2)}</span></div>
                 </div>
                 <div className="mt-6">
