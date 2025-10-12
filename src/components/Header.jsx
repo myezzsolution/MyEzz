@@ -30,36 +30,14 @@ const Header = () => {
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center', 
-        padding: '10px 20px', 
-        borderBottom: '1px solid #ddd' 
+        padding: '0px 20px', 
+        borderBottom: '1px solid #ddd',
+        marginTop: '-1px',
+        marginBottom: '-1px'
     }}>
       
 
-      {/* Right side: User info, cart, and auth buttons */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-        {currentUser ? (
-          <>
-            <span style={{ fontWeight: 'bold' }}>Hello, {currentUser.displayName || currentUser.email}!</span>
-          
-            {/* Logout button */}
-            <button 
-                onClick={handleLogout}
-                style={{
-                    backgroundColor: '#ff4d4d',
-                    color: 'white',
-                    border: 'none',
-                    padding: '8px 12px',
-                    borderRadius: '5px',
-                    cursor: 'pointer'
-                }}
-            >
-                Logout
-            </button>
-          </>
-        ) : (
-          null
-        )}
-      </div>
+     
     </header>
   );
 };
