@@ -1,3 +1,7 @@
+// migration-script.js
+import { createClient } from '@supabase/supabase-js';
+
+// Paste your data here
 const restaurantData = [ 
     /* ...your restaurant data... */ 
  { name: "Patel Juice Centre", distance: 1.2, cuisines: ["Beverages","Non-Jain"], rating: 4.2, reviews: 1250, time: "25-30", image: "https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1755895645330-qq2u7eyebo-1755895642484_i5db00_screenshot_2025-08-2.png", offer: "Fresh Juice", tags: ["Pure Veg"], operating_hours: "12:30 PM - 12:00 AM" },
@@ -127,7 +131,27 @@ const restaurantData = [
     "offer": "Fine Dining",
     "tags": ["Fine Dining", "Multi-Cuisine"],
     "operating_hours": "10:00 AM - 11:00 PM"
-  }
+  },
+  {
+      "name": "Jay Ganesha Bhavan 2025",
+      "distance": 1.5,
+      "cuisines": [
+        "South Indian",
+        "Fast Food",
+        "Street Food"
+      ],
+      "rating": 4.8,
+      "reviews": 200,
+      "time": "20-30",
+      "price": 119,
+      "image": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqsiWsh3OP0oW4zC1EVCldeDvabeeKr_hCBcXq8xre6LEV6EJ6BE_iropJvYDicu4CK5Ph1DRhmro8DCDWt-KjAYr8vuS5GxzqJQg1J3oPWQJ9oq-Y80nTQgcWncJCcl7JTQY6FdZqy_6Lt=s1360-w1360-h1020",
+      "offer": "Pure Veg South Indian Fast Food",
+      "tags": [
+        "Pure Veg",
+        "Jain Food Available"
+      ],
+      "operating_hours": "7:00 AM - 11:00 PM"
+    }
 
 
 ];
@@ -3953,7 +3977,1426 @@ const menuData = { /* ...your menu data... */
     { name: "Roso Rice Combo", price: 180, isVeg: true },
     { name: "Pasta Combo", price: 180, isVeg: true },
     { name: "Pav Bhaji Combo", price: 185, isVeg: true }
-  ]
+  ],
+
+  // Jay Ganesha Bhavan 2025
+  "Jay Ganesha Bhavan 2025": [
+      {
+        "name": "Potato Cheese Sandwich",
+        "price": 59,
+        "isVeg": true
+      },
+      {
+        "name": "Veg Grill",
+        "price": 95,
+        "isVeg": true
+      },
+      {
+        "name": "Jain Cheese Sandwich",
+        "price": 59,
+        "isVeg": true
+      },
+      {
+        "name": "Veg Corn Grill",
+        "price": 109,
+        "isVeg": true
+      },
+      {
+        "name": "Veg Sandwich",
+        "price": 61,
+        "isVeg": true
+      },
+      {
+        "name": "Samosa Grill",
+        "price": 105,
+        "isVeg": true
+      },
+      {
+        "name": "Samosa Sandwich",
+        "price": 111,
+        "isVeg": true
+      },
+      {
+        "name": "Veg Cheese Grill",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Veg Cheese Sandwich",
+        "price": 119,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Pasta Grill",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Samosa Cheese Sandwich",
+        "price": 139,
+        "isVeg": true
+      },
+      {
+        "name": "Pahadi Grill",
+        "price": 140,
+        "isVeg": true
+      },
+      {
+        "name": "Chilli Paneer Grill",
+        "price": 145,
+        "isVeg": true
+      },
+      {
+        "name": "Chilli Cheese Grill",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Samosa Cheese Grill",
+        "price": 140,
+        "isVeg": true
+      },
+      {
+        "name": "Veg Corn Cheese Grill",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Chilli Paneer Cheese Grill",
+        "price": 145,
+        "isVeg": true
+      },
+      {
+        "name": "Double Becker Sandwich",
+        "price": 180,
+        "isVeg": true
+      },
+      {
+        "name": "Dholki Sandwich",
+        "price": 190,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Pasanda Cheese",
+        "price": 160,
+        "isVeg": true
+      },
+      {
+        "name": "Aloo Corn Cheese Sandwich",
+        "price": 145,
+        "isVeg": true
+      },
+      {
+        "name": "Sahi Paneer Grill",
+        "price": 160,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Burst Grill",
+        "price": 199,
+        "isVeg": true
+      },
+      {
+        "name": "Bread Butter Toast",
+        "price": 35,
+        "isVeg": true
+      },
+      {
+        "name": "Potato Toast",
+        "price": 49,
+        "isVeg": true
+      },
+      {
+        "name": "Jam Toast",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Potato Cheese Toast",
+        "price": 60,
+        "isVeg": true
+      },
+      {
+        "name": "Veg Toast",
+        "price": 80,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Toast",
+        "price": 85,
+        "isVeg": true
+      },
+      {
+        "name": "Samosa Toast",
+        "price": 95,
+        "isVeg": true
+      },
+      {
+        "name": "Veg Cheese Toast",
+        "price": 105,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Cheese Toast",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Chilli Toast",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Samosa Cheese Toast",
+        "price": 95,
+        "isVeg": true
+      },
+      {
+        "name": "Chocolate Panini",
+        "price": 139,
+        "isVeg": true
+      },
+      {
+        "name": "Insatta Garlic Cheese Bread",
+        "price": 149,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Garlic Bread",
+        "price": 159,
+        "isVeg": true
+      },
+      {
+        "name": "Curry Potato Panini",
+        "price": 159,
+        "isVeg": true
+      },
+      {
+        "name": "Regular Panini",
+        "price": 169,
+        "isVeg": true
+      },
+      {
+        "name": "Maxcan Panini",
+        "price": 179,
+        "isVeg": true
+      },
+      {
+        "name": "Fajita Panini",
+        "price": 179,
+        "isVeg": true
+      },
+      {
+        "name": "Veg Pizza",
+        "price": 129,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Pizza",
+        "price": 229,
+        "isVeg": true
+      },
+      {
+        "name": "Veg Cheese Pizza",
+        "price": 239,
+        "isVeg": true
+      },
+      {
+        "name": "Season Special Pizza",
+        "price": 239,
+        "isVeg": true
+      },
+      {
+        "name": "Pasta Pizza",
+        "price": 269,
+        "isVeg": true
+      },
+      {
+        "name": "Fizz Pizza",
+        "price": 269,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Cheese Pizza",
+        "price": 219,
+        "isVeg": true
+      },
+      {
+        "name": "Cheezy Spread Pizza",
+        "price": 379,
+        "isVeg": true
+      },
+      {
+        "name": "Tawa Cheese Pizza",
+        "price": 149,
+        "isVeg": true
+      },
+      {
+        "name": "Cheeza Khicha",
+        "price": 199,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Loop-Loop",
+        "price": 150,
+        "isVeg": true
+      },
+      {
+        "name": "Bread Butter",
+        "price": 49,
+        "isVeg": true
+      },
+      {
+        "name": "Bread Butter Cheese",
+        "price": 54,
+        "isVeg": true
+      },
+      {
+        "name": "Potato Sandwich",
+        "price": 69,
+        "isVeg": true
+      },
+      {
+        "name": "Jam Sandwich",
+        "price": 69,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Pav",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Tawa Pulao",
+        "price": 140,
+        "isVeg": true
+      },
+      {
+        "name": "Pav Bhaji",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Corn Pav Bhaji",
+        "price": 140,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Pav Bhaji",
+        "price": 150,
+        "isVeg": true
+      },
+      {
+        "name": "Harabhara Pav Bhaji",
+        "price": 160,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Pav Bhaji",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Harabhara Cheese Pav Bhaji",
+        "price": 170,
+        "isVeg": true
+      },
+      {
+        "name": "Harabhara Paneer Pav Bhaji",
+        "price": 190,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Jain Pav Bhaji",
+        "price": 170,
+        "isVeg": true
+      },
+      {
+        "name": "Harabhara Paneer Cheese",
+        "price": 170,
+        "isVeg": true
+      },
+      {
+        "name": "Extra Pav (2 Pc.)",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Pineapple",
+        "price": 79,
+        "isVeg": true
+      },
+      {
+        "name": "Watermelon",
+        "price": 79,
+        "isVeg": true
+      },
+      {
+        "name": "Mosambi",
+        "price": 79,
+        "isVeg": true
+      },
+      {
+        "name": "Orange",
+        "price": 89,
+        "isVeg": true
+      },
+      {
+        "name": "Black Grapes",
+        "price": 89,
+        "isVeg": true
+      },
+      {
+        "name": "Ganga Jamuna",
+        "price": 99,
+        "isVeg": true
+      },
+      {
+        "name": "Mara Mari",
+        "price": 99,
+        "isVeg": true
+      },
+      {
+        "name": "Apple",
+        "price": 109,
+        "isVeg": true
+      },
+      {
+        "name": "Anar",
+        "price": 109,
+        "isVeg": true
+      },
+      {
+        "name": "Strawberry",
+        "price": 139,
+        "isVeg": true
+      },
+      {
+        "name": "Mango",
+        "price": 109,
+        "isVeg": true
+      },
+      {
+        "name": "Sada Lassi",
+        "price": 70,
+        "isVeg": true
+      },
+      {
+        "name": "Kesar Lassi",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Mango Lassi",
+        "price": 85,
+        "isVeg": true
+      },
+      {
+        "name": "Butter Scotch Lassi",
+        "price": 95,
+        "isVeg": true
+      },
+      {
+        "name": "Vanilla Lassi",
+        "price": 85,
+        "isVeg": true
+      },
+      {
+        "name": "Ice Cream Lassi",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Rose Lassi",
+        "price": 95,
+        "isVeg": true
+      },
+      {
+        "name": "Butter Milk",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Strawberry Lassi",
+        "price": 105,
+        "isVeg": true
+      },
+      {
+        "name": "Kesar Pista Lassi",
+        "price": 110,
+        "isVeg": true
+      },
+      {
+        "name": "Dry Fruit Lassi",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Manpsand",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Raw Mango",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Parana",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Dilkhush",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Litchi Blast",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Champions",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Tender Point",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Gumrah",
+        "price": 110,
+        "isVeg": true
+      },
+      {
+        "name": "Zoom",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "American Punch",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Pina Colada",
+        "price": 150,
+        "isVeg": true
+      },
+      {
+        "name": "Mojito",
+        "price": 170,
+        "isVeg": true
+      },
+      {
+        "name": "Ice Tea",
+        "price": 150,
+        "isVeg": true
+      },
+      {
+        "name": "Red Pari",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Khatta Meetha",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Hamsafar",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Kuch Toh Hai",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Strawberry Tipsy",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Energy",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Tini Mini",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Dostana",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Boom",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Thumsup",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Soda",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Sprite",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Limca",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Fanta",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Coke",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Chas",
+        "price": 30,
+        "isVeg": true
+      },
+      {
+        "name": "Fresh Lime Soda",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Pongal (Only Morning)",
+        "price": 70,
+        "isVeg": true
+      },
+      {
+        "name": "Kanda Poha (Only Morning)",
+        "price": 50,
+        "isVeg": true
+      },
+      {
+        "name": "Pineapple Sheera",
+        "price": 60,
+        "isVeg": true
+      },
+      {
+        "name": "Upma",
+        "price": 60,
+        "isVeg": true
+      },
+      {
+        "name": "Sheera Upma Mix",
+        "price": 60,
+        "isVeg": true
+      },
+      {
+        "name": "Sheera Poha Mix",
+        "price": 60,
+        "isVeg": true
+      },
+      {
+        "name": "Idli",
+        "price": 60,
+        "isVeg": true
+      },
+      {
+        "name": "Medu Vada",
+        "price": 65,
+        "isVeg": true
+      },
+      {
+        "name": "Idli Vada Mix",
+        "price": 60,
+        "isVeg": true
+      },
+      {
+        "name": "Dal Vada",
+        "price": 60,
+        "isVeg": true
+      },
+      {
+        "name": "Extra Single Vada",
+        "price": 35,
+        "isVeg": true
+      },
+      {
+        "name": "Mysore Bonda",
+        "price": 70,
+        "isVeg": true
+      },
+      {
+        "name": "Extra Single Idli",
+        "price": 30,
+        "isVeg": true
+      },
+      {
+        "name": "Idli & Dal Vada Mix",
+        "price": 50,
+        "isVeg": true
+      },
+      {
+        "name": "Medu & Dal Vada Mix",
+        "price": 60,
+        "isVeg": true
+      },
+      {
+        "name": "Rasam Idli",
+        "price": 60,
+        "isVeg": true
+      },
+      {
+        "name": "Rasam Vada",
+        "price": 70,
+        "isVeg": true
+      },
+      {
+        "name": "Dahi Vada",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Dahi Idli",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Sabudana Vada",
+        "price": 70,
+        "isVeg": true
+      },
+      {
+        "name": "French Fry Idli",
+        "price": 80,
+        "isVeg": true
+      },
+      {
+        "name": "Sabudana Khichdi",
+        "price": 60,
+        "isVeg": true
+      },
+      {
+        "name": "Konda Idli (2PC)",
+        "price": 80,
+        "isVeg": true
+      },
+      {
+        "name": "Coin Idli",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Butter Idli",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Ghee Idli",
+        "price": 80,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Idli",
+        "price": 95,
+        "isVeg": true
+      },
+      {
+        "name": "Thava Idli",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "That Idli",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Crispy Idli",
+        "price": 95,
+        "isVeg": true
+      },
+      {
+        "name": "Mysore Idli",
+        "price": 100,
+        "isVeg": true
+      },
+      {
+        "name": "Chilli Idli",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Sizzler Idli",
+        "price": 140,
+        "isVeg": true
+      },
+      {
+        "name": "Dry Schezwan Idli",
+        "price": 100,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Idli",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Garlic Cheese Idli",
+        "price": 140,
+        "isVeg": true
+      },
+      {
+        "name": "Dry Manchurian Idli",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Gravy Manchurian Idli",
+        "price": 160,
+        "isVeg": true
+      },
+      {
+        "name": "Manchurian Soup Idli",
+        "price": 160,
+        "isVeg": true
+      },
+      {
+        "name": "Jai Ganesha Bhavan Idli",
+        "price": 250,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Vada",
+        "price": 250,
+        "isVeg": true
+      },
+      {
+        "name": "Chilli Vada",
+        "price": 100,
+        "isVeg": true
+      },
+      {
+        "name": "Dry Schezwan Vada",
+        "price": 110,
+        "isVeg": true
+      },
+      {
+        "name": "Dry Manchurian Vada",
+        "price": 110,
+        "isVeg": true
+      },
+      {
+        "name": "Gravy Manchurian Vada",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Manchurian Soup Vada",
+        "price": 150,
+        "isVeg": true
+      },
+      {
+        "name": "Sada Dosa",
+        "price": 70,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Dosa",
+        "price": 85,
+        "isVeg": true
+      },
+      {
+        "name": "Mysore Sada Dosa",
+        "price": 75,
+        "isVeg": true
+      },
+      {
+        "name": "Mysore Masala Dosa",
+        "price": 95,
+        "isVeg": true
+      },
+      {
+        "name": "Onion Sada Dosa",
+        "price": 75,
+        "isVeg": true
+      },
+      {
+        "name": "Schezwan Sada Dosa",
+        "price": 80,
+        "isVeg": true
+      },
+      {
+        "name": "Schezwan Masala Dosa",
+        "price": 110,
+        "isVeg": true
+      },
+      {
+        "name": "Kolhapuri Sada Dosa",
+        "price": 100,
+        "isVeg": true
+      },
+      {
+        "name": "Kolhapuri Masala Dosa",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Garlic Sada Dosa",
+        "price": 100,
+        "isVeg": true
+      },
+      {
+        "name": "Ragi Dosa",
+        "price": 95,
+        "isVeg": true
+      },
+      {
+        "name": "Garlic Masala Dosa",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Ragi Masala Dosa",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Paper Sada Dosa",
+        "price": 140,
+        "isVeg": true
+      },
+      {
+        "name": "Loni (Dawangere) Dosa (2 PCS.)",
+        "price": 140,
+        "isVeg": true
+      },
+      {
+        "name": "Paper Masala Dosa",
+        "price": 160,
+        "isVeg": true
+      },
+      {
+        "name": "Spring Dosa",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Mayo Mysore Sada Dosa",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Set Dosa",
+        "price": 110,
+        "isVeg": true
+      },
+      {
+        "name": "Mayo Mysore Masala Dosa",
+        "price": 110,
+        "isVeg": true
+      },
+      {
+        "name": "Noodles Dosa",
+        "price": 140,
+        "isVeg": true
+      },
+      {
+        "name": "Mayo Schezwan Sada Dosa",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Pav Bhaji Dosa",
+        "price": 160,
+        "isVeg": true
+      },
+      {
+        "name": "Mayo Schezwan Masala Dosa",
+        "price": 150,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Chilli Dosa",
+        "price": 180,
+        "isVeg": true
+      },
+      {
+        "name": "Mayo Cheese Masala Dosa",
+        "price": 150,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Corn Dosa",
+        "price": 180,
+        "isVeg": true
+      },
+      {
+        "name": "Spring Cheese Sada Dosa",
+        "price": 119,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Lays Dosa",
+        "price": 180,
+        "isVeg": true
+      },
+      {
+        "name": "Spring Cheese Masala Dosa",
+        "price": 159,
+        "isVeg": true
+      },
+      {
+        "name": "Gini Dosa",
+        "price": 190,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Manchurian Dosa",
+        "price": 289,
+        "isVeg": true
+      },
+      {
+        "name": "Pizza Dosa",
+        "price": 190,
+        "isVeg": true
+      },
+      {
+        "name": "American Chopsuey Dosa",
+        "price": 190,
+        "isVeg": true
+      },
+      {
+        "name": "Baby Corn Dosa",
+        "price": 180,
+        "isVeg": true
+      },
+      {
+        "name": "Dilkush Dosa",
+        "price": 200,
+        "isVeg": true
+      },
+      {
+        "name": "Special Paneer Masala Dosa",
+        "price": 190,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Tikka Masala Dosa",
+        "price": 250,
+        "isVeg": true
+      },
+      {
+        "name": "Jai Ganesha Bhavan Dosa",
+        "price": 250,
+        "isVeg": true
+      },
+      {
+        "name": "Matka Dosa",
+        "price": 360,
+        "isVeg": true
+      },
+      {
+        "name": "Pav Bhaji Cheese Dosa",
+        "price": 119,
+        "isVeg": true
+      },
+      {
+        "name": "French Fry Burst Dosa",
+        "price": 479,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Nuggets Dosa",
+        "price": 479,
+        "isVeg": true
+      },
+      {
+        "name": "Chandi Dosa",
+        "price": 359,
+        "isVeg": true
+      },
+      {
+        "name": "Rava Sada Dosa",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Onion Rava Sada",
+        "price": 95,
+        "isVeg": true
+      },
+      {
+        "name": "Rava Masala Dosa",
+        "price": 110,
+        "isVeg": true
+      },
+      {
+        "name": "Onion Rava Masala Dosa",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Mysore Rava Sada Dosa",
+        "price": 100,
+        "isVeg": true
+      },
+      {
+        "name": "Schezwan Rava Sada Dosa",
+        "price": 110,
+        "isVeg": true
+      },
+      {
+        "name": "Mysore Rava Masala Dosa",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Schezwan Rava Masala Dosa",
+        "price": 140,
+        "isVeg": true
+      },
+      {
+        "name": "Sada Uttapam",
+        "price": 70,
+        "isVeg": true
+      },
+      {
+        "name": "Onion Uttapam",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Tomato Uttapam",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Onion Tomato Uttapam",
+        "price": 95,
+        "isVeg": true
+      },
+      {
+        "name": "Masala Uttapam",
+        "price": 105,
+        "isVeg": true
+      },
+      {
+        "name": "Vegetable Uttapam",
+        "price": 100,
+        "isVeg": true
+      },
+      {
+        "name": "Ragi Onion Uttapam",
+        "price": 100,
+        "isVeg": true
+      },
+      {
+        "name": "Mysore Sada Uttapam",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Schezwan Sada Uttapam",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Mysore Masala Uttapam",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Schezwan Masala Uttapam",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Chocolate Cheese Dosa",
+        "price": 250,
+        "isVeg": true
+      },
+      {
+        "name": "Chocolate Sunday Dosa",
+        "price": 165,
+        "isVeg": true
+      },
+      {
+        "name": "Ice-Cream Dosa",
+        "price": 180,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Sada Dosa",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Masala Dosa",
+        "price": 150,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Mysore Masala Dosa",
+        "price": 160,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Schezwan Masala Dosa",
+        "price": 150,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Chilli Dosa",
+        "price": 189,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Bhurji Dosa",
+        "price": 189,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Spicy Dosa",
+        "price": 199,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Tip-Top Dosa",
+        "price": 459,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Special Dosa",
+        "price": 250,
+        "isVeg": true
+      },
+      {
+        "name": "Kela Bhaji",
+        "price": 50,
+        "isVeg": true
+      },
+      {
+        "name": "Appam (2 PCS)",
+        "price": 100,
+        "isVeg": true
+      },
+      {
+        "name": "Puri Bhaji (4 PCS.)",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "South Indian Platter",
+        "price": 160,
+        "isVeg": true
+      },
+      {
+        "name": "Ghee Podi Upma",
+        "price": 80,
+        "isVeg": true
+      },
+      {
+        "name": "Ghee Podi Idli",
+        "price": 100,
+        "isVeg": true
+      },
+      {
+        "name": "Ghee Podi Uttappam",
+        "price": 80,
+        "isVeg": true
+      },
+      {
+        "name": "Ghee Podi Vada",
+        "price": 90,
+        "isVeg": true
+      },
+      {
+        "name": "Ghee Podi Dosa",
+        "price": 100,
+        "isVeg": true
+      },
+      {
+        "name": "Ghee Roast Dosa",
+        "price": 100,
+        "isVeg": true
+      },
+      {
+        "name": "Ghee Podi Appam (2 PCS.)",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Cutting Tea",
+        "price": 12,
+        "isVeg": true
+      },
+      {
+        "name": "Filter Coffee",
+        "price": 35,
+        "isVeg": true
+      },
+      {
+        "name": "Full Tea",
+        "price": 25,
+        "isVeg": true
+      },
+      {
+        "name": "Black Coffee",
+        "price": 30,
+        "isVeg": true
+      },
+      {
+        "name": "Lemon Tea",
+        "price": 30,
+        "isVeg": true
+      },
+      {
+        "name": "Milk",
+        "price": 35,
+        "isVeg": true
+      },
+      {
+        "name": "Black Tea",
+        "price": 30,
+        "isVeg": true
+      },
+      {
+        "name": "Kesar Ukala",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Green Tea",
+        "price": 30,
+        "isVeg": true
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Lemon Rice",
+        "price": 99,
+        "isVeg": true
+      },
+      {
+        "name": "Curd Rice",
+        "price": 99,
+        "isVeg": true
+      },
+      {
+        "name": "Veg. Pulau",
+        "price": 99,
+        "isVeg": true
+      },
+      {
+        "name": "Ghee Bisi Bele Bhaat",
+        "price": 110,
+        "isVeg": true
+      },
+      {
+        "name": "Veg. Biryani",
+        "price": 120,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Biryani",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer Pulau",
+        "price": 130,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Biryani",
+        "price": 150,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Pulau",
+        "price": 140,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese Tawa Pulau",
+        "price": 170,
+        "isVeg": true
+      },
+      {
+        "name": "Porotta Kurma",
+        "price": 99,
+        "isVeg": true
+      },
+      {
+        "name": "Butter",
+        "price": 30,
+        "isVeg": true
+      },
+      {
+        "name": "Chutney",
+        "price": 25,
+        "isVeg": true
+      },
+      {
+        "name": "Mayo",
+        "price": 35,
+        "isVeg": true
+      },
+      {
+        "name": "Sambar",
+        "price": 25,
+        "isVeg": true
+      },
+      {
+        "name": "Paneer",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Podi",
+        "price": 25,
+        "isVeg": true
+      },
+      {
+        "name": "Ghee",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Onion",
+        "price": 20,
+        "isVeg": true
+      },
+      {
+        "name": "Cheese",
+        "price": 40,
+        "isVeg": true
+      },
+      {
+        "name": "Schezwan",
+        "price": 30,
+        "isVeg": true
+      }
+    ]
 
 };
 const categoryFilters = [ 
