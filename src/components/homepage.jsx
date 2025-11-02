@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from '../supabaseClient'; // Make sure this path is correct
 import Footer from '../components/Footer';
 import { useAuth } from '../auth/AuthContext';
+import ThemeToggle from './ThemeToggle';
 
 // --- SVG ICONS (Your existing SVG components go here) ---
 const SunIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`text-yellow-500 ${className}`}><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>;
@@ -22,24 +23,24 @@ const LogoutIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 
 
 
 const categoryFilters = [
-  { name: 'Pizza', keywords: ['pizza', 'pizzatta'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557648908-f3yzue48jb4-1756557650705_hsfuv5_screenshot_2025-08-3.png' },
-  { name: 'Sandwich', keywords: ['sandwich', 'panini', 'bagel'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552327686-rhswl7x25uh-1756552327877_35f5o9_screenshot_2025-08-3.png' },
-  { name: 'Rolls & Wraps', keywords: ['roll', 'frankie', 'wrap'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557561163-4v9aunjt71f-1756557563014_zdepzl_screenshot_2025-08-3.png' },
-  { name: 'Burger', keywords: ['burger'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557328450-pmk9jldolg-1756557330397_m33evn_screenshot_2025-08-3.png' },
-  { name: 'Street Food', keywords: ['vada pav', 'samosa', 'dabeli', 'bhel', 'pakoda', 'dhokla', 'locho', 'khamani', 'patra', 'chaat', 'pav', 'pudla', 'bhurji', 'idli'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557328450-pmk9jldolg-1756557330397_m33evn_screenshot_2025-08-3.png' },
-  { name: 'Breads & Kulcha', keywords: ['kulcha', 'garlic bread', 'roti', 'naan', 'paratha', 'bun maska'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557214213-k5uo08e6do-1756557215834_tm6edh_screenshot_2025-08-3.png' },
-  { name: 'Chinese', keywords: ['noodles', 'manchurian', 'ramen', 'schezwan', 'hakka'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756556600027-5ktrv5mxz6b-1756556600301_mzvjpe_screenshot_2025-08-3.png' },
-  { name: 'Momos', keywords: ['momos'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557061089-powevnv8brq-1756557061231_soqr9p_screenshot_2025-08-3.png' },
-  { name: 'Pasta', keywords: ['pasta', 'spaghetti'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557131451-77u7ytc8hjh-1756557132811_xpym3t_screenshot_2025-08-3.png' },
-  { name: 'Sushi', keywords: ['sushi'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552882328-c8w8if74axq-1756552883691_shkbyo_screenshot_2025-08-3.png' },
-  { name: 'Fries', keywords: ['fries', 'wedges', 'twister'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552720273-nor1l0jr2w-1756552722137_2vbqus_screenshot_2025-08-3.png' },
-  { name: 'Desserts', keywords: ['waffle', 'pastry', 'brownie', 'cake', 'falooda', 'sundae', 'sheera'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552423146-33vmee7qwcc-1756552425289_3gqwk8_screenshot_2025-08-3.png' },
-  { name: 'Beverages', keywords: ['juice', 'shake', 'tea', 'coffee', 'lassi', 'mojito', 'boba', 'blossom', 'limbu', 'coco'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552468201-sb2j0y8fah-1756552470016_6s1tf6_screenshot_2025-08-3.png' },
+    { name: 'Pizza', keywords: ['pizza', 'pizzatta'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557648908-f3yzue48jb4-1756557650705_hsfuv5_screenshot_2025-08-3.png' },
+    { name: 'Sandwich', keywords: ['sandwich', 'panini', 'bagel'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552327686-rhswl7x25uh-1756552327877_35f5o9_screenshot_2025-08-3.png' },
+    { name: 'Rolls & Wraps', keywords: ['roll', 'frankie', 'wrap'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557561163-4v9aunjt71f-1756557563014_zdepzl_screenshot_2025-08-3.png' },
+    { name: 'Burger', keywords: ['burger'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557328450-pmk9jldolg-1756557330397_m33evn_screenshot_2025-08-3.png' },
+    { name: 'Street Food', keywords: ['vada pav', 'samosa', 'dabeli', 'bhel', 'pakoda', 'dhokla', 'locho', 'khamani', 'patra', 'chaat', 'pav', 'pudla', 'bhurji', 'idli'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557328450-pmk9jldolg-1756557330397_m33evn_screenshot_2025-08-3.png' },
+    { name: 'Breads & Kulcha', keywords: ['kulcha', 'garlic bread', 'roti', 'naan', 'paratha', 'bun maska'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557214213-k5uo08e6do-1756557215834_tm6edh_screenshot_2025-08-3.png' },
+    { name: 'Chinese', keywords: ['noodles', 'manchurian', 'ramen', 'schezwan', 'hakka'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756556600027-5ktrv5mxz6b-1756556600301_mzvjpe_screenshot_2025-08-3.png' },
+    { name: 'Momos', keywords: ['momos'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557061089-powevnv8brq-1756557061231_soqr9p_screenshot_2025-08-3.png' },
+    { name: 'Pasta', keywords: ['pasta', 'spaghetti'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756557131451-77u7ytc8hjh-1756557132811_xpym3t_screenshot_2025-08-3.png' },
+    { name: 'Sushi', keywords: ['sushi'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552882328-c8w8if74axq-1756552883691_shkbyo_screenshot_2025-08-3.png' },
+    { name: 'Fries', keywords: ['fries', 'wedges', 'twister'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552720273-nor1l0jr2w-1756552722137_2vbqus_screenshot_2025-08-3.png' },
+    { name: 'Desserts', keywords: ['waffle', 'pastry', 'brownie', 'cake', 'falooda', 'sundae', 'sheera'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552423146-33vmee7qwcc-1756552425289_3gqwk8_screenshot_2025-08-3.png' },
+    { name: 'Beverages', keywords: ['juice', 'shake', 'tea', 'coffee', 'lassi', 'mojito', 'boba', 'blossom', 'limbu', 'coco'], image: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/1756552468201-sb2j0y8fah-1756552470016_6s1tf6_screenshot_2025-08-3.png' },
 ];
 
 // --- COMPONENTS ---
 const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange, isProfileOpen, onProfileToggle, onProfileClose, onMyProfile }) => (
-    <header className="bg-white shadow-sm p-4 px-4 sm:px-8 flex justify-between items-center sticky top-0 z-50">
+    <header className="bg-white dark:bg-gray-800 shadow-sm p-4 px-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 transition-colors duration-200">
         <img src={logo} alt="MyEzz Logo" className="h-25" />
         <div className="relative flex-1 max-w-xl mx-4">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -50,17 +51,18 @@ const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange, isProfile
                 placeholder="Search for restaurants..."
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border rounded-full text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full pl-10 pr-4 py-2 border rounded-full text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
         </div>
         <div className="flex items-center space-x-3">
-            <button onClick={onCartClick} className="relative text-gray-600 hover:text-orange-500 hidden md:block">
+            <ThemeToggle />
+            <button onClick={onCartClick} className="relative text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hidden md:block transition-colors duration-200">
                 <CartIcon />
                 {cartItems.length > 0 && <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{cartItems.reduce((acc, item) => acc + item.quantity, 0)}</span>}
             </button>
-            <ProfileDropdown 
-                isOpen={isProfileOpen} 
-                onToggle={onProfileToggle} 
+            <ProfileDropdown
+                isOpen={isProfileOpen}
+                onToggle={onProfileToggle}
                 onClose={onProfileClose}
                 onMyProfile={onMyProfile}
             />
@@ -120,7 +122,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
     return (
         <div className="relative" ref={dropdownRef}>
             {/* Profile Button */}
-            <button 
+            <button
                 onClick={onToggle}
                 className="relative text-gray-600 hover:text-orange-500 transition-colors"
             >
@@ -138,7 +140,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
 
                     {/* Menu Items */}
                     <div className="py-2">
-                        <button 
+                        <button
                             onClick={onMyProfile}
                             className="w-full flex items-center px-4 py-3 text-left text-gray-700 hover:bg-gray-50 transition-colors"
                         >
@@ -152,7 +154,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
 
                     {/* Logout */}
                     <div className="py-2">
-                        <button 
+                        <button
                             onClick={handleLogout}
                             className="w-full flex items-center px-4 py-3 text-left text-red-600 hover:bg-red-50 transition-colors"
                         >
@@ -199,7 +201,7 @@ const RestaurantCard = ({ name, distance, cuisines, rating, reviews, delivery_ti
         <div className="relative">
             {/* FIXED: The src attribute now correctly uses the 'image_url' prop */}
             <img src={image_url} alt={name} className="w-full h-40 object-cover" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/600x400/cccccc/ffffff?text=Image+Missing'; }} />
-            
+
             <div className="absolute top-0 right-0 p-2">
                 <button className="text-white opacity-80 hover:opacity-100 hover:text-red-500 transition-colors">
                     <HeartIcon />
@@ -252,8 +254,8 @@ const HomePage = ({ setSelectedRestaurant, searchQuery }) => {
                 console.error('Error fetching restaurants:', error);
                 setRestaurants([]);
             } else {
-                 // The RPC doesn't fetch nested tags/cuisines, so we re-format for consistency
-                 // In a real app, you might adjust the RPC to return this info too.
+                // The RPC doesn't fetch nested tags/cuisines, so we re-format for consistency
+                // In a real app, you might adjust the RPC to return this info too.
                 const formattedData = data.map(r => ({
                     ...r,
                     tags: r.tags ? r.tags.map(t => t.name) : [],
@@ -369,7 +371,7 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
             const lowerCaseName = item.name.toLowerCase();
             return categoryInfo.keywords.some(keyword => lowerCaseName.includes(keyword));
         });
-    
+
     const filteredMenuItems = searchQuery.trim() === ''
         ? categoryFilteredItems
         : categoryFilteredItems.filter(item =>
@@ -400,31 +402,31 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                 {/* --- CATEGORY FILTER UI --- */}
                 {availableCategories.length > 0 && searchQuery.trim() === '' && (
                     <div className="p-6 border-t">
-                         <h3 className="text-xl font-bold mb-4">Categories</h3>
-                         <div className="flex space-x-4 overflow-x-auto pb-4 -mb-4">
-                             <button onClick={() => setSelectedCategory('All')} className={`flex-shrink-0 text-center p-2 rounded-lg transition-all duration-200 ${selectedCategory === 'All' ? 'bg-orange-100' : 'hover:bg-gray-100'}`}>
-                                 <div className={`w-20 h-20 flex items-center justify-center rounded-full mx-auto mb-2 border-2 ${selectedCategory === 'All' ? 'border-orange-500' : 'border-transparent'}`}>
-                                     <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center">
-                                         <span className="text-lg font-semibold text-gray-700">All</span>
-                                     </div>
-                                 </div>
-                                 <span className={`text-sm font-semibold ${selectedCategory === 'All' ? 'text-orange-600' : 'text-gray-600'}`}>All</span>
-                             </button>
-                             {availableCategories.map((cat) => (
-                                 <button key={cat.name} onClick={() => setSelectedCategory(cat.name)} className={`flex-shrink-0 text-center p-2 rounded-lg transition-all duration-200 ${selectedCategory === cat.name ? 'bg-orange-100' : 'hover:bg-gray-100'}`}>
-                                     <div className={`w-20 h-20 rounded-full mx-auto mb-2 border-2 ${selectedCategory === cat.name ? 'border-orange-500' : 'border-transparent'}`}>
-                                         {/* FIXED: The <img> tag now correctly uses 'cat.image_url' */}
-                                         <img src={cat.image_url} alt={cat.name} className="w-full h-full object-cover rounded-full" />
-                                     </div>
-                                     <span className={`text-sm font-semibold ${selectedCategory === cat.name ? 'text-orange-600' : 'text-gray-600'}`}>
-                                         {cat.name}
-                                     </span>
-                                 </button>
-                             ))}
-                         </div>
+                        <h3 className="text-xl font-bold mb-4">Categories</h3>
+                        <div className="flex space-x-4 overflow-x-auto pb-4 -mb-4">
+                            <button onClick={() => setSelectedCategory('All')} className={`flex-shrink-0 text-center p-2 rounded-lg transition-all duration-200 ${selectedCategory === 'All' ? 'bg-orange-100' : 'hover:bg-gray-100'}`}>
+                                <div className={`w-20 h-20 flex items-center justify-center rounded-full mx-auto mb-2 border-2 ${selectedCategory === 'All' ? 'border-orange-500' : 'border-transparent'}`}>
+                                    <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center">
+                                        <span className="text-lg font-semibold text-gray-700">All</span>
+                                    </div>
+                                </div>
+                                <span className={`text-sm font-semibold ${selectedCategory === 'All' ? 'text-orange-600' : 'text-gray-600'}`}>All</span>
+                            </button>
+                            {availableCategories.map((cat) => (
+                                <button key={cat.name} onClick={() => setSelectedCategory(cat.name)} className={`flex-shrink-0 text-center p-2 rounded-lg transition-all duration-200 ${selectedCategory === cat.name ? 'bg-orange-100' : 'hover:bg-gray-100'}`}>
+                                    <div className={`w-20 h-20 rounded-full mx-auto mb-2 border-2 ${selectedCategory === cat.name ? 'border-orange-500' : 'border-transparent'}`}>
+                                        {/* FIXED: The <img> tag now correctly uses 'cat.image_url' */}
+                                        <img src={cat.image_url} alt={cat.name} className="w-full h-full object-cover rounded-full" />
+                                    </div>
+                                    <span className={`text-sm font-semibold ${selectedCategory === cat.name ? 'text-orange-600' : 'text-gray-600'}`}>
+                                        {cat.name}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 )}
-                
+
                 <div className="p-6">
                     <h3 className="text-2xl font-bold mb-4">
                         {searchQuery.trim() !== '' ? 'Search Results' : (selectedCategory === 'All' ? 'Full Menu' : selectedCategory)}
@@ -489,7 +491,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
             <div className="space-y-6">
                 <div className="bg-gray-50 p-6 rounded-lg">
                     <h2 className="text-lg font-semibold text-gray-800 mb-4">Personal Information</h2>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -831,35 +833,35 @@ export default function App() {
 
     const renderPage = () => {
         if (currentPage === 'profile') {
-            return <MyProfilePage 
-                        onBack={handleBackToHome} 
-                        userProfile={userProfile} 
-                        setUserProfile={setUserProfile} 
-                    />;
+            return <MyProfilePage
+                onBack={handleBackToHome}
+                userProfile={userProfile}
+                setUserProfile={setUserProfile}
+            />;
         }
-        
+
         if (selectedRestaurant) {
-            return <RestaurantMenuPage 
-                        restaurant={selectedRestaurant} 
-                        onBack={() => setSelectedRestaurant(null)} 
-                        cartItems={cartItems} 
-                        setCartItems={setCartItems}
-                        searchQuery={searchQuery} 
-                    />;
+            return <RestaurantMenuPage
+                restaurant={selectedRestaurant}
+                onBack={() => setSelectedRestaurant(null)}
+                cartItems={cartItems}
+                setCartItems={setCartItems}
+                searchQuery={searchQuery}
+            />;
         }
-        
-        return <HomePage 
-                    setSelectedRestaurant={setSelectedRestaurant} 
-                    address={address} 
-                    searchQuery={searchQuery}
-                />;
+
+        return <HomePage
+            setSelectedRestaurant={setSelectedRestaurant}
+            address={address}
+            searchQuery={searchQuery}
+        />;
     };
 
     return (
         <div className="bg-gray-100 min-h-screen font-sans pb-16 md:pb-0">
-            <Header 
-                cartItems={cartItems} 
-                onCartClick={() => setShowCheckout(true)} 
+            <Header
+                cartItems={cartItems}
+                onCartClick={() => setShowCheckout(true)}
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
                 isProfileOpen={isProfileOpen}
