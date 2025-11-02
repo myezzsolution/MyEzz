@@ -40,7 +40,9 @@ const categoryFilters = [
 
 // --- COMPONENTS ---
 const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange, isProfileOpen, onProfileToggle, onProfileClose, onMyProfile }) => (
-    <header className="bg-white dark:bg-gray-800 shadow-sm p-4 px-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 transition-colors duration-200">
+<header className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] 
+shadow-sm p-4 px-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 transition-colors duration-200">
+
         <img src={logo} alt="MyEzz Logo" className="h-25" />
         <div className="relative flex-1 max-w-xl mx-4">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

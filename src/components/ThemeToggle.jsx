@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 
@@ -24,14 +24,27 @@ const MoonIcon = ({ className }) => (
 
 const ThemeToggle = ({ className = '' }) => {
     const { theme, toggleTheme } = useTheme();
+    
+    // Log current theme on component mount and when theme changes
+    useEffect(() => {
+        console.log('ThemeToggle rendered with theme:', theme);
+    }, [theme]);
+    
+    // Enhanced click handler with debugging
+    const handleToggleClick = (e) => {
+        e.preventDefault();
+        console.log('Theme toggle button clicked');
+        toggleTheme();
+    };
 
     return (
         <motion.button
-            onClick={toggleTheme}
+            onClick={handleToggleClick}
             className={`relative p-2 rounded-full bg-gray-200 dark:bg-gray-700 transition-colors duration-200 ${className}`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Toggle theme"
+            data-testid="theme-toggle"
         >
             <motion.div
                 initial={false}
