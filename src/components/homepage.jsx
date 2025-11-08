@@ -138,7 +138,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
 
                     {/* Menu Items */}
                     <div className="py-2">
-                        <button 
+                        <button
                             onClick={onMyProfile}
                             className="w-full flex items-center px-4 py-3 text-left text-gray-700 hover:bg-gray-50 transition-colors"
                         >
@@ -152,7 +152,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
 
                     {/* Logout */}
                     <div className="py-2">
-                        <button 
+                        <button
                             onClick={handleLogout}
                             className="w-full flex items-center px-4 py-3 text-left text-red-600 hover:bg-red-50 transition-colors"
                         >
@@ -452,42 +452,130 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
     );
 };
 
+
 const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedProfile, setEditedProfile] = useState(userProfile);
-
-    // Update editedProfile when userProfile prop changes
-    useEffect(() => {
-        setEditedProfile(userProfile);
-    }, [userProfile]);
+    const [showAddressForm, setShowAddressForm] = useState(false);
+    const [newAddress, setNewAddress] = useState({ label: '', address: '' });
 
     const handleSave = () => {
         setUserProfile(editedProfile);
         setIsEditing(false);
-        // Save to localStorage for persistence
         localStorage.setItem('userProfile', JSON.stringify(editedProfile));
-        // Here you would typically save to Supabase or your backend
         console.log('Profile saved:', editedProfile);
     };
 
     const handleCancel = () => {
         setEditedProfile(userProfile);
         setIsEditing(false);
+        setShowAddressForm(false);
+        setNewAddress({ label: '', address: '' });
     };
 
-    return (
-        <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-            <div className="flex items-center justify-between mb-6">
-                <button onClick={onBack} className="flex items-center text-orange-500 hover:text-orange-600">
-                    <BackIcon />
-                    <span className="ml-2">Back</span>
-                </button>
-                <h1 className="text-2xl font-bold text-gray-800">My Profile</h1>
-                <div className="w-16"></div>
-            </div>
+    const handlePhotoUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setEditedProfile({...editedProfile, profilePhoto: reader.result});
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
-            <div className="space-y-6">
-                <div className="bg-gray-50 p-6 rounded-lg">
+    const handleAddAddress = () => {
+        if (newAddress.label && newAddress.address) {
+            const address = {
+                id: Date.now(),
+                ...newAddress,
+                isDefault: !editedProfile.savedAddresses || editedProfile.savedAddresses.length === 0
+            };
+            setEditedProfile({
+                ...editedProfile,
+                savedAddresses: [...(editedProfile.savedAddresses || []), address]
+            });
+            setNewAddress({ label: '', address: '' });
+            setShowAddressForm(false);
+        }
+    };
+
+    const handleDeleteAddress = (id) => {
+        setEditedProfile({
+            ...editedProfile,
+            savedAddresses: (editedProfile.savedAddresses || []).filter(addr => addr.id !== id)
+        });
+    };
+
+    const handleSetDefaultAddress = (id) => {
+        setEditedProfile({
+            ...editedProfile,
+            savedAddresses: (editedProfile.savedAddresses || []).map(addr => ({
+                ...addr,
+                isDefault: addr.id === id
+            }))
+        });
+    };
+
+    const handleTrackOrder = () => {
+        console.log('Tracking order:', displayProfile.currentOrder?.orderId);
+        alert('Order tracking feature coming soon!');
+    };
+
+    const displayProfile = isEditing ? editedProfile : userProfile;
+
+    useEffect(() => {
+        if (displayProfile?.currentOrder?.status === "Delivered") {
+            // Move the delivered order to previous orders
+            const completedOrder = displayProfile.currentOrder;
+    
+            const updatedProfile = {
+                ...displayProfile,
+                previousOrders: [...(displayProfile.previousOrders || []), completedOrder],
+                currentOrder: null, // clear the current order
+            };
+    
+            setUserProfile(updatedProfile);
+            localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
+    
+        }
+    }, [displayProfile?.currentOrder?.status]);
+    
+
+    return (
+        <div className="max-w-4xl mx-auto p-6 bg-gray-50 min-h-screen">
+            <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div className="flex items-center justify-between mb-6">
+                    <button onClick={onBack} className="text-orange-500 hover:text-orange-600 font-semibold">
+                        ← Back
+                    </button>
+                    <h1 className="text-2xl font-bold text-gray-800">My Profile</h1>
+                    <div className="w-16"></div>
+                </div>
+
+                {/* Profile Photo Section */}
+                <div className="flex justify-center mb-6">
+                    <div className="relative">
+                        <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                            {displayProfile.profilePhoto ? (
+                                <img src={displayProfile.profilePhoto} alt="Profile" className="w-full h-full object-cover" />
+                            ) : (
+                                <span className="text-4xl text-gray-400">
+                                    {displayProfile.fullName?.charAt(0) || 'U'}
+                                </span>
+                            )}
+                        </div>
+                        {isEditing && (
+                            <label className="absolute bottom-0 right-0 bg-orange-500 text-white px-3 py-1 rounded-full cursor-pointer hover:bg-orange-600 text-sm">
+                                📷
+                                <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
+                            </label>
+                        )}
+                    </div>
+                </div>
+
+                {/* Personal Information */}
+                <div className="bg-gray-50 p-6 rounded-lg mb-6">
                     <h2 className="text-lg font-semibold text-gray-800 mb-4">Personal Information</h2>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -498,13 +586,13 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
                             {isEditing ? (
                                 <input
                                     type="text"
-                                    value={editedProfile.fullName}
+                                    value={editedProfile.fullName || ''}
                                     onChange={(e) => setEditedProfile({...editedProfile, fullName: e.target.value})}
                                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                                 />
                             ) : (
                                 <p className="p-3 bg-white border border-gray-200 rounded-lg text-gray-900">
-                                    {userProfile.fullName || 'Not provided'}
+                                    {displayProfile.fullName || 'Not provided'}
                                 </p>
                             )}
                         </div>
@@ -516,13 +604,13 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
                             {isEditing ? (
                                 <input
                                     type="email"
-                                    value={editedProfile.email}
+                                    value={editedProfile.email || ''}
                                     onChange={(e) => setEditedProfile({...editedProfile, email: e.target.value})}
                                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                                 />
                             ) : (
                                 <p className="p-3 bg-white border border-gray-200 rounded-lg text-gray-900">
-                                    {userProfile.email || 'Not provided'}
+                                    {displayProfile.email || 'Not provided'}
                                 </p>
                             )}
                         </div>
@@ -534,13 +622,13 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
                             {isEditing ? (
                                 <input
                                     type="tel"
-                                    value={editedProfile.phoneNumber}
+                                    value={editedProfile.phoneNumber || ''}
                                     onChange={(e) => setEditedProfile({...editedProfile, phoneNumber: e.target.value})}
                                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                                 />
                             ) : (
                                 <p className="p-3 bg-white border border-gray-200 rounded-lg text-gray-900">
-                                    {userProfile.phoneNumber || 'Not provided'}
+                                    {displayProfile.phoneNumber || 'Not provided'}
                                 </p>
                             )}
                         </div>
@@ -552,19 +640,189 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
                             {isEditing ? (
                                 <input
                                     type="text"
-                                    value={editedProfile.location}
+                                    value={editedProfile.location || ''}
                                     onChange={(e) => setEditedProfile({...editedProfile, location: e.target.value})}
                                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                                 />
                             ) : (
                                 <p className="p-3 bg-white border border-gray-200 rounded-lg text-gray-900">
-                                    {userProfile.location || 'Not provided'}
+                                    {displayProfile.location || 'Not provided'}
                                 </p>
                             )}
                         </div>
                     </div>
                 </div>
 
+                {/* Order Statistics */}
+                <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-lg mb-6">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h3 className="text-sm font-medium text-gray-600">Total Orders Placed</h3>
+                            <p className="text-3xl font-bold text-orange-600">{displayProfile.totalOrders || 0}</p>
+                        </div>
+                        <span className="text-4xl">📦</span>
+                    </div>
+                </div>
+
+                {/* Current Order*/}
+                {displayProfile.currentOrder && (
+                    <div className="bg-blue-50 p-6 rounded-lg mb-6 border border-blue-200">
+                        <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                            📦 Current Order
+                        </h2>
+                        <div className="space-y-2">
+                            <div className="flex justify-between">
+                                <span className="text-gray-600">Order ID:</span>
+                                <span className="font-semibold">{displayProfile.currentOrder.orderId}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-gray-600">Status:</span>
+                                <span className="font-semibold text-green-600">{displayProfile.currentOrder.status}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-gray-600">Order date:</span>
+                                <span className="font-semibold">{displayProfile.currentOrder.orderDate}</span>
+                            </div>
+                        </div>
+                        <button
+                            onClick={handleTrackOrder}
+                            className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
+                        >
+                            Track Order →
+                        </button>
+                    </div>
+                )}
+
+                {/* Previous Orders*/}
+                <div className="bg-gray-50 p-6 rounded-lg mb-6">
+                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Previous Orders</h2>
+                    {displayProfile.previousOrders && displayProfile.previousOrders.length > 0 ? (
+                        <div className="space-y-3">
+                            {displayProfile.previousOrders.map((order) => (
+                                <div key={order.id} className="bg-white p-4 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <div>
+                                            <p className="font-semibold text-gray-800">{order.orderId}</p>
+                                            <p className="text-sm text-gray-500">{order.orderDate}</p>
+                                        </div>
+                                        <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
+                                            {order.status}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between text-sm">
+                                        <span className="text-gray-600">{order.items.length} items</span>
+                                        <span className="font-semibold text-gray-800">₹{order.total}</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-8 bg-white rounded-lg border-2 border-dashed border-gray-300">
+                            <span className="text-4xl mb-2 block">📦</span>
+                            <p className="text-gray-500">No previous orders yet</p>
+                            <p className="text-sm text-gray-400 mt-1">Your order history will appear here</p>
+                        </div>
+                    )}
+                </div>
+
+                {/* Saved Addresses */}
+                <div className="bg-gray-50 p-6 rounded-lg mb-6">
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-lg font-semibold text-gray-800">Saved Addresses</h2>
+                        {isEditing && (
+                            <button
+                                onClick={() => setShowAddressForm(!showAddressForm)}
+                                className="text-orange-500 hover:text-orange-600 font-semibold"
+                            >
+                                + Add New
+                            </button>
+                        )}
+                    </div>
+
+                    {showAddressForm && isEditing && (
+                        <div className="bg-white p-4 rounded-lg border border-orange-200 mb-4">
+                            <input
+                                type="text"
+                                placeholder="Label (e.g., Home, Office)"
+                                value={newAddress.label}
+                                onChange={(e) => setNewAddress({...newAddress, label: e.target.value})}
+                                className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+                            />
+                            <textarea
+                                placeholder="Full Address"
+                                value={newAddress.address}
+                                onChange={(e) => setNewAddress({...newAddress, address: e.target.value})}
+                                className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+                                rows="3"
+                            />
+                            <div className="flex space-x-2">
+                                <button
+                                    onClick={handleAddAddress}
+                                    className="flex-1 bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600"
+                                >
+                                    Add Address
+                                </button>
+                                <button
+                                    onClick={() => setShowAddressForm(false)}
+                                    className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="space-y-3">
+                        {displayProfile.savedAddresses && displayProfile.savedAddresses.length > 0 ? (
+                            displayProfile.savedAddresses.map((addr) => (
+                                <div key={addr.id} className="bg-white p-4 rounded-lg border border-gray-200">
+                                    <div className="flex justify-between items-start">
+                                        <div className="flex-1">
+                                            <div className="flex items-center mb-2">
+                                                <span className="text-xl mr-2">📍</span>
+                                                <span className="font-semibold text-gray-800">{addr.label}</span>
+                                                {addr.isDefault && (
+                                                    <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded">
+                                                        Default
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <p className="text-sm text-gray-600 ml-7">{addr.address}</p>
+                                        </div>
+                                        {isEditing && (
+                                            <div className="flex flex-col space-y-2 ml-2">
+                                                {!addr.isDefault && (
+                                                    <button
+                                                        onClick={() => handleSetDefaultAddress(addr.id)}
+                                                        className="text-orange-500 hover:text-orange-600 text-xs"
+                                                    >
+                                                        Set Default
+                                                    </button>
+                                                )}
+                                                <button
+                                                    onClick={() => handleDeleteAddress(addr.id)}
+                                                    className="text-red-500 hover:text-red-600 text-xs"
+                                                >
+                                                    🗑️ Delete
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="text-center py-8 bg-white rounded-lg border-2 border-dashed border-gray-300">
+                                <span className="text-4xl mb-2 block">📍</span>
+                                <p className="text-gray-500">No saved addresses yet</p>
+                                {isEditing && (
+                                    <p className="text-sm text-gray-400 mt-1">Click "Add New" to save an address</p>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Action Buttons */}
                 <div className="flex justify-end space-x-4">
                     {isEditing ? (
                         <>
@@ -594,6 +852,8 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
         </div>
     );
 };
+
+
 
 
 const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, onPayNow }) => {
@@ -703,7 +963,12 @@ export default function App() {
         fullName: '',
         email: '',
         phoneNumber: '',
-        location: ''
+        location: '',
+        profilePhoto: '',
+        savedAddresses: [],
+        totalOrders: 0,
+        currentOrder: null,
+        previousOrders: []
     });
 
     const { currentUser } = useAuth();
@@ -823,15 +1088,31 @@ export default function App() {
 
         navigate("/payment", {
             state: {
-                customerInfo: customerInfo,
-                cart: cartWithVendor,
-            }
-        });
+              customerInfo,
+              cart: cartWithVendor,
+              onPaymentSuccess: (orderData) => {
+                // Update current order and save to localStorage safely
+                setUserProfile((prevProfile) => {
+                  const updatedProfile = {
+                    ...prevProfile,
+                    currentOrder: orderData,
+                    totalOrders: (prevProfile.totalOrders || 0) + 1,
+                  };
+          
+                  // Save updated data in localStorage
+                  localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
+          
+                  return updatedProfile;
+                });
+              },
+            },
+          });
+          
     };
 
     const renderPage = () => {
         if (currentPage === 'profile') {
-            return <MyProfilePage 
+            return <MyProfilePage
                         onBack={handleBackToHome} 
                         userProfile={userProfile} 
                         setUserProfile={setUserProfile} 
