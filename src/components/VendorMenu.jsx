@@ -87,7 +87,7 @@ function VendorMenu({ vendor, closeMenu, addToCart }) {
       onClick={closeMenu}
     >
       <motion.div
-        className="vendor-menu bg-white w-full max-w-4xl max-h-screen rounded-xl overflow-hidden shadow-2xl flex flex-col"
+        className="vendor-menu bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] w-full max-w-4xl max-h-screen rounded-xl overflow-hidden shadow-2xl flex flex-col"
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
@@ -110,18 +110,18 @@ function VendorMenu({ vendor, closeMenu, addToCart }) {
               onClick={closeMenu}
               style={{ zIndex: 70 }}
             >
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                className="h-6 w-6" 
-                fill="none" 
-                viewBox="0 0 24 24" 
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={3} 
-                  d="M6 18L18 6M6 6l12 12" 
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={3}
+                  d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
             </motion.button>
@@ -134,12 +134,12 @@ function VendorMenu({ vendor, closeMenu, addToCart }) {
               placeholder="Search menu items or categories..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2 rounded-full bg-white bg-opacity-20 text-black placeholder-gray-500 border border-white border-opacity-20 focus:outline-none focus:bg-opacity-30"
+              className="w-full px-4 py-2 rounded-full bg-white bg-opacity-20 text-black dark:text-white placeholder-gray-500 border border-white border-opacity-20 focus:outline-none focus:bg-opacity-30"
             />
             <div className="absolute right-3 top-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-gray-500 opacity-70"
+                className="h-5 w-5 text-gray-500 dark:text-gray-400 opacity-70"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -151,7 +151,7 @@ function VendorMenu({ vendor, closeMenu, addToCart }) {
         </div>
 
         {/* Category Navigation */}
-        <div className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-md">
+        <div className="bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] border-b border-gray-200 sticky top-0 z-50 shadow-md">
           <div className="flex space-x-1 p-2 min-w-max">
             {vendor.categories.map((category) => (
               <motion.button
@@ -165,11 +165,10 @@ function VendorMenu({ vendor, closeMenu, addToCart }) {
                     setShowOnlyCategory(true); // show only when selecting a category
                   }
                 }}
-                className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition-all text-base ${
-                  activeCategory === category.name
-                    ? "bg-sky-100 text-sky-800 font-medium"
-                    : "text-sky-600 hover:bg-sky-50"
-                }`}
+                className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition-all text-base ${activeCategory === category.name
+                  ? "bg-sky-100 text-sky-800 dark:text-sky-200 font-medium"
+                  : "text-sky-600 dark:text-sky-300 hover:bg-sky-50"
+                  }`}
                 whileHover={{ y: -2 }}
                 whileTap={{ y: 0 }}
               >
@@ -206,11 +205,11 @@ function VendorMenu({ vendor, closeMenu, addToCart }) {
         >
           {searchQuery && categoriesToRender.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-500">
+              <p className="text-gray-500 dark:text-gray-400">
                 No items found matching "{searchQuery}"
               </p>
               <button
-                className="mt-2 text-sky-600 hover:underline"
+                className="mt-2 text-sky-600 dark:text-sky-300 hover:underline"
                 onClick={() => setSearchQuery("")}
               >
                 Clear search
@@ -223,7 +222,7 @@ function VendorMenu({ vendor, closeMenu, addToCart }) {
                 ref={(el) => (categoryRefs.current[category.name] = { current: el })}
                 className="mb-8"
               >
-                <h3 className="text-lg font-bold text-sky-800 mb-4 sticky -top-5 bg-white shadow-md py-3 z-50 border-b border-gray-300">
+                <h3 className="text-lg font-bold text-sky-800 dark:text-sky-200 mb-4 sticky -top-5 bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] shadow-md py-3 z-50 border-b border-gray-300">
                   {category.name}
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

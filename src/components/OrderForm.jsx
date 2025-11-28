@@ -19,33 +19,33 @@ function OrderForm({ cart, onCancel, isSubmitting }) {
   const validateIndianPhone = (phone) => {
     // Remove all non-digits
     const cleanPhone = phone.replace(/\D/g, "");
-    
+
     // Check if it's a valid Indian mobile number
     const mobileRegex = /^[6-9]\d{9}$/;
     const landlineRegex = /^[2-9]\d{9}$/;
-    
+
     if (cleanPhone.length === 0) {
       return { isValid: false, message: "Phone number is required" };
     }
-    
+
     if (cleanPhone.length < 10) {
       return { isValid: false, message: "Phone number must be at least 10 digits" };
     }
-    
+
     if (cleanPhone.length > 10) {
       return { isValid: false, message: "Phone number should be exactly 10 digits" };
     }
-    
+
     // Check if it's a valid mobile number (starts with 6, 7, 8, or 9)
     if (mobileRegex.test(cleanPhone)) {
       return { isValid: true, message: "✅ Valid mobile number" };
     }
-    
+
     // Check if it's a valid landline number (starts with 2-9)
     if (landlineRegex.test(cleanPhone)) {
       return { isValid: true, message: "✅ Valid landline number" };
     }
-    
+
     return { isValid: false, message: "❌ Invalid phone number format" };
   };
 
@@ -53,7 +53,7 @@ function OrderForm({ cart, onCancel, isSubmitting }) {
   const formatPhoneNumber = (value) => {
     // Remove all non-digits
     const cleanValue = value.replace(/\D/g, "");
-    
+
     // Format as XXX-XXX-XXXX
     if (cleanValue.length <= 3) {
       return cleanValue;
@@ -66,23 +66,23 @@ function OrderForm({ cart, onCancel, isSubmitting }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === "phone") {
       // Format phone number as user types
       const formattedPhone = formatPhoneNumber(value);
       setFormData({ ...formData, [name]: formattedPhone });
-      
+
       // Validate phone number in real-time
       const validation = validateIndianPhone(formattedPhone);
       setPhoneStatus(validation);
-      
+
       // Clear error if phone becomes valid
       if (validation.isValid && errors.phone) {
         setErrors({ ...errors, phone: "" });
       }
     } else {
       setFormData({ ...formData, [name]: value });
-      
+
       // Clear error for other fields
       if (errors[name]) {
         setErrors({ ...errors, [name]: "" });
@@ -134,7 +134,7 @@ function OrderForm({ cart, onCancel, isSubmitting }) {
       // Clean phone number before sending (remove formatting)
       const cleanPhone = formData.phone.replace(/\D/g, "");
       const cleanFormData = { ...formData, phone: cleanPhone };
-      
+
       // ✅ Redirect to /payment with formData and cart
       navigate("/payment", {
         state: {
@@ -146,13 +146,13 @@ function OrderForm({ cart, onCancel, isSubmitting }) {
   };
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-md">
-      <h2 className="text-xl font-bold text-sky-800 mb-4">Delivery Information</h2>
+    <div className="bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-lg p-6 shadow-md">
+      <h2 className="text-xl font-bold text-sky-800 dark:text-sky-200 mb-4">Delivery Information</h2>
 
       <form onSubmit={handleSubmit}>
         {/* Name */}
         <div className="mb-4">
-          <label htmlFor="name" className="block text-gray-700 font-medium mb-1">Full Name *</label>
+          <label htmlFor="name" className="block text-gray-700 dark:text-gray-200 font-medium mb-1">Full Name *</label>
           <input
             type="text"
             id="name"
@@ -168,7 +168,7 @@ function OrderForm({ cart, onCancel, isSubmitting }) {
 
         {/* Email */}
         <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700 font-medium mb-1">Email Address *</label>
+          <label htmlFor="email" className="block text-gray-700 dark:text-gray-200 font-medium mb-1">Email Address *</label>
           <input
             type="email"
             id="email"
@@ -183,7 +183,7 @@ function OrderForm({ cart, onCancel, isSubmitting }) {
 
         {/* Phone */}
         <div className="mb-4">
-          <label htmlFor="phone" className="block text-gray-700 font-medium mb-1">Phone Number *</label>
+          <label htmlFor="phone" className="block text-gray-700 dark:text-gray-200 font-medium mb-1">Phone Number *</label>
           <div className="relative">
             <input
               type="tel"
@@ -205,18 +205,18 @@ function OrderForm({ cart, onCancel, isSubmitting }) {
           </div>
           {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
           {phoneStatus.message && !errors.phone && (
-            <p className={`text-sm mt-1 ${phoneStatus.isValid ? 'text-green-600' : 'text-gray-500'}`}>
+            <p className={`text-sm mt-1 ${phoneStatus.isValid ? 'text-green-600' : 'text-gray-500 dark:text-gray-400'}`}>
               {phoneStatus.message}
             </p>
           )}
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
             Enter a valid 10-digit Indian mobile or landline number
           </p>
         </div>
 
         {/* Address */}
         <div className="mb-6">
-          <label htmlFor="address" className="block text-gray-700 font-medium mb-1">Delivery Address *</label>
+          <label htmlFor="address" className="block text-gray-700 dark:text-gray-200 font-medium mb-1">Delivery Address *</label>
           <textarea
             id="address"
             name="address"
@@ -228,7 +228,7 @@ function OrderForm({ cart, onCancel, isSubmitting }) {
             maxLength="200"
           ></textarea>
           {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
             Please provide your complete address for accurate delivery
           </p>
         </div>
@@ -247,7 +247,7 @@ function OrderForm({ cart, onCancel, isSubmitting }) {
 
           <motion.button
             type="button"
-            className="bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 py-2 px-4 rounded-lg font-medium"
+            className="bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] hover:bg-gray-100 border border-gray-300 py-2 px-4 rounded-lg font-medium"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={onCancel}

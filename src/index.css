@@ -1,8 +1,9 @@
 @import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
+  --foreground: 0 0% 0%;
   --card: 0 0% 100%;
   --card-foreground: 222.2 84% 4.9%;
   --popover: 0 0% 100%;
@@ -23,10 +24,10 @@
 }
 
 .dark {
-  --background: 215 28% 17%; 
-  --foreground: 216 12% 84%; 
+  --background: 215 28% 17%;
+  --foreground: 0 0% 100%;
   --card: 215 28% 12%;
-  --card-foreground: 216 12% 86%;
+  --card-foreground: 0 0% 100%;
   --popover: 215 28% 12%;
   --popover-foreground: 216 12% 86%;
   --primary: 215 90% 58%;
@@ -73,6 +74,8 @@ code {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
