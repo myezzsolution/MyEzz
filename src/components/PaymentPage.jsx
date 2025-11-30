@@ -32,6 +32,7 @@ function PaymentPage() {
         items: orderItems,
         total,
         paymentMethod: method,
+        status: "Pending",
         orderDate: new Date().toISOString(),
       };
 
@@ -41,6 +42,11 @@ function PaymentPage() {
         body: JSON.stringify(orderData),
         mode: "no-cors",
       });
+
+      if (state?.onPaymentSuccess) {
+        state.onPaymentSuccess(orderData);
+      }
+      
 
       navigate("/success", {
         state: {
