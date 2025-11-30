@@ -482,7 +482,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setEditedProfile({...editedProfile, profilePhoto: reader.result});
+                setEditedProfile({ ...editedProfile, profilePhoto: reader.result });
             };
             reader.readAsDataURL(file);
         }
@@ -532,19 +532,19 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
         if (displayProfile?.currentOrder?.status === "Delivered") {
             // Move the delivered order to previous orders
             const completedOrder = displayProfile.currentOrder;
-    
+
             const updatedProfile = {
                 ...displayProfile,
                 previousOrders: [...(displayProfile.previousOrders || []), completedOrder],
                 currentOrder: null, // clear the current order
             };
-    
+
             setUserProfile(updatedProfile);
             localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
-    
+
         }
     }, [displayProfile?.currentOrder?.status]);
-    
+
 
     return (
         <div className="max-w-4xl mx-auto p-6 bg-gray-50 min-h-screen">
@@ -749,13 +749,13 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
                                 type="text"
                                 placeholder="Label (e.g., Home, Office)"
                                 value={newAddress.label}
-                                onChange={(e) => setNewAddress({...newAddress, label: e.target.value})}
+                                onChange={(e) => setNewAddress({ ...newAddress, label: e.target.value })}
                                 className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
                             />
                             <textarea
                                 placeholder="Full Address"
                                 value={newAddress.address}
-                                onChange={(e) => setNewAddress({...newAddress, address: e.target.value})}
+                                onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })}
                                 className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
                                 rows="3"
                             />
@@ -1092,35 +1092,20 @@ export default function App() {
 
         navigate("/payment", {
             state: {
-              customerInfo,
-              cart: cartWithVendor,
-              onPaymentSuccess: (orderData) => {
-                // Update current order and save to localStorage safely
-                setUserProfile((prevProfile) => {
-                  const updatedProfile = {
-                    ...prevProfile,
-                    currentOrder: orderData,
-                    totalOrders: (prevProfile.totalOrders || 0) + 1,
-                  };
-          
-                  // Save updated data in localStorage
-                  localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
-          
-                  return updatedProfile;
-                });
-              },
+                customerInfo,
+                cart: cartWithVendor,
             },
-          });
-          
+        });
+
     };
 
     const renderPage = () => {
         if (currentPage === 'profile') {
             return <MyProfilePage
-                        onBack={handleBackToHome} 
-                        userProfile={userProfile} 
-                        setUserProfile={setUserProfile} 
-                    />;
+                onBack={handleBackToHome}
+                userProfile={userProfile}
+                setUserProfile={setUserProfile}
+            />;
         }
 
         if (selectedRestaurant) {

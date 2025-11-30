@@ -43,10 +43,22 @@ function PaymentPage() {
         mode: "no-cors",
       });
 
-      if (state?.onPaymentSuccess) {
-        state.onPaymentSuccess(orderData);
+      // Update user profile in localStorage
+      try {
+        const savedProfile = localStorage.getItem("userProfile");
+        if (savedProfile) {
+          const userProfile = JSON.parse(savedProfile);
+          const updatedProfile = {
+            ...userProfile,
+            currentOrder: orderData,
+            totalOrders: (userProfile.totalOrders || 0) + 1,
+          };
+          localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
+        }
+      } catch (err) {
+        console.error("Error updating user profile:", err);
       }
-      
+
 
       navigate("/success", {
         state: {
