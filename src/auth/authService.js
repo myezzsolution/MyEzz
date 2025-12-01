@@ -11,13 +11,13 @@ import {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBiUE7lLboC8aD0hf05FFaM31S8QLGqvX0",
-  authDomain: "myezz-login-page.firebaseapp.com",
-  projectId: "myezz-login-page",
-  storageBucket: "myezz-login-page.firebasestorage.app",
-  messagingSenderId: "207138053403",
-  appId: "1:207138053403:web:01a4f4513d5d72c11c47be",
-  measurementId: "G-H9C990CM80"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
