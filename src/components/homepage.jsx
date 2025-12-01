@@ -11,13 +11,13 @@ import ThemeToggle from './ThemeToggle';
 const SunIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`text-yellow-500 ${className}`}><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>;
 const MoonIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`text-gray-400 ${className}`}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>;
 const StarIcon = ({ filled = true }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 ${filled ? 'text-yellow-400' : 'text-gray-300'}`} viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>;
-const HeartIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z" /></svg>;
+const HeartIcon = ({ filled }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${filled ? 'text-red-500 fill-current' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z" /></svg>;
 const HomeIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${className}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>;
 const FilterIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L16 11.414V16a1 1 0 01-.293.707l-2 2A1 1 0 0112 18v-1.586l-3.707-3.707A1 1 0 018 12V6a1 1 0 01-.293-.707L7 4H4a1 1 0 01-1-1z" /></svg>;
 const BackIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>;
 const CartIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>;
 const SearchIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 ${className}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>;
-const UserIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>;
+const UserIcon = ({ className = "h-5 w-5 " }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>;
 const OrdersIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>;
 const SettingsIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>;
 const LogoutIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>;
@@ -129,7 +129,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
                 onClick={onToggle}
                 className="relative text-gray-600 dark:text-gray-300 hover:text-orange-500 transition-colors"
             >
-                <UserIcon />
+                <UserIcon className="h-6 w-6 mt-2" />
             </button>
 
             {/* Dropdown Menu */}
@@ -171,7 +171,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
     );
 };
 
-const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose }) => {
+const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showFavorites, setShowFavorites }) => {
     const handleCuisineChange = (cuisine) => {
         setSelectedCuisines(prev =>
             prev.includes(cuisine) ? prev.filter(c => c !== cuisine) : [...prev, cuisine]
@@ -180,18 +180,19 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose }) => 
 
     const clearFilters = () => {
         setSelectedCuisines([]);
+        setShowFavorites(false);
     };
 
     return (
         <>
             {/* Mobile Backdrop */}
             {isOpen && (
-                <div 
+                <div
                     className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
                     onClick={onClose}
                 />
             )}
-            
+
             {/* Sidebar - Desktop & Mobile */}
             <aside className={`
                 fixed md:relative
@@ -211,7 +212,7 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose }) => 
                 {/* Mobile Header */}
                 <div className="flex items-center justify-between mb-6 md:hidden pb-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Filters</h2>
-                    <button 
+                    <button
                         onClick={onClose}
                         className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400"
                     >
@@ -228,14 +229,14 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose }) => 
                     </h3>
                     <div className="flex flex-wrap gap-3 justify-start">
                         {["Jain", "Non-Jain", "Beverages"].map(cuisine => (
-                            <button 
-                                key={cuisine} 
-                                onClick={() => handleCuisineChange(cuisine)} 
+                            <button
+                                key={cuisine}
+                                onClick={() => handleCuisineChange(cuisine)}
                                 className={`
                                     px-5 py-2.5 text-sm font-semibold border-2 rounded-full 
                                     transition-all duration-300 transform hover:scale-105 active:scale-95
-                                    ${selectedCuisines.includes(cuisine) 
-                                        ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white border-orange-500 shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30 scale-105' 
+                                    ${selectedCuisines.includes(cuisine)
+                                        ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white border-orange-500 shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30 scale-105'
                                         : 'text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-orange-50 dark:hover:bg-orange-900/20 hover:border-orange-400 hover:shadow-md bg-white dark:bg-gray-800'
                                     }
                                 `}
@@ -246,14 +247,32 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose }) => 
                     </div>
                 </div>
 
+                {/* Favourites Filter */}
+                <div>
+                    <button
+                        onClick={() => setShowFavorites(!showFavorites)}
+                        className={`
+                            w-full px-5 py-3 text-sm font-semibold border-2 rounded-xl flex items-center justify-between
+                            transition-all duration-300 transform hover:scale-[1.02] active:scale-95
+                            ${showFavorites
+                                ? 'bg-gradient-to-r from-red-500 to-red-600 text-white border-red-500 shadow-lg shadow-red-200/50 dark:shadow-red-900/30'
+                                : 'text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-400 hover:shadow-md bg-white dark:bg-gray-800'
+                            }
+                        `}
+                    >
+                        <span>Show Favourites Only</span>
+                        {showFavorites}
+                    </button>
+                </div>
+
                 {/* Active Filters Count */}
-                {selectedCuisines.length > 0 && (
+                {(selectedCuisines.length > 0 || showFavorites) && (
                     <div className="bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/20 border border-orange-200 dark:border-orange-800 rounded-xl p-4 shadow-sm">
                         <div className="flex items-center justify-between">
                             <span className="text-sm font-semibold text-orange-800 dark:text-orange-300">
-                                {selectedCuisines.length} filter{selectedCuisines.length > 1 ? 's' : ''} active
+                                {selectedCuisines.length + (showFavorites ? 1 : 0)} filter{selectedCuisines.length + (showFavorites ? 1 : 0) > 1 ? 's' : ''} active
                             </span>
-                            <button 
+                            <button
                                 onClick={clearFilters}
                                 className="text-xs font-bold text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 underline transition-colors"
                             >
@@ -264,8 +283,8 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose }) => 
                 )}
 
                 <div className="sticky bottom-4 space-y-2 pt-4 md:pt-4">
-                    <button 
-                        onClick={clearFilters} 
+                    <button
+                        onClick={clearFilters}
                         className="w-full text-gray-700 dark:text-gray-300 font-semibold py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 border-2 border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-md bg-white dark:bg-gray-800"
                     >
                         Clear All Filters
@@ -275,29 +294,32 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose }) => 
         </>
     );
 };
-const RestaurantCard = ({ name, distance, cuisines, rating, reviews, delivery_time, image_url, onClick }) => (
+const RestaurantCard = ({ name, distance, cuisines, rating, reviews, delivery_time, image_url, onClick, isFavorite, onToggleFavorite }) => (
     // The props are updated to include 'image_url' and 'delivery_time'
     <div onClick={onClick} className="bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-2xl shadow-md overflow-hidden group hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-100 dark:border-gray-800 hover:border-orange-200 dark:hover:border-orange-800">
         <div className="relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-900">
             {/* FIXED: The src attribute now correctly uses the 'image_url' prop */}
             <img src={image_url} alt={name} className="w-full h-44 sm:h-48 object-cover group-hover:scale-110 transition-transform duration-700 ease-out" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/600x400/cccccc/ffffff?text=Image+Missing'; }} />
-            
+
             {/* Gradient Overlay on Hover */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            
+
             {/* Rating Badge - Top Left */}
             <div className="absolute top-3 left-3 flex items-center bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm text-green-700 dark:text-green-400 px-2.5 py-1 rounded-lg text-xs sm:text-sm shadow-lg flex-shrink-0 border border-green-100 dark:border-green-800">
                 <StarIcon />
                 <span className="ml-1 font-bold">{rating}</span>
             </div>
-            
+
             {/* Heart Icon - Top Right */}
             <div className="absolute top-3 right-3 p-2.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110 group-hover:scale-110">
-                <button 
-                    onClick={(e) => { e.stopPropagation(); }}
-                    className="text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors"
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleFavorite();
+                    }}
+                    className={`transition-colors ${isFavorite ? 'text-red-500 dark:text-red-400' : 'text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400'}`}
                 >
-                    <HeartIcon />
+                    <HeartIcon filled={isFavorite} />
                 </button>
             </div>
         </div>
@@ -331,6 +353,21 @@ const HomePage = ({ setSelectedRestaurant, searchQuery }) => {
     const [loading, setLoading] = useState(true);
     const [selectedCuisines, setSelectedCuisines] = useState([]);
     const [showFilters, setShowFilters] = useState(false);
+    const [favorites, setFavorites] = useState(() => {
+        const saved = localStorage.getItem('favorites');
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [showFavorites, setShowFavorites] = useState(false);
+
+    const toggleFavorite = (restaurantId) => {
+        setFavorites(prev => {
+            const newFavorites = prev.includes(restaurantId)
+                ? prev.filter(id => id !== restaurantId)
+                : [...prev, restaurantId];
+            localStorage.setItem('favorites', JSON.stringify(newFavorites));
+            return newFavorites;
+        });
+    };
 
     useEffect(() => {
         async function getRestaurants() {
@@ -369,7 +406,9 @@ const HomePage = ({ setSelectedRestaurant, searchQuery }) => {
 
     // Client-side filtering for cuisines still works on the fetched data
     const filteredRestaurants = restaurants.filter(restaurant => {
-        return selectedCuisines.length === 0 || selectedCuisines.some(c => restaurant.cuisines.includes(c));
+        const matchesCuisine = selectedCuisines.length === 0 || selectedCuisines.some(c => restaurant.cuisines.includes(c));
+        const matchesFavorite = !showFavorites || favorites.includes(restaurant.id);
+        return matchesCuisine && matchesFavorite;
     });
 
     if (loading) {
@@ -384,11 +423,13 @@ const HomePage = ({ setSelectedRestaurant, searchQuery }) => {
 
     return (
         <div className="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <Sidebar 
-                selectedCuisines={selectedCuisines} 
-                setSelectedCuisines={setSelectedCuisines} 
+            <Sidebar
+                selectedCuisines={selectedCuisines}
+                setSelectedCuisines={setSelectedCuisines}
                 isOpen={showFilters}
                 onClose={() => setShowFilters(false)}
+                showFavorites={showFavorites}
+                setShowFavorites={setShowFavorites}
             />
             <main className="flex-1 py-6 sm:py-8 w-full">
                 <div className="flex justify-between items-center mb-6 sm:mb-8">
@@ -401,29 +442,39 @@ const HomePage = ({ setSelectedRestaurant, searchQuery }) => {
                                 {selectedCuisines.length} active
                             </span>
                         )}
+
                     </div>
-                    <button 
-                        onClick={() => setShowFilters(!showFilters)} 
+                    <button
+                        onClick={() => setShowFilters(!showFilters)}
                         className="md:hidden flex items-center px-5 py-2.5 border-2 border-orange-300 dark:border-orange-700 rounded-full text-sm font-semibold text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 hover:border-orange-400 dark:hover:border-orange-600 transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 bg-white dark:bg-gray-800"
                     >
-                        <FilterIcon /> 
+                        <FilterIcon />
                         <span className="ml-2">Filters</span>
                         {selectedCuisines.length > 0 && (
                             <span className="ml-2 px-2 py-0.5 bg-orange-500 text-white text-xs font-bold rounded-full">
                                 {selectedCuisines.length}
                             </span>
                         )}
+                        {showFavorites && (
+                            <span className="ml-1 text-xs">❤️</span>
+                        )}
                     </button>
                 </div>
                 {filteredRestaurants.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
                         {filteredRestaurants.map((restaurant, index) => (
-                            <div 
+                            <div
                                 key={restaurant.id}
                                 className="animate-fade-in"
                                 style={{ animationDelay: `${index * 50}ms` }}
                             >
-                                <RestaurantCard {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
+
+                                <RestaurantCard
+                                    {...restaurant}
+                                    onClick={() => setSelectedRestaurant(restaurant)}
+                                    isFavorite={favorites.includes(restaurant.id)}
+                                    onToggleFavorite={() => toggleFavorite(restaurant.id)}
+                                />
                             </div>
                         ))}
                     </div>
@@ -432,10 +483,11 @@ const HomePage = ({ setSelectedRestaurant, searchQuery }) => {
                         <div className="text-7xl mb-5 animate-bounce">🍽️</div>
                         <p className="text-gray-800 dark:text-gray-200 font-bold text-xl mb-2">No restaurants found</p>
                         <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">Try adjusting your search or filters</p>
-                        {(selectedCuisines.length > 0 || searchQuery.trim() !== '') && (
+                        {(selectedCuisines.length > 0 || showFavorites || searchQuery.trim() !== '') && (
                             <button
                                 onClick={() => {
                                     setSelectedCuisines([]);
+                                    setShowFavorites(false);
                                     setShowFilters(false);
                                 }}
                                 className="mt-4 px-6 py-2.5 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg"
