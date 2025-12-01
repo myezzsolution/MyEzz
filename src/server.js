@@ -1,6 +1,10 @@
-const express = require("express");
-const nodemailer = require("nodemailer");
-const cors = require("cors");
+// const express = require("express");
+// const nodemailer = require("nodemailer");
+// const cors = require("cors");
+
+import express from "express";
+import nodemailer from "nodemailer";
+import cors from "cors";
 
 const app = express();
 app.use(cors());
@@ -28,7 +32,7 @@ app.post("/api/send-invoice", async (req, res) => {
     await transporter.sendMail(mailOptions);
     res.status(200).send("Invoice sent");
   } catch (error) {
-    res.status(500).send("Failed to send invoice");
+    res.status(500).send("Failed to send invoice" + error.message);
   }
 });
 
