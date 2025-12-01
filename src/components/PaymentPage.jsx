@@ -43,10 +43,22 @@ function PaymentPage() {
         mode: "no-cors",
       });
 
-      if (state?.onPaymentSuccess) {
-        state.onPaymentSuccess(orderData);
+      // Update user profile in localStorage
+      try {
+        const savedProfile = localStorage.getItem("userProfile");
+        if (savedProfile) {
+          const userProfile = JSON.parse(savedProfile);
+          const updatedProfile = {
+            ...userProfile,
+            currentOrder: orderData,
+            totalOrders: (userProfile.totalOrders || 0) + 1,
+          };
+          localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
+        }
+      } catch (err) {
+        console.error("Error updating user profile:", err);
       }
-      
+
 
       navigate("/success", {
         state: {
@@ -104,7 +116,7 @@ function PaymentPage() {
   }
 
   return (
-    <div className="max-w-lg mx-auto mt-10 p-6 bg-gradient-to-br from-sky-50 to-sky-100 rounded-2xl shadow-xl">
+    <div className="max-w-lg mx-auto mt-10 p-6 bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-2xl shadow-xl">
       {/* Header */}
       <div className="bg-gradient-to-r from-sky-500 to-sky-700 text-white rounded-lg p-4 shadow-md text-center mb-6">
         <h2 className="text-2xl font-bold">Choose Payment Method</h2>
@@ -115,27 +127,25 @@ function PaymentPage() {
       <div className="space-y-4 mb-8">
         <div
           onClick={() => setMethod("card")}
-          className={`flex items-center p-4 border rounded-xl cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md ${
-            method === "card" ? "border-sky-500 bg-sky-50" : "border-gray-200"
-          }`}
+          className={`flex items-center p-4 border rounded-xl cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md ${method === "card" ? "border-sky-500 bg-sky-50" : "border-gray-200"
+            }`}
         >
-          <CreditCard className="text-sky-600 mr-3" size={28} />
+          <CreditCard className="text-sky-600 dark:text-sky-300 mr-3" size={28} />
           <div>
             <h3 className="font-semibold">Credit / Debit Card/UPI</h3>
-            <p className="text-sm text-gray-500">Pay securely with your card</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Pay securely with your card</p>
           </div>
         </div>
 
         <div
           onClick={() => setMethod("cod")}
-          className={`flex items-center p-4 border rounded-xl cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md ${
-            method === "cod" ? "border-sky-500 bg-sky-50" : "border-gray-200"
-          }`}
+          className={`flex items-center p-4 border rounded-xl cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md ${method === "cod" ? "border-sky-500 bg-sky-50" : "border-gray-200"
+            }`}
         >
-          <Wallet className="text-sky-600 mr-3" size={28} />
+          <Wallet className="text-sky-600 dark:text-sky-300 mr-3" size={28} />
           <div>
             <h3 className="font-semibold">Cash on Delivery</h3>
-            <p className="text-sm text-gray-500">Pay when you receive your order</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Pay when you receive your order</p>
           </div>
         </div>
       </div>
@@ -145,10 +155,9 @@ function PaymentPage() {
         onClick={handlePay}
         disabled={loading}
         className={`w-full py-3 text-lg font-semibold rounded-xl shadow-lg transition-transform
-          ${
-            loading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-gradient-to-r from-orange-500 to-red-600 text-white hover:scale-[1.02] hover:shadow-xl"
+          ${loading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-gradient-to-r from-orange-500 to-red-600 text-white hover:scale-[1.02] hover:shadow-xl"
           }`}
       >
         {loading ? "Processing..." : "Pay Now"}
