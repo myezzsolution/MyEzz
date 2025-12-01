@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 
 const SunIcon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
         <circle cx="12" cy="12" r="5"></circle>
         <line x1="12" y1="1" x2="12" y2="3"></line>
         <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -17,19 +17,19 @@ const SunIcon = ({ className }) => (
 );
 
 const MoonIcon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
     </svg>
 );
 
 const ThemeToggle = ({ className = '' }) => {
     const { theme, toggleTheme } = useTheme();
-    
+
     // Log current theme on component mount and when theme changes
     useEffect(() => {
         console.log('ThemeToggle rendered with theme:', theme);
     }, [theme]);
-    
+
     // Enhanced click handler with debugging
     const handleToggleClick = (e) => {
         e.preventDefault();
@@ -40,7 +40,7 @@ const ThemeToggle = ({ className = '' }) => {
     return (
         <motion.button
             onClick={handleToggleClick}
-            className={`relative p-2 rounded-full bg-gray-200 dark:bg-gray-700 transition-colors duration-200 ${className}`}
+            className={`relative p-2 rounded-full transition-colors duration-200 ${className}`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Toggle theme"
@@ -68,7 +68,7 @@ const ThemeToggle = ({ className = '' }) => {
             >
                 <MoonIcon className="text-gray-200" />
             </motion.div>
-            <div className="w-5 h-5 opacity-0" />
+            <div className="w-6 h-6 opacity-0" />
         </motion.button>
     );
 };
