@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
-import logo from './logo.png';
+import logo from './myezzlogopage0001removebgpreview2329-xmz0h-400w.png';
 import { useNavigate } from "react-router-dom";
 import { supabase } from '../supabaseClient'; // Make sure this path is correct
 import Footer from '../components/Footer';
@@ -43,7 +44,7 @@ const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange, isProfile
     <header className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] 
 shadow-sm p-4 px-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 transition-colors duration-200">
 
-        <img src={logo} alt="MyEzz Logo" className="h-25" />
+        <a href="/"><img src={logo} alt="MyEzz Logo" className="h-25" /></a>
         <div className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] relative flex-1 max-w-xl mx-4">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <SearchIcon className="text-gray-400" />
@@ -170,7 +171,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
     );
 };
 
-const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen }) => {
+const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose }) => {
     const handleCuisineChange = (cuisine) => {
         setSelectedCuisines(prev =>
             prev.includes(cuisine) ? prev.filter(c => c !== cuisine) : [...prev, cuisine]
@@ -182,48 +183,144 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen }) => {
     };
 
     return (
-        <aside className={`w-72 flex-shrink-0 p-4 space-y-6 bg-[hsl(var(--background))] text-[hsl(var(--foreground))] md:bg-transparent md:block transition-all duration-300 ${isOpen ? 'block' : 'hidden'}`}>
-            <div>
-                <h3 className="font-bold text-lg mb-3 text-black dark:text-gray-100">Cuisine Type</h3>
-                <div className="flex flex-wrap gap-2">
-                    {["Jain", "Non-Jain", "Beverages"].map(cuisine => (
-                        <button key={cuisine} onClick={() => handleCuisineChange(cuisine)} className={`px-3 py-1 text-sm border rounded-lg transition-colors ${selectedCuisines.includes(cuisine) ? 'bg-orange-500 text-white border-orange-500' : 'text-black dark:text-gray-200 hover:bg-orange-50'}`}>{cuisine}</button>
-                    ))}
+        <>
+            {/* Mobile Backdrop */}
+            {isOpen && (
+                <div 
+                    className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
+                    onClick={onClose}
+                />
+            )}
+            
+            {/* Sidebar - Desktop & Mobile */}
+            <aside className={`
+                fixed md:relative
+                top-0 left-0 h-full md:h-auto
+                w-80 sm:w-96 md:w-72
+                flex-shrink-0
+                p-6 sm:p-8 md:p-5 lg:p-6
+                space-y-6 md:space-y-6
+                bg-[hsl(var(--background))] text-[hsl(var(--foreground))] md:bg-transparent
+                shadow-2xl md:shadow-none
+                z-50 md:z-auto
+                transform transition-transform duration-300 ease-in-out
+                ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+                md:block
+                overflow-y-auto md:overflow-visible
+            `}>
+                {/* Mobile Header */}
+                <div className="flex items-center justify-between mb-6 md:hidden pb-4 border-b border-gray-200 dark:border-gray-700">
+                    <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Filters</h2>
+                    <button 
+                        onClick={onClose}
+                        className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400"
+                    >
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
                 </div>
-            </div>
-            <div className="sticky bottom-4 space-y-2 pt-4">
-                <button onClick={clearFilters} className="w-full text-black dark:text-gray-300 font-bold py-2 rounded-lg hover:bg-gray-200 transition-colors">Clear All</button>
-            </div>
-        </aside>
+
+                <div>
+                    <h3 className="font-bold text-lg sm:text-xl mb-5 text-gray-800 dark:text-gray-100 flex items-center">
+                        <span className="mr-2 text-2xl">🍽️</span>
+                        Cuisine Type
+                    </h3>
+                    <div className="flex flex-wrap gap-3 justify-start">
+                        {["Jain", "Non-Jain", "Beverages"].map(cuisine => (
+                            <button 
+                                key={cuisine} 
+                                onClick={() => handleCuisineChange(cuisine)} 
+                                className={`
+                                    px-5 py-2.5 text-sm font-semibold border-2 rounded-full 
+                                    transition-all duration-300 transform hover:scale-105 active:scale-95
+                                    ${selectedCuisines.includes(cuisine) 
+                                        ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white border-orange-500 shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30 scale-105' 
+                                        : 'text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-orange-50 dark:hover:bg-orange-900/20 hover:border-orange-400 hover:shadow-md bg-white dark:bg-gray-800'
+                                    }
+                                `}
+                            >
+                                {cuisine}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Active Filters Count */}
+                {selectedCuisines.length > 0 && (
+                    <div className="bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/20 border border-orange-200 dark:border-orange-800 rounded-xl p-4 shadow-sm">
+                        <div className="flex items-center justify-between">
+                            <span className="text-sm font-semibold text-orange-800 dark:text-orange-300">
+                                {selectedCuisines.length} filter{selectedCuisines.length > 1 ? 's' : ''} active
+                            </span>
+                            <button 
+                                onClick={clearFilters}
+                                className="text-xs font-bold text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 underline transition-colors"
+                            >
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                <div className="sticky bottom-4 space-y-2 pt-4 md:pt-4">
+                    <button 
+                        onClick={clearFilters} 
+                        className="w-full text-gray-700 dark:text-gray-300 font-semibold py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 border-2 border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-md bg-white dark:bg-gray-800"
+                    >
+                        Clear All Filters
+                    </button>
+                </div>
+            </aside>
+        </>
     );
 };
 const RestaurantCard = ({ name, distance, cuisines, rating, reviews, delivery_time, image_url, onClick }) => (
     // The props are updated to include 'image_url' and 'delivery_time'
-    <div onClick={onClick} className="bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-xl shadow-md overflow-hidden group hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
-        <div className="relative">
+    <div onClick={onClick} className="bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-2xl shadow-md overflow-hidden group hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-100 dark:border-gray-800 hover:border-orange-200 dark:hover:border-orange-800">
+        <div className="relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-900">
             {/* FIXED: The src attribute now correctly uses the 'image_url' prop */}
-            <img src={image_url} alt={name} className="w-full h-40 object-cover" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/600x400/cccccc/ffffff?text=Image+Missing'; }} />
-
-            <div className="absolute top-0 right-0 p-2">
-                <button className="text-white opacity-80 hover:opacity-100 hover:text-red-500 transition-colors">
+            <img src={image_url} alt={name} className="w-full h-44 sm:h-48 object-cover group-hover:scale-110 transition-transform duration-700 ease-out" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/600x400/cccccc/ffffff?text=Image+Missing'; }} />
+            
+            {/* Gradient Overlay on Hover */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            
+            {/* Rating Badge - Top Left */}
+            <div className="absolute top-3 left-3 flex items-center bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm text-green-700 dark:text-green-400 px-2.5 py-1 rounded-lg text-xs sm:text-sm shadow-lg flex-shrink-0 border border-green-100 dark:border-green-800">
+                <StarIcon />
+                <span className="ml-1 font-bold">{rating}</span>
+            </div>
+            
+            {/* Heart Icon - Top Right */}
+            <div className="absolute top-3 right-3 p-2.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110 group-hover:scale-110">
+                <button 
+                    onClick={(e) => { e.stopPropagation(); }}
+                    className="text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors"
+                >
                     <HeartIcon />
                 </button>
             </div>
         </div>
-        <div className="p-4">
-            <div className="flex justify-between items-start">
-                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">{name}</h3>
-                <div className="flex items-center bg-green-600 text-white px-2 py-0.5 rounded-md text-sm">
-                    <StarIcon />
-                    <span className="ml-1 font-semibold">{rating}</span>
-                </div>
+        <div className="p-4 sm:p-5 bg-[hsl(var(--card))]">
+            <div className="flex justify-between items-start mb-2">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-100 pr-2 line-clamp-1 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">{name}</h3>
             </div>
             {/* Use a check to prevent errors if cuisines is not available */}
-            <p className="text-gray-500 dark:text-gray-400 text-sm truncate">{cuisines ? cuisines.join(', ') : 'Cuisine not available'}</p>
-            <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-300 mt-2">
-                <span>{distance} km</span>
-                {/* FIXED: This now uses 'delivery_time' to match the database */}
-                <span>{delivery_time} mins</span>
+            <p className="text-gray-600 dark:text-gray-400 text-sm truncate mb-3">{cuisines ? cuisines.join(', ') : 'Cuisine not available'}</p>
+            <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-400 pt-3 border-t border-gray-100 dark:border-gray-800">
+                <div className="flex items-center space-x-1">
+                    <svg className="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span className="font-semibold">{distance} km</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                    <svg className="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="font-semibold">{delivery_time} mins</span>
+                </div>
             </div>
         </div>
     </div>
@@ -276,28 +373,76 @@ const HomePage = ({ setSelectedRestaurant, searchQuery }) => {
     });
 
     if (loading) {
-        return <div className="text-center p-10 font-semibold text-gray-600 dark:text-gray-300">Loading restaurants... 🛵</div>;
+        return (
+            <div className="text-center py-20 sm:py-24">
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-orange-500 border-t-transparent mb-4"></div>
+                <p className="font-semibold text-gray-700 dark:text-gray-300 text-lg">Loading restaurants...</p>
+                <p className="text-gray-500 dark:text-gray-500 text-sm mt-2">🛵 Finding the best food for you</p>
+            </div>
+        );
     }
 
     return (
-        <div className="flex max-w-screen-xl mx-auto bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))]">
-            <Sidebar selectedCuisines={selectedCuisines} setSelectedCuisines={setSelectedCuisines} isOpen={showFilters} />
-            <main className="flex-1 p-4 sm:p-6 ">
-                <div className="flex justify-between items-center mb-4">
-                    <p className="text-sm text-gray-600 dark:text-gray-300">{filteredRestaurants.length} restaurants found</p>
-                    <button onClick={() => setShowFilters(!showFilters)} className="md:hidden flex items-center px-3 py-2 border rounded-lg text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100">
-                        <FilterIcon /> Filters
+        <div className="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <Sidebar 
+                selectedCuisines={selectedCuisines} 
+                setSelectedCuisines={setSelectedCuisines} 
+                isOpen={showFilters}
+                onClose={() => setShowFilters(false)}
+            />
+            <main className="flex-1 py-6 sm:py-8 w-full">
+                <div className="flex justify-between items-center mb-6 sm:mb-8">
+                    <div className="flex items-center space-x-3">
+                        <p className="text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-200">
+                            {filteredRestaurants.length} restaurant{filteredRestaurants.length !== 1 ? 's' : ''} found
+                        </p>
+                        {selectedCuisines.length > 0 && (
+                            <span className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-semibold rounded-full border border-orange-200 dark:border-orange-800 shadow-sm">
+                                {selectedCuisines.length} active
+                            </span>
+                        )}
+                    </div>
+                    <button 
+                        onClick={() => setShowFilters(!showFilters)} 
+                        className="md:hidden flex items-center px-5 py-2.5 border-2 border-orange-300 dark:border-orange-700 rounded-full text-sm font-semibold text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 hover:border-orange-400 dark:hover:border-orange-600 transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 bg-white dark:bg-gray-800"
+                    >
+                        <FilterIcon /> 
+                        <span className="ml-2">Filters</span>
+                        {selectedCuisines.length > 0 && (
+                            <span className="ml-2 px-2 py-0.5 bg-orange-500 text-white text-xs font-bold rounded-full">
+                                {selectedCuisines.length}
+                            </span>
+                        )}
                     </button>
                 </div>
                 {filteredRestaurants.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                        {filteredRestaurants.map((restaurant) => (
-                            <RestaurantCard key={restaurant.id} {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
+                        {filteredRestaurants.map((restaurant, index) => (
+                            <div 
+                                key={restaurant.id}
+                                className="animate-fade-in"
+                                style={{ animationDelay: `${index * 50}ms` }}
+                            >
+                                <RestaurantCard {...restaurant} onClick={() => setSelectedRestaurant(restaurant)} />
+                            </div>
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-10">
-                        <p className="text-gray-500 dark:text-gray-400">No restaurants or dishes found matching your criteria.</p>
+                    <div className="text-center py-20 sm:py-24 bg-gradient-to-br from-white to-orange-50 dark:from-gray-800 dark:to-orange-900/10 rounded-3xl border-2 border-dashed border-orange-200 dark:border-orange-800 shadow-inner">
+                        <div className="text-7xl mb-5 animate-bounce">🍽️</div>
+                        <p className="text-gray-800 dark:text-gray-200 font-bold text-xl mb-2">No restaurants found</p>
+                        <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">Try adjusting your search or filters</p>
+                        {(selectedCuisines.length > 0 || searchQuery.trim() !== '') && (
+                            <button
+                                onClick={() => {
+                                    setSelectedCuisines([]);
+                                    setShowFilters(false);
+                                }}
+                                className="mt-4 px-6 py-2.5 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg"
+                            >
+                                Clear All Filters
+                            </button>
+                        )}
                     </div>
                 )}
             </main>
@@ -403,24 +548,24 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
 
                 {/* --- CATEGORY FILTER UI --- */}
                 {availableCategories.length > 0 && searchQuery.trim() === '' && (
-                    <div className="p-6 border-t">
-                        <h3 className="text-xl font-bold mb-4">Categories</h3>
-                        <div className="flex space-x-4 overflow-x-auto pb-4 -mb-4">
-                            <button onClick={() => setSelectedCategory('All')} className={`flex-shrink-0 text-center p-2 rounded-lg transition-all duration-200 ${selectedCategory === 'All' ? 'bg-orange-100' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}>
-                                <div className={`w-20 h-20 flex items-center justify-center rounded-full mx-auto mb-2 border-2 ${selectedCategory === 'All' ? 'border-orange-500' : 'border-transparent'}`}>
-                                    <div className="w-full h-full rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                                        <span className="text-lg font-semibold text-gray-700 dark:text-gray-200">All</span>
+                    <div className="px-6 sm:px-8 py-6 border-t border-gray-100 dark:border-gray-800">
+                        <h3 className="text-xl sm:text-2xl font-bold mb-5 text-gray-800 dark:text-gray-100">Categories</h3>
+                        <div className="flex space-x-4 overflow-x-auto pb-4 -mb-4 scrollbar-hide">
+                            <button onClick={() => setSelectedCategory('All')} className={`flex-shrink-0 text-center p-3 rounded-xl transition-all duration-200 ${selectedCategory === 'All' ? 'bg-orange-50 dark:bg-orange-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                                <div className={`w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center rounded-full mx-auto mb-2.5 border-2 shadow-sm ${selectedCategory === 'All' ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/30 ring-2 ring-orange-200 dark:ring-orange-800' : 'border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800'}`}>
+                                    <div className="w-full h-full rounded-full flex items-center justify-center">
+                                        <span className="text-base sm:text-lg font-bold text-gray-700 dark:text-gray-200">All</span>
                                     </div>
                                 </div>
-                                <span className={`text-sm font-semibold ${selectedCategory === 'All' ? 'text-orange-600' : 'text-gray-600 dark:text-gray-300'}`}>All</span>
+                                <span className={`text-xs sm:text-sm font-semibold ${selectedCategory === 'All' ? 'text-orange-600 dark:text-orange-400' : 'text-gray-600 dark:text-gray-300'}`}>All</span>
                             </button>
                             {availableCategories.map((cat) => (
-                                <button key={cat.name} onClick={() => setSelectedCategory(cat.name)} className={`flex-shrink-0 text-center p-2 rounded-lg transition-all duration-200 ${selectedCategory === cat.name ? 'bg-orange-100' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}>
-                                    <div className={`w-20 h-20 rounded-full mx-auto mb-2 border-2 ${selectedCategory === cat.name ? 'border-orange-500' : 'border-transparent'}`}>
+                                <button key={cat.name} onClick={() => setSelectedCategory(cat.name)} className={`flex-shrink-0 text-center p-3 rounded-xl transition-all duration-200 ${selectedCategory === cat.name ? 'bg-orange-50 dark:bg-orange-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                                    <div className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full mx-auto mb-2.5 border-2 shadow-sm overflow-hidden ${selectedCategory === cat.name ? 'border-orange-500 ring-2 ring-orange-200 dark:ring-orange-800' : 'border-gray-200 dark:border-gray-700'}`}>
                                         {/* FIXED: The <img> tag now correctly uses 'cat.image_url' */}
-                                        <img src={cat.image_url} alt={cat.name} className="w-full h-full object-cover rounded-full" />
+                                        <img src={cat.image_url} alt={cat.name} className="w-full h-full object-cover" />
                                     </div>
-                                    <span className={`text-sm font-semibold ${selectedCategory === cat.name ? 'text-orange-600' : 'text-gray-600 dark:text-gray-300'}`}>
+                                    <span className={`text-xs sm:text-sm font-semibold ${selectedCategory === cat.name ? 'text-orange-600 dark:text-orange-400' : 'text-gray-600 dark:text-gray-300'}`}>
                                         {cat.name}
                                     </span>
                                 </button>
