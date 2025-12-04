@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
+import { Wallet } from 'lucide-react';
 import logo from './myezzlogopage0001removebgpreview2329-xmz0h-400w.png';
 import { useNavigate } from "react-router-dom";
 import { supabase } from '../supabaseClient'; // Make sure this path is correct
@@ -1073,73 +1074,104 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-lg shadow-xl p-6 w-full max-w-md m-4">
-                <div className="flex justify-between items-center mb-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-2xl shadow-2xl p-6 w-full max-w-md m-4 max-h-[90vh] overflow-y-auto">
+                <div className="flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Your Cart</h2>
-                    <button onClick={onBack} className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-200">
+                    <button onClick={onBack} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors text-gray-500 dark:text-gray-400">
                         <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
                 </div>
-                <div className="space-y-4 max-h-64 overflow-y-auto">
-                    {cartItems.map((item, index) => (
-                        <div key={index} className="flex justify-between items-center">
-                            <div>
-                                <p className="font-semibold">{item.name}</p>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Qty: {item.quantity}</p>
-                            </div>
-                            <div className="flex items-center">
-                                <p>₹{item.price * item.quantity}</p>
-                                <button onClick={() => removeItem(item.name)} className="ml-4 text-red-500 hover:text-red-700">
-                                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                                </button>
+
+                {cartItems.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-10 text-center">
+                        <div className="bg-orange-100 dark:bg-orange-900/20 p-6 rounded-full mb-4">
+                            <Wallet className="w-12 h-12 text-orange-500" />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Your cart is empty</h3>
+                        <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-[250px]">
+                            Looks like you haven't added anything to your cart yet.
+                        </p>
+                        <button
+                            onClick={onBack}
+                            className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30 transform hover:-translate-y-1"
+                        >
+                            Start Ordering
+                        </button>
+                    </div>
+                ) : (
+                    <>
+                        <div className="space-y-4 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+                            {cartItems.map((item, index) => (
+                                <div key={index} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                                    <div>
+                                        <p className="font-semibold text-gray-800 dark:text-gray-200">{item.name}</p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">Qty: {item.quantity}</p>
+                                    </div>
+                                    <div className="flex items-center gap-4">
+                                        <p className="font-medium text-gray-900 dark:text-white">₹{item.price * item.quantity}</p>
+                                        <button onClick={() => removeItem(item.name)} className="text-red-400 hover:text-red-600 transition-colors p-1 hover:bg-red-50 rounded-lg">
+                                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="flex justify-end mt-2">
+                            <button onClick={() => setCartItems([])} className="text-sm text-red-500 hover:text-red-600 font-medium px-2 py-1 hover:bg-red-50 rounded transition-colors">Clear Cart</button>
+                        </div>
+
+                        <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 space-y-3">
+                            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400"><span>Subtotal</span><span>₹{subtotal.toFixed(2)}</span></div>
+                            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400"><span>Delivery Fee</span><span>₹{deliveryFee.toFixed(2)}</span></div>
+                            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400"><span>Platform Fee</span><span>₹{platformFee.toFixed(2)}</span></div>
+                            <div className="flex justify-between font-bold text-xl text-gray-900 dark:text-white pt-2"><span>Grand Total</span><span className="text-orange-600 dark:text-orange-400">₹{total.toFixed(2)}</span></div>
+                        </div>
+                        <div className="mt-6">
+                            <h3 className="font-bold mb-4 text-gray-800 dark:text-gray-100 flex items-center gap-2">
+                                <span>📍</span> Delivery Information
+                            </h3>
+                            <div className="space-y-3">
+                                <input
+                                    type="text"
+                                    name="fullName"
+                                    value={address.fullName}
+                                    onChange={handleAddressChange}
+                                    placeholder="Full Name"
+                                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition-all"
+                                />
+                                <input
+                                    type="email"
+                                    name="emailId"
+                                    value={address.emailId}
+                                    onChange={handleAddressChange}
+                                    placeholder="Email ID"
+                                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition-all"
+                                />
+                                <input
+                                    type="tel"
+                                    name="phoneNumber"
+                                    value={address.phoneNumber}
+                                    onChange={handleAddressChange}
+                                    placeholder="Phone Number"
+                                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition-all"
+                                />
+                                <input
+                                    type="text"
+                                    name="fullAddress"
+                                    value={address.fullAddress}
+                                    onChange={handleAddressChange}
+                                    placeholder="Full Delivery Address"
+                                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition-all"
+                                />
                             </div>
                         </div>
-                    ))}
-                </div>
-                {cartItems.length > 0 && <button onClick={() => setCartItems([])} className="text-sm text-red-500 mt-2">Clear Cart</button>}
-                <div className="mt-6 pt-6 border-t space-y-2">
-                    <div className="flex justify-between text-sm"><span>Subtotal</span><span>₹{subtotal.toFixed(2)}</span></div>
-                    <div className="flex justify-between text-sm"><span>Delivery Fee</span><span>₹{deliveryFee.toFixed(2)}</span></div>
-                    <div className="flex justify-between text-sm"><span>Platform Fee</span><span>₹{platformFee.toFixed(2)}</span></div>
-                    <div className="flex justify-between font-bold text-lg"><span>Grand Total</span><span>₹{total.toFixed(2)}</span></div>
-                </div>
-                <div className="mt-6">
-                    <h3 className="font-bold mb-2">Delivery Information</h3>
-                    <input
-                        type="text"
-                        name="fullName"
-                        value={address.fullName}
-                        onChange={handleAddressChange}
-                        placeholder="Full Name"
-                        className="w-full p-2 mb-2 border rounded-md"
-                    />
-                    <input
-                        type="email"
-                        name="emailId"
-                        value={address.emailId}
-                        onChange={handleAddressChange}
-                        placeholder="Email ID"
-                        className="w-full p-2 mb-2 border rounded-md"
-                    />
-                    <input
-                        type="tel"
-                        name="phoneNumber"
-                        value={address.phoneNumber}
-                        onChange={handleAddressChange}
-                        placeholder="Phone Number"
-                        className="w-full p-2 mb-2 border rounded-md"
-                    />
-                    <input
-                        type="text"
-                        name="fullAddress"
-                        value={address.fullAddress}
-                        onChange={handleAddressChange}
-                        placeholder="Full Delivery Address"
-                        className="w-full p-2 mb-2 border rounded-md"
-                    />
-                </div>
-                <button onClick={() => onPayNow(address)} className="w-full mt-6 bg-orange-500 text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition-colors">Pay Now</button>
+                        <button onClick={() => onPayNow(address)} className="w-full mt-8 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30 transform hover:scale-[1.02] active:scale-[0.98]">
+                            Pay Now
+                        </button>
+                    </>
+                )}
             </div>
         </div>
     );
