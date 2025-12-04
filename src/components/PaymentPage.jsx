@@ -1,17 +1,104 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { CreditCard, Wallet, CheckCircle2, ShieldCheck, Lock } from "lucide-react"; // icons
+import { CreditCard, Wallet, CheckCircle2, ShieldCheck, Lock, Check } from "lucide-react"; // icons
+
+const FoodBackground = () => {
+  const [particles, setParticles] = useState([]);
+
+  useEffect(() => {
+    const icons = ["🍔", "🍕", "🍟", "🌭", "🍿", "🍩", "🍪", "🥤", "🍗", "🥗"];
+    const newParticles = Array.from({ length: 25 }).map((_, i) => ({
+      id: i,
+      icon: icons[Math.floor(Math.random() * icons.length)],
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 5}s`,
+      duration: `${15 + Math.random() * 10}s`,
+      size: `${24 + Math.random() * 24}px`,
+      rotation: Math.random() * 360
+    }));
+    setParticles(newParticles);
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0">
+      <style>
+        {`
+          @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+          }
+          .animate-float {
+            animation: float ease-in-out infinite;
+          }
+        `}
+      </style>
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="absolute animate-float opacity-40 dark:opacity-10 hover:opacity-40 transition-opacity duration-300"
+          style={{
+            top: p.top,
+            left: p.left,
+            fontSize: p.size,
+            animationDelay: p.delay,
+            animationDuration: p.duration,
+            transform: `rotate(${p.rotation}deg)`
+          }}
+        >
+          {p.icon}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const SuccessModal = () => (
+  <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fade-in">
+    <style>
+      {`
+        @keyframes bounce-in {
+          0% { transform: scale(0.3); opacity: 0; }
+          50% { transform: scale(1.05); opacity: 1; }
+          70% { transform: scale(0.9); }
+          100% { transform: scale(1); }
+        }
+        .animate-bounce-in {
+          animation: bounce-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes check-stroke {
+          from { stroke-dashoffset: 100; }
+          to { stroke-dashoffset: 0; }
+        }
+        .animate-check-stroke {
+          stroke-dasharray: 100;
+          stroke-dashoffset: 100;
+          animation: check-stroke 0.6s ease-in-out forwards;
+        }
+      `}
+    </style>
+    <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-2xl flex flex-col items-center transform scale-100 animate-bounce-in">
+      <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-green-500/30">
+        <Check className="w-10 h-10 text-white animate-check-stroke" strokeWidth={3} />
+      </div>
+      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Payment Successful!</h3>
+      <p className="text-gray-500 dark:text-gray-400">Redirecting to order confirmation...</p>
+    </div>
+  </div>
+);
 
 function PaymentPage() {
   const [method, setMethod] = useState("");
   const [loading, setLoading] = useState(false); // ✅ Fix: Declare the loading state
+  const [showSuccess, setShowSuccess] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
   const { customerInfo, cart } = state || {};
 
   const subtotal = cart?.reduce((sum, item) => sum + item.price * item.quantity, 0) || 0;
   const deliveryFee = 30;
-  const total = subtotal + deliveryFee;
+  const platformFee = 8; const total = subtotal + deliveryFee + platformFee;
 
   const placeOrder = async () => {
     setLoading(true); // ✅ Set loading to true
@@ -60,18 +147,21 @@ function PaymentPage() {
       }
 
 
-      navigate("/success", {
-        state: {
-          orderData,
-          customerInfo,
-          cart,
-        },
-      });
+      setShowSuccess(true);
+      setTimeout(() => {
+        navigate("/success", {
+          state: {
+            orderData,
+            customerInfo,
+            cart,
+          },
+        });
+      }, 2000);
     } catch (error) {
       console.error("Error placing order:", error);
       // You could also show a user-facing error message here
     } finally {
-      setLoading(false); // ✅ Set loading back to false
+      if (!showSuccess) setLoading(false); // Only stop loading if not showing success
     }
   };
 
@@ -134,8 +224,10 @@ function PaymentPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8 flex items-center justify-center transition-colors duration-300">
-      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8 flex items-center justify-center transition-colors duration-300 relative overflow-hidden">
+      <FoodBackground />
+      {showSuccess && <SuccessModal />}
+      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
 
         {/* Payment Section */}
         <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 h-fit">
@@ -260,6 +352,10 @@ function PaymentPage() {
                 <span>Delivery Fee</span>
                 <span>₹{deliveryFee}</span>
               </div>
+              <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                <span>Platform Fee</span>
+                <span>₹{platformFee}</span>
+              </div>
               <div className="flex justify-between text-xl font-bold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">
                 <span>Total</span>
                 <span className="text-orange-600 dark:text-orange-400">₹{total}</span>
@@ -305,3 +401,5 @@ function PaymentPage() {
 }
 
 export default PaymentPage;
+
+
