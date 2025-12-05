@@ -349,7 +349,7 @@ const RestaurantCard = ({ name, distance, cuisines, rating, reviews, delivery_ti
     </div>
 );
 
-const HomePage = ({ setSelectedRestaurant, searchQuery }) => {
+const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery }) => {
     const [restaurants, setRestaurants] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCuisines, setSelectedCuisines] = useState([]);
@@ -472,7 +472,10 @@ const HomePage = ({ setSelectedRestaurant, searchQuery }) => {
 
                                 <RestaurantCard
                                     {...restaurant}
-                                    onClick={() => setSelectedRestaurant(restaurant)}
+                                    onClick={() => {
+                                        setSelectedRestaurant(restaurant);
+                                        setSearchQuery('');
+                                    }}
                                     isFavorite={favorites.includes(restaurant.id)}
                                     onToggleFavorite={() => toggleFavorite(restaurant.id)}
                                 />
@@ -1351,6 +1354,7 @@ export default function App() {
             setSelectedRestaurant={setSelectedRestaurant}
             address={address}
             searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
         />;
     };
 
