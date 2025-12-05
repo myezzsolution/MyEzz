@@ -13,7 +13,6 @@ import { AuthProvider } from "./auth/AuthContext.jsx";
 
 function App() {
   return (
-    // The <Router> is removed from here
     <AuthProvider>
       <Header />
       <Routes>
@@ -49,6 +48,7 @@ function App() {
         />
       </Routes>
     </AuthProvider>
+    
   );
 }
 
