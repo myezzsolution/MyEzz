@@ -5,9 +5,9 @@ function Cart({ cart, removeFromCart, addToCart, clearCart, setShowOrderForm, cl
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  // Group cart items by vendor and create a simpler structure
+  // Group cart items by vendor/restaurant and create a simpler structure
   const groupedCart = cart.reduce((acc, item) => {
-    const vendor = item.vendor || 'Unknown Vendor';
+    const vendor = item.vendor || item.restaurantName || 'Unknown Restaurant';
     if (!acc[vendor]) {
       acc[vendor] = [];
     }
@@ -52,7 +52,10 @@ function Cart({ cart, removeFromCart, addToCart, clearCart, setShowOrderForm, cl
           <div className="flex-1 overflow-y-auto p-4">
             {Object.entries(groupedCart).map(([vendor, items]) => (
               <div key={vendor} className="mb-6">
-                <h3 className="font-bold text-sky-700 border-b border-sky-100 pb-2 mb-2">{vendor}</h3>
+                <h3 className="font-bold text-sky-700 border-b border-sky-100 pb-2 mb-2 flex items-center gap-2">
+                  <span>🍽️</span>
+                  <span>{vendor}</span>
+                </h3>
                 <AnimatePresence>
                   {items.map((item, index) => (
                     <motion.div
@@ -65,7 +68,7 @@ function Cart({ cart, removeFromCart, addToCart, clearCart, setShowOrderForm, cl
                     >
                       <div>
                         <p className="font-medium">
-                          {item.name} 
+                          {item.name}
                           {item.jain && " (Jain)"}
                           {item.portion && ` - ${item.portion}`}
                         </p>

@@ -7,6 +7,7 @@ import { supabase } from '../supabaseClient'; // Make sure this path is correct
 import Footer from '../components/Footer';
 import { useAuth } from '../auth/AuthContext';
 import ThemeToggle from './ThemeToggle';
+import { logOut } from '../auth/authService';
 
 // --- SVG ICONS (Your existing SVG components go here) ---
 const SunIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`text-yellow-500 ${className}`}><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>;
@@ -88,12 +89,14 @@ const FilterCheckbox = ({ label, description, checked, onChange }) => (
     </div>
 );
 
+
 const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
     const { currentUser, logout } = useAuth();
+    const [profilePhoto, setProfilePhoto] = useState(null);
     const navigate = useNavigate();
     const dropdownRef = useRef(null);
 
-    // Handle click outside to close dropdown
+    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -102,75 +105,99 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
         };
 
         if (isOpen) {
-            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener("mousedown", handleClickOutside);
         }
 
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isOpen, onClose]);
+
+    // Load and update profile photo from localStorage
+    useEffect(() => {
+        const storedProfile = JSON.parse(localStorage.getItem("userProfile") || "{}");
+        if (storedProfile) setProfilePhoto(storedProfile.profilePhoto);
+
+        const updateProfilePhoto = () => {
+            const fresh = JSON.parse(localStorage.getItem("userProfile") || "{}");
+            if (fresh) setProfilePhoto(fresh.profilePhoto);
+        };
+
+        window.addEventListener("userProfileUpdated", updateProfilePhoto);
+
+        return () => window.removeEventListener("userProfileUpdated", updateProfilePhoto);
+    }, []);
 
     const handleLogout = async () => {
         try {
             await logout();
-            navigate('/login');
+            navigate("/login");
         } catch (error) {
             console.error("Error logging out: ", error);
         }
     };
 
-    // Get user display name and email
-    const userName = currentUser?.displayName || currentUser?.email?.split('@')[0] || 'User';
-    const userEmail = currentUser?.email || '';
+    const userName =
+        currentUser?.displayName ||
+        currentUser?.email?.split("@")[0] ||
+        "User";
+
+    const userEmail = currentUser?.email || "";
 
     return (
         <div className="relative" ref={dropdownRef}>
             {/* Profile Button */}
             <button
                 onClick={onToggle}
-                className="relative text-gray-600 dark:text-gray-300 hover:text-orange-500 transition-colors"
+                className="relative text-gray-600 dark:text-gray-300 hover:text-orange-500 transition-colors p-2 rounded-full"
+                style={{ minWidth: "48px", minHeight: "48px" }}
             >
-                <UserIcon className="h-6 w-6 mt-2" />
+                {profilePhoto ? (
+                    <img
+                        src={profilePhoto}
+                        alt="Profile"
+                        className="h-9 w-9 rounded-full object-cover"
+                    />
+                ) : (
+                    <UserIcon className="h-6 w-6" />
+                )}
             </button>
 
             {/* Dropdown Menu */}
             {isOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-lg shadow-lg border border-gray-200 z-50">
-                    {/* User Info Section */}
+
+                    {/* User Info */}
                     <div className="p-4 border-b border-gray-200">
-                        <p className="font-semibold text-gray-800 dark:text-gray-100">Hello, {userName}!</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">{userEmail}</p>
+                        <p className="font-semibold">Hello, {userName}!</p>
+                        <p className="text-sm opacity-70">{userEmail}</p>
                     </div>
 
-                    {/* Menu Items */}
-                    <div className="py-2">
-                        <button
-                            onClick={onMyProfile}
-                            className="w-full flex items-center px-4 py-3 text-left text-gray-700 dark:text-gray-200 hover:bg-gray-50 transition-colors"
-                        >
-                            <UserIcon />
-                            <span className="ml-3">My Profile</span>
-                        </button>
-                    </div>
+                    {/* My Profile */}
+                    <button
+                        onClick={onMyProfile}
+                        className="w-full flex items-center px-4 py-3 text-left hover:bg-gray-50"
+                    >
+                        <UserIcon />
+                        <span className="ml-3">My Profile</span>
+                    </button>
 
-                    {/* Divider */}
                     <div className="border-t border-gray-200"></div>
 
                     {/* Logout */}
-                    <div className="py-2">
-                        <button
-                            onClick={handleLogout}
-                            className="w-full flex items-center px-4 py-3 text-left text-red-600 hover:bg-red-50 transition-colors"
-                        >
-                            <LogoutIcon />
-                            <span className="ml-3">Logout</span>
-                        </button>
-                    </div>
+                    <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center px-4 py-3 text-left text-red-600 hover:bg-red-50"
+                    >
+                        <LogoutIcon />
+                        <span className="ml-3">Logout</span>
+                    </button>
                 </div>
             )}
         </div>
     );
 };
+
 
 const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showFavorites, setShowFavorites }) => {
     const handleCuisineChange = (cuisine) => {
@@ -548,11 +575,15 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
 
     const addToCart = (item) => {
         setCartItems(prevItems => {
-            const itemExists = prevItems.find(i => i.id === item.id);
+            const itemExists = prevItems.find(i => i.id === item.id && i.vendor === restaurant.name);
             if (itemExists) {
-                return prevItems.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i);
+                return prevItems.map(i =>
+                    i.id === item.id && i.vendor === restaurant.name
+                        ? { ...i, quantity: i.quantity + 1 }
+                        : i
+                );
             }
-            return [...prevItems, { ...item, quantity: 1 }];
+            return [...prevItems, { ...item, quantity: 1, vendor: restaurant.name, restaurantName: restaurant.name }];
         });
     };
 
@@ -668,6 +699,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
         setUserProfile(editedProfile);
         setIsEditing(false);
         localStorage.setItem('userProfile', JSON.stringify(editedProfile));
+        window.dispatchEvent(new Event("userProfileUpdated"));
         console.log('Profile saved:', editedProfile);
     };
 
@@ -1064,7 +1096,11 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
 const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, onPayNow }) => {
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const platformFee = cartItems.length > 0 ? 8 : 0;
-    const deliveryFee = cartItems.length > 0 ? 30 : 0;
+
+    // Calculate number of unique vendors for delivery fee
+    const uniqueVendors = new Set(cartItems.map(item => item.vendor || item.restaurantName || 'Unknown Restaurant'));
+    const deliveryFee = uniqueVendors.size * 30;
+
     const total = subtotal + deliveryFee + platformFee;
 
     const handleAddressChange = (e) => {
@@ -1073,7 +1109,21 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
     };
 
     const removeItem = (itemName) => {
-        setCartItems(prevItems => prevItems.filter(item => item.name !== itemName));
+        setCartItems(prevItems => {
+            // Find the item to remove
+            const itemIndex = prevItems.findIndex(item => item.name === itemName);
+            if (itemIndex === -1) return prevItems;
+
+            // If quantity is more than 1, decrease quantity, otherwise remove
+            const item = prevItems[itemIndex];
+            if (item.quantity > 1) {
+                return prevItems.map((i, idx) =>
+                    idx === itemIndex ? { ...i, quantity: i.quantity - 1 } : i
+                );
+            } else {
+                return prevItems.filter((_, idx) => idx !== itemIndex);
+            }
+        });
     };
 
     return (
@@ -1105,20 +1155,39 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
                 ) : (
                     <>
                         <div className="space-y-4 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
-                            {cartItems.map((item, index) => (
-                                <div key={index} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
-                                    <div>
-                                        <p className="font-semibold text-gray-800 dark:text-gray-200">{item.name}</p>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">Qty: {item.quantity}</p>
+                            {(() => {
+                                // Group items by restaurant/vendor
+                                const groupedItems = cartItems.reduce((acc, item) => {
+                                    const vendor = item.vendor || item.restaurantName || 'Unknown Restaurant';
+                                    if (!acc[vendor]) {
+                                        acc[vendor] = [];
+                                    }
+                                    acc[vendor].push(item);
+                                    return acc;
+                                }, {});
+
+                                return Object.entries(groupedItems).map(([vendor, items]) => (
+                                    <div key={vendor} className="mb-4">
+                                        <h3 className="text-sm font-bold text-orange-600 dark:text-orange-400 mb-2 pb-1 border-b border-orange-200 dark:border-orange-800">
+                                            🍽️ {vendor}
+                                        </h3>
+                                        {items.map((item, index) => (
+                                            <div key={`${item.id}-${index}`} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700 mb-2">
+                                                <div>
+                                                    <p className="font-semibold text-gray-800 dark:text-gray-200">{item.name}</p>
+                                                    <p className="text-sm text-gray-500 dark:text-gray-400">Qty: {item.quantity}</p>
+                                                </div>
+                                                <div className="flex items-center gap-4">
+                                                    <p className="font-medium text-gray-900 dark:text-white">₹{item.price * item.quantity}</p>
+                                                    <button onClick={() => removeItem(item.name)} className="text-red-400 hover:text-red-600 transition-colors p-1 hover:bg-red-50 rounded-lg">
+                                                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
-                                    <div className="flex items-center gap-4">
-                                        <p className="font-medium text-gray-900 dark:text-white">₹{item.price * item.quantity}</p>
-                                        <button onClick={() => removeItem(item.name)} className="text-red-400 hover:text-red-600 transition-colors p-1 hover:bg-red-50 rounded-lg">
-                                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
+                                ));
+                            })()}
                         </div>
 
                         <div className="flex justify-end mt-2">
@@ -1317,7 +1386,9 @@ export default function App() {
 
         const cartWithVendor = cartItems.map(item => ({
             ...item,
-            vendor: selectedRestaurant ? selectedRestaurant.name : "Unknown Vendor"
+            // Preserve existing vendor/restaurantName, only set if missing
+            vendor: item.vendor || item.restaurantName || (selectedRestaurant ? selectedRestaurant.name : "Unknown Vendor"),
+            restaurantName: item.restaurantName || item.vendor || (selectedRestaurant ? selectedRestaurant.name : "Unknown Restaurant")
         }));
 
         setShowCheckout(false);
