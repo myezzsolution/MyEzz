@@ -166,7 +166,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
             {/* Dropdown Menu */}
             {isOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-lg shadow-lg border border-gray-200 z-50">
-                    
+
                     {/* User Info */}
                     <div className="p-4 border-b border-gray-200">
                         <p className="font-semibold">Hello, {userName}!</p>
@@ -572,11 +572,15 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
 
     const addToCart = (item) => {
         setCartItems(prevItems => {
-            const itemExists = prevItems.find(i => i.id === item.id);
+            const itemExists = prevItems.find(i => i.id === item.id && i.vendor === restaurant.name);
             if (itemExists) {
-                return prevItems.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i);
+                return prevItems.map(i =>
+                    i.id === item.id && i.vendor === restaurant.name
+                        ? { ...i, quantity: i.quantity + 1 }
+                        : i
+                );
             }
-            return [...prevItems, { ...item, quantity: 1 }];
+            return [...prevItems, { ...item, quantity: 1, vendor: restaurant.name, restaurantName: restaurant.name }];
         });
     };
 
@@ -1089,7 +1093,11 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
 const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, onPayNow }) => {
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const platformFee = cartItems.length > 0 ? 8 : 0;
-    const deliveryFee = cartItems.length > 0 ? 30 : 0;
+
+    // Calculate number of unique vendors for delivery fee
+    const uniqueVendors = new Set(cartItems.map(item => item.vendor || item.restaurantName || 'Unknown Restaurant'));
+    const deliveryFee = uniqueVendors.size * 30;
+
     const total = subtotal + deliveryFee + platformFee;
 
     const handleAddressChange = (e) => {
@@ -1098,7 +1106,21 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
     };
 
     const removeItem = (itemName) => {
-        setCartItems(prevItems => prevItems.filter(item => item.name !== itemName));
+        setCartItems(prevItems => {
+            // Find the item to remove
+            const itemIndex = prevItems.findIndex(item => item.name === itemName);
+            if (itemIndex === -1) return prevItems;
+
+            // If quantity is more than 1, decrease quantity, otherwise remove
+            const item = prevItems[itemIndex];
+            if (item.quantity > 1) {
+                return prevItems.map((i, idx) =>
+                    idx === itemIndex ? { ...i, quantity: i.quantity - 1 } : i
+                );
+            } else {
+                return prevItems.filter((_, idx) => idx !== itemIndex);
+            }
+        });
     };
 
     return (
@@ -1130,20 +1152,39 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
                 ) : (
                     <>
                         <div className="space-y-4 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
-                            {cartItems.map((item, index) => (
-                                <div key={index} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
-                                    <div>
-                                        <p className="font-semibold text-gray-800 dark:text-gray-200">{item.name}</p>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">Qty: {item.quantity}</p>
+                            {(() => {
+                                // Group items by restaurant/vendor
+                                const groupedItems = cartItems.reduce((acc, item) => {
+                                    const vendor = item.vendor || item.restaurantName || 'Unknown Restaurant';
+                                    if (!acc[vendor]) {
+                                        acc[vendor] = [];
+                                    }
+                                    acc[vendor].push(item);
+                                    return acc;
+                                }, {});
+
+                                return Object.entries(groupedItems).map(([vendor, items]) => (
+                                    <div key={vendor} className="mb-4">
+                                        <h3 className="text-sm font-bold text-orange-600 dark:text-orange-400 mb-2 pb-1 border-b border-orange-200 dark:border-orange-800">
+                                            🍽️ {vendor}
+                                        </h3>
+                                        {items.map((item, index) => (
+                                            <div key={`${item.id}-${index}`} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700 mb-2">
+                                                <div>
+                                                    <p className="font-semibold text-gray-800 dark:text-gray-200">{item.name}</p>
+                                                    <p className="text-sm text-gray-500 dark:text-gray-400">Qty: {item.quantity}</p>
+                                                </div>
+                                                <div className="flex items-center gap-4">
+                                                    <p className="font-medium text-gray-900 dark:text-white">₹{item.price * item.quantity}</p>
+                                                    <button onClick={() => removeItem(item.name)} className="text-red-400 hover:text-red-600 transition-colors p-1 hover:bg-red-50 rounded-lg">
+                                                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
-                                    <div className="flex items-center gap-4">
-                                        <p className="font-medium text-gray-900 dark:text-white">₹{item.price * item.quantity}</p>
-                                        <button onClick={() => removeItem(item.name)} className="text-red-400 hover:text-red-600 transition-colors p-1 hover:bg-red-50 rounded-lg">
-                                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
+                                ));
+                            })()}
                         </div>
 
                         <div className="flex justify-end mt-2">
@@ -1342,7 +1383,9 @@ export default function App() {
 
         const cartWithVendor = cartItems.map(item => ({
             ...item,
-            vendor: selectedRestaurant ? selectedRestaurant.name : "Unknown Vendor"
+            // Preserve existing vendor/restaurantName, only set if missing
+            vendor: item.vendor || item.restaurantName || (selectedRestaurant ? selectedRestaurant.name : "Unknown Vendor"),
+            restaurantName: item.restaurantName || item.vendor || (selectedRestaurant ? selectedRestaurant.name : "Unknown Restaurant")
         }));
 
         setShowCheckout(false);

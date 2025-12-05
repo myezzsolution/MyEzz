@@ -48,19 +48,29 @@ export const signInWithGoogle = async () => {
  * Sets up an invisible reCAPTCHA verifier for phone number authentication.
  */
 export const setUpRecaptcha = (containerId) => {
+  // Clear existing verifier if present
   if (window.recaptchaVerifier) {
     window.recaptchaVerifier.clear();
   }
 
+  // Get the container element
+  const container = typeof containerId === 'string' 
+    ? document.getElementById(containerId) 
+    : containerId;
+
+  if (!container) {
+    throw new Error(`Recaptcha container element not found: ${containerId}`);
+  }
+
   window.recaptchaVerifier = new RecaptchaVerifier(
-    containerId,
+    auth,
+    container,
     {
       size: "invisible",
       callback: (response) => {
         console.log("reCAPTCHA solved:", response);
       }
-    },
-    auth
+    }
   );
   return window.recaptchaVerifier;
 };
@@ -77,6 +87,29 @@ export const sendSmsOtp = async (phoneNumber, containerId) => {
     return confirmationResult;
   } catch (error) {
     console.error("Error sending SMS OTP:", error);
+    
+    // Provide user-friendly error messages for common Firebase errors
+    if (error.code === 'auth/billing-not-enabled') {
+      const friendlyError = new Error(
+        'Phone authentication requires billing to be enabled in Firebase Console. ' +
+        'Please enable billing in your Firebase project settings to use phone number authentication.'
+      );
+      friendlyError.code = error.code;
+      throw friendlyError;
+    }
+    
+    if (error.code === 'auth/invalid-phone-number') {
+      const friendlyError = new Error('Invalid phone number format. Please use format: +91XXXXXXXXXX');
+      friendlyError.code = error.code;
+      throw friendlyError;
+    }
+    
+    if (error.code === 'auth/too-many-requests') {
+      const friendlyError = new Error('Too many requests. Please try again later.');
+      friendlyError.code = error.code;
+      throw friendlyError;
+    }
+    
     throw error;
   }
 };

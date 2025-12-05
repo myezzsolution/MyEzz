@@ -36,7 +36,16 @@ export default function Register() {
       localStorage.setItem("myezz_pending_user", JSON.stringify({ name, email, phone }));
       navigate("/otp-verify");
     } catch (error) {
-      setError("Failed to send OTP: " + error.message);
+      // Show user-friendly error message
+      if (error.code === 'auth/billing-not-enabled') {
+        setError(
+          "Phone authentication is not enabled. " +
+          "Please enable billing in your Firebase Console to use phone number authentication. " +
+          "Alternatively, you can sign up using Google."
+        );
+      } else {
+        setError("Failed to send OTP: " + error.message);
+      }
     } finally {
       setLoading(false);
     }

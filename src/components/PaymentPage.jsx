@@ -97,8 +97,13 @@ function PaymentPage() {
   const { customerInfo, cart } = state || {};
 
   const subtotal = cart?.reduce((sum, item) => sum + item.price * item.quantity, 0) || 0;
-  const deliveryFee = 30;
-  const platformFee = 8; const total = subtotal + deliveryFee + platformFee;
+
+  // Calculate number of unique vendors for delivery fee
+  const uniqueVendors = new Set(cart?.map(item => item.vendor || item.restaurantName || 'Unknown Restaurant') || []);
+  const deliveryFee = uniqueVendors.size * 30;
+
+  const platformFee = 8;
+  const total = subtotal + deliveryFee + platformFee;
 
   const placeOrder = async () => {
     setLoading(true); // ✅ Set loading to true
@@ -123,7 +128,7 @@ function PaymentPage() {
         orderDate: new Date().toISOString(),
       };
 
-      await fetch("https://script.google.com/macros/s/AKfycbxxADuwMi-lic8k2zF2OZurU3deGO_RRSopTFp7b6o0ulda8CPrLDqZUGdBBhL_6qQj/exec", {
+      await fetch("https://script.google.com/macros/s/AKfycbxrZfLSUWVhOATIaaazYMheNerFSrG1bWYR2lDYjm-lJRDuSLLbZUsuTVPIEHEuDXI/exec", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
@@ -329,18 +334,25 @@ function PaymentPage() {
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Order Summary</h3>
 
             <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-              {cart.map((item, index) => (
-                <div key={index} className="flex justify-between items-start py-3 border-b border-gray-100 dark:border-gray-700 last:border-0">
-                  <div className="flex-1">
-                    <p className="font-semibold text-gray-800 dark:text-gray-200">{item.name}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {item.quantity} x ₹{item.price}
-                      {item.portion && ` • ${item.portion}`}
-                    </p>
+              {cart.map((item, index) => {
+                const restaurantName = item.vendor || item.restaurantName || 'Unknown Restaurant';
+                return (
+                  <div key={`${item.id}-${index}`} className="flex justify-between items-start py-3 border-b border-gray-100 dark:border-gray-700 last:border-0">
+                    <div className="flex-1">
+                      <p className="font-semibold text-gray-800 dark:text-gray-200">{item.name}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {item.quantity} x ₹{item.price}
+                        {item.portion && ` • ${item.portion}`}
+                      </p>
+                      <p className="text-xs text-orange-600 dark:text-orange-400 mt-1 flex items-center gap-1">
+                        <span>🍽️</span>
+                        <span className="font-medium">{restaurantName}</span>
+                      </p>
+                    </div>
+                    <p className="font-medium text-gray-900 dark:text-white">₹{item.price * item.quantity}</p>
                   </div>
-                  <p className="font-medium text-gray-900 dark:text-white">₹{item.price * item.quantity}</p>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="mt-6 space-y-3 pt-6 border-t border-gray-200 dark:border-gray-700">
@@ -349,7 +361,7 @@ function PaymentPage() {
                 <span>₹{subtotal}</span>
               </div>
               <div className="flex justify-between text-gray-600 dark:text-gray-400">
-                <span>Delivery Fee</span>
+                <span>Delivery Fee ({uniqueVendors.size} vendor{uniqueVendors.size > 1 ? 's' : ''})</span>
                 <span>₹{deliveryFee}</span>
               </div>
               <div className="flex justify-between text-gray-600 dark:text-gray-400">
