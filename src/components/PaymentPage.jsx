@@ -128,7 +128,7 @@ function PaymentPage() {
         orderDate: new Date().toISOString(),
       };
 
-      await fetch("https://script.google.com/macros/s/AKfycbxrZfLSUWVhOATIaaazYMheNerFSrG1bWYR2lDYjm-lJRDuSLLbZUsuTVPIEHEuDXI/exec", {
+      await fetch("https://script.google.com/macros/s/AKfycbyHnZfPK_Yc4e0_TBm_7AMfBJ9jElkel2WPbPK27MHnkUutGPYhl_PEVy2Yv_JMaNev/exec ", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
