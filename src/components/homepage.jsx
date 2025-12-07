@@ -42,11 +42,11 @@ const categoryFilters = [
 ];
 
 // --- COMPONENTS ---
-const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange, isProfileOpen, onProfileToggle, onProfileClose, onMyProfile }) => (
+const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange, isProfileOpen, onProfileToggle, onProfileClose, onMyProfile, onLogoClick }) => (
     <header className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] 
 shadow-sm p-4 px-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 transition-colors duration-200">
 
-        <a href="/"><img src={logo} alt="MyEzz Logo" className="h-25" /></a>
+        <button onClick={onLogoClick} className="focus:outline-none"><img src={logo} alt="MyEzz Logo" className="h-25" /></button>
         <div className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] relative flex-1 max-w-xl mx-4">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <SearchIcon className="text-gray-400" />
@@ -376,7 +376,7 @@ const RestaurantCard = ({ name, distance, cuisines, rating, reviews, delivery_ti
     </div>
 );
 
-const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery }) => {
+const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItems, setCartItems }) => {
     const [restaurants, setRestaurants] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCuisines, setSelectedCuisines] = useState([]);
@@ -398,6 +398,21 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery }) => {
                 : [...prev, restaurantId];
             localStorage.setItem('favorites', JSON.stringify(newFavorites));
             return newFavorites;
+        });
+    };
+
+    const addToCart = (dish) => {
+        setCartItems(prevItems => {
+            const restaurantName = dish.restaurants?.name || 'Unknown Restaurant';
+            const itemExists = prevItems.find(i => i.id === dish.id && i.vendor === restaurantName);
+            if (itemExists) {
+                return prevItems.map(i =>
+                    i.id === dish.id && i.vendor === restaurantName
+                        ? { ...i, quantity: i.quantity + 1 }
+                        : i
+                );
+            }
+            return [...prevItems, { ...dish, quantity: 1, vendor: restaurantName, restaurantName: restaurantName }];
         });
     };
 
@@ -445,7 +460,7 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery }) => {
             }
             const { data, error } = await supabase
                 .from('menu_items')
-                .select('id, name, restaurant_id, restaurants(name)')
+                .select('id, name, price, restaurant_id, restaurants(name)')
                 .ilike('name', `%${searchQuery}%`);
             if (error) {
                 console.error('Error fetching dishes:', error);
@@ -513,7 +528,6 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery }) => {
                         )}
                     </button>
                 </div>
-                {/* New split view for dish and restaurant suggestions when searching */}
                 {searchQuery.trim() !== '' ? (
                     <div className="flex flex-col gap-8 mb-8">
                         {/* Top: Dish suggestions */}
@@ -524,11 +538,17 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery }) => {
                             </h2>
                             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                 {(showAllDishes ? dishes : dishes.slice(0, 4)).map(d => (
-                                    <li key={d.id} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-orange-200 dark:hover:border-orange-800 transition-all">
+                                    <li key={d.id} onClick={() => addToCart(d)} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-orange-200 dark:hover:border-orange-800 transition-all cursor-pointer group hover:shadow-md">
                                         <div>
-                                            <p className="font-medium text-gray-800 dark:text-gray-200 line-clamp-1">{d.name}</p>
+                                            <p className="font-medium text-gray-800 dark:text-gray-200 line-clamp-1 group-hover:text-orange-600 transition-colors">{d.name}</p>
                                             {d.restaurants && <p className="text-xs text-gray-500 line-clamp-1">from {d.restaurants.name}</p>}
+                                            {d.price && <p className="text-xs font-bold text-gray-700 dark:text-gray-300 mt-1">₹{d.price}</p>}
                                         </div>
+                                        <button className="p-2 bg-white dark:bg-gray-700 rounded-full shadow-sm text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                                            </svg>
+                                        </button>
                                     </li>
                                 ))}
                             </ul>
@@ -1504,6 +1524,8 @@ export default function App() {
             address={address}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
+            cartItems={cartItems}
+            setCartItems={setCartItems}
         />;
     };
 
@@ -1518,6 +1540,7 @@ export default function App() {
                 onProfileToggle={handleProfileToggle}
                 onProfileClose={handleProfileClose}
                 onMyProfile={handleMyProfile}
+                onLogoClick={handleBackToHome}
             />
             {renderPage()}
             {showCheckout && <CheckoutPage cartItems={cartItems} onBack={() => setShowCheckout(false)} address={address} setAddress={setAddress} setCartItems={setCartItems} onPayNow={handlePayNow} />}
