@@ -386,6 +386,10 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery }) => {
         return saved ? JSON.parse(saved) : [];
     });
     const [showFavorites, setShowFavorites] = useState(false);
+    // New state for dish search results and UI toggles
+    const [dishes, setDishes] = useState([]);
+    const [showAllDishes, setShowAllDishes] = useState(false);
+    const [showAllRestaurants, setShowAllRestaurants] = useState(false);
 
     const toggleFavorite = (restaurantId) => {
         setFavorites(prev => {
@@ -431,6 +435,27 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery }) => {
         }
         getRestaurants();
     }, [searchQuery]); // Re-run the fetch whenever the search query changes
+
+    // Fetch dishes matching the search query
+    useEffect(() => {
+        async function fetchDishes() {
+            if (searchQuery.trim() === '') {
+                setDishes([]);
+                return;
+            }
+            const { data, error } = await supabase
+                .from('menu_items')
+                .select('id, name, restaurant_id, restaurants(name)')
+                .ilike('name', `%${searchQuery}%`);
+            if (error) {
+                console.error('Error fetching dishes:', error);
+                setDishes([]);
+            } else {
+                setDishes(data);
+            }
+        }
+        fetchDishes();
+    }, [searchQuery]);
 
     // Client-side filtering for cuisines still works on the fetched data
     const filteredRestaurants = restaurants.filter(restaurant => {
@@ -488,45 +513,98 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery }) => {
                         )}
                     </button>
                 </div>
-                {filteredRestaurants.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
-                        {filteredRestaurants.map((restaurant, index) => (
-                            <div
-                                key={restaurant.id}
-                                className="animate-fade-in"
-                                style={{ animationDelay: `${index * 50}ms` }}
-                            >
+                {/* New split view for dish and restaurant suggestions when searching */}
+                {searchQuery.trim() !== '' ? (
+                    <div className="flex flex-col gap-8 mb-8">
+                        {/* Top: Dish suggestions */}
+                        <div className="bg-[hsl(var(--card))] p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800">
+                            <h2 className="text-lg font-bold mb-3 flex items-center justify-between cursor-pointer hover:text-orange-500 transition-colors" onClick={() => setShowAllDishes(!showAllDishes)}>
+                                <span>🍽️ Explore Dishes</span>
+                                <span className="text-sm text-gray-500">{showAllDishes ? 'Show Less' : 'View All'}</span>
+                            </h2>
+                            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                {(showAllDishes ? dishes : dishes.slice(0, 4)).map(d => (
+                                    <li key={d.id} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-orange-200 dark:hover:border-orange-800 transition-all">
+                                        <div>
+                                            <p className="font-medium text-gray-800 dark:text-gray-200 line-clamp-1">{d.name}</p>
+                                            {d.restaurants && <p className="text-xs text-gray-500 line-clamp-1">from {d.restaurants.name}</p>}
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                            {dishes.length === 0 && <p className="text-gray-500 text-sm mt-2">No dishes found matching "{searchQuery}"</p>}
+                        </div>
 
-                                <RestaurantCard
-                                    {...restaurant}
-                                    onClick={() => {
-                                        setSelectedRestaurant(restaurant);
-                                        setSearchQuery('');
-                                    }}
-                                    isFavorite={favorites.includes(restaurant.id)}
-                                    onToggleFavorite={() => toggleFavorite(restaurant.id)}
-                                />
-                            </div>
-                        ))}
+                        {/* Bottom: Restaurant suggestions */}
+                        <div className="bg-[hsl(var(--card))] p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800">
+                            <h2 className="text-lg font-bold mb-3 flex items-center justify-between cursor-pointer hover:text-orange-500 transition-colors" onClick={() => setShowAllRestaurants(!showAllRestaurants)}>
+                                <span>🏙️ Explore Restaurants</span>
+                                <span className="text-sm text-gray-500">{showAllRestaurants ? 'Show Less' : 'View All'}</span>
+                            </h2>
+                            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                {(showAllRestaurants ? filteredRestaurants : filteredRestaurants.slice(0, 4)).map(r => (
+                                    <li key={r.id} onClick={() => { setSelectedRestaurant(r); setSearchQuery(''); }} className="cursor-pointer p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-orange-200 dark:hover:border-orange-800 transition-all hover:shadow-md">
+                                        <div className="flex items-center gap-3">
+                                            {/* Simple list item style without big image tiles */}
+                                            <img
+                                                src={r.image_url}
+                                                alt={r.name}
+                                                className="w-10 h-10 rounded-full object-cover shrink-0 border border-gray-200 dark:border-gray-700"
+                                                onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/100x100?text=IMG'; }}
+                                            />
+                                            <div className="min-w-0">
+                                                <p className="font-medium text-gray-800 dark:text-gray-200 truncate">{r.name}</p>
+                                                <p className="text-xs text-gray-500 truncate">{r.cuisines.join(', ')}</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                            {filteredRestaurants.length === 0 && <p className="text-gray-500 text-sm mt-2">No restaurants found matching "{searchQuery}"</p>}
+                        </div>
                     </div>
                 ) : (
-                    <div className="text-center py-20 sm:py-24 bg-gradient-to-br from-white to-orange-50 dark:from-gray-800 dark:to-orange-900/10 rounded-3xl border-2 border-dashed border-orange-200 dark:border-orange-800 shadow-inner">
-                        <div className="text-7xl mb-5 animate-bounce">🍽️</div>
-                        <p className="text-gray-800 dark:text-gray-200 font-bold text-xl mb-2">No restaurants found</p>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">Try adjusting your search or filters</p>
-                        {(selectedCuisines.length > 0 || showFavorites || searchQuery.trim() !== '') && (
-                            <button
-                                onClick={() => {
-                                    setSelectedCuisines([]);
-                                    setShowFavorites(false);
-                                    setShowFilters(false);
-                                }}
-                                className="mt-4 px-6 py-2.5 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg"
-                            >
-                                Clear All Filters
-                            </button>
-                        )}
-                    </div>
+                    /* Standard Restaurant Grid (Only shown when NOT searching) */
+                    filteredRestaurants.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
+                            {filteredRestaurants.map((restaurant, index) => (
+                                <div
+                                    key={restaurant.id}
+                                    className="animate-fade-in"
+                                    style={{ animationDelay: `${index * 50}ms` }}
+                                >
+
+                                    <RestaurantCard
+                                        {...restaurant}
+                                        onClick={() => {
+                                            setSelectedRestaurant(restaurant);
+                                            setSearchQuery('');
+                                        }}
+                                        isFavorite={favorites.includes(restaurant.id)}
+                                        onToggleFavorite={() => toggleFavorite(restaurant.id)}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-20 sm:py-24 bg-gradient-to-br from-white to-orange-50 dark:from-gray-800 dark:to-orange-900/10 rounded-3xl border-2 border-dashed border-orange-200 dark:border-orange-800 shadow-inner">
+                            <div className="text-7xl mb-5 animate-bounce">🍽️</div>
+                            <p className="text-gray-800 dark:text-gray-200 font-bold text-xl mb-2">No restaurants found</p>
+                            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">Try adjusting your search or filters</p>
+                            {(selectedCuisines.length > 0 || showFavorites || searchQuery.trim() !== '') && (
+                                <button
+                                    onClick={() => {
+                                        setSelectedCuisines([]);
+                                        setShowFavorites(false);
+                                        setShowFilters(false);
+                                    }}
+                                    className="mt-4 px-6 py-2.5 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg"
+                                >
+                                    Clear All Filters
+                                </button>
+                            )}
+                        </div>
+                    )
                 )}
             </main>
         </div>
