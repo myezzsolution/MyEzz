@@ -1206,21 +1206,16 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
         setAddress(prev => ({ ...prev, [name]: value }));
     };
 
-    const removeItem = (itemName) => {
+    const updateQuantity = (itemId, itemVendor, change) => {
         setCartItems(prevItems => {
-            // Find the item to remove
-            const itemIndex = prevItems.findIndex(item => item.name === itemName);
-            if (itemIndex === -1) return prevItems;
-
-            // If quantity is more than 1, decrease quantity, otherwise remove
-            const item = prevItems[itemIndex];
-            if (item.quantity > 1) {
-                return prevItems.map((i, idx) =>
-                    idx === itemIndex ? { ...i, quantity: i.quantity - 1 } : i
-                );
-            } else {
-                return prevItems.filter((_, idx) => idx !== itemIndex);
-            }
+            return prevItems.map(item => {
+                const currentVendor = item.vendor || item.restaurantName || 'Unknown Restaurant';
+                // Compare ID and Vendor to identify the unique item in cart
+                if (item.id === itemId && currentVendor === itemVendor) {
+                    return { ...item, quantity: item.quantity + change };
+                }
+                return item;
+            }).filter(item => item.quantity > 0);
         });
     };
 
@@ -1270,16 +1265,38 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
                                             🍽️ {vendor}
                                         </h3>
                                         {items.map((item, index) => (
-                                            <div key={`${item.id}-${index}`} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700 mb-2">
-                                                <div>
-                                                    <p className="font-semibold text-gray-800 dark:text-gray-200">{item.name}</p>
-                                                    <p className="text-sm text-gray-500 dark:text-gray-400">Qty: {item.quantity}</p>
+                                            <div key={`${item.id}-${index}`} className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700 mb-3 hover:border-orange-200 dark:hover:border-orange-800 transition-colors">
+                                                <div className="flex-1">
+                                                    <p className="font-semibold text-gray-800 dark:text-gray-200 text-lg">{item.name}</p>
+                                                    <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">₹{item.price} each</p>
                                                 </div>
+
                                                 <div className="flex items-center gap-4">
-                                                    <p className="font-medium text-gray-900 dark:text-white">₹{item.price * item.quantity}</p>
-                                                    <button onClick={() => removeItem(item.name)} className="text-red-400 hover:text-red-600 transition-colors p-1 hover:bg-red-50 rounded-lg">
-                                                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                                                    </button>
+                                                    {/* Quantity Controls */}
+                                                    <div className="flex items-center bg-white dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg p-1 shadow-sm">
+                                                        <button
+                                                            onClick={() => updateQuantity(item.id, vendor, -1)}
+                                                            className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 transition-all active:scale-95"
+                                                            disabled={item.quantity <= 0}
+                                                        >
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                                            </svg>
+                                                        </button>
+                                                        <span className="w-8 text-center font-bold text-gray-800 dark:text-gray-100">{item.quantity}</span>
+                                                        <button
+                                                            onClick={() => updateQuantity(item.id, vendor, 1)}
+                                                            className="w-8 h-8 flex items-center justify-center rounded-md bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-all active:scale-95"
+                                                        >
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+
+                                                    <div className="text-right min-w-[3rem]">
+                                                        <p className="font-bold text-gray-900 dark:text-white">₹{(item.price * item.quantity).toFixed(0)}</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))}
