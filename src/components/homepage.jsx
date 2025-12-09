@@ -878,314 +878,320 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
 
 
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-gray-50 min-h-screen">
-            <div className="bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-lg shadow-lg p-6 mb-6">
-                <div className="flex items-center justify-between mb-6">
-                    <button onClick={onBack} className="text-orange-500 hover:text-orange-600 font-semibold">
-                        ← Back
-                    </button>
-                    <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">My Profile</h1>
-                    <div className="w-16"></div>
-                </div>
-
-                {/* Profile Photo Section */}
-                <div className="flex justify-center mb-6">
-                    <div className="relative">
-                        <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                            {displayProfile.profilePhoto ? (
-                                <img src={displayProfile.profilePhoto} alt="Profile" className="w-full h-full object-cover" />
-                            ) : (
-                                <span className="text-4xl text-gray-400">
-                                    {displayProfile.fullName?.charAt(0) || 'U'}
-                                </span>
-                            )}
-                        </div>
-                        {isEditing && (
-                            <label className="absolute bottom-0 right-0 bg-orange-500 text-white px-3 py-1 rounded-full cursor-pointer hover:bg-orange-600 text-sm">
-                                📷
-                                <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
-                            </label>
-                        )}
-                    </div>
-                </div>
-
-                {/* Personal Information */}
-                <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg mb-6">
-                    <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Personal Information</h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                                Full Name
-                            </label>
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    value={editedProfile.fullName || ''}
-                                    onChange={(e) => setEditedProfile({ ...editedProfile, fullName: e.target.value })}
-                                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                                />
-                            ) : (
-                                <p className="p-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100">
-                                    {displayProfile.fullName || 'Not provided'}
-                                </p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                                Email Address
-                            </label>
-                            {isEditing ? (
-                                <input
-                                    type="email"
-                                    value={editedProfile.email || ''}
-                                    onChange={(e) => setEditedProfile({ ...editedProfile, email: e.target.value })}
-                                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                                />
-                            ) : (
-                                <p className="p-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100">
-                                    {displayProfile.email || 'Not provided'}
-                                </p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                                Phone Number
-                            </label>
-                            {isEditing ? (
-                                <input
-                                    type="tel"
-                                    value={editedProfile.phoneNumber || ''}
-                                    onChange={(e) => setEditedProfile({ ...editedProfile, phoneNumber: e.target.value })}
-                                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                                />
-                            ) : (
-                                <p className="p-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100">
-                                    {displayProfile.phoneNumber || 'Not provided'}
-                                </p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                                Location
-                            </label>
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    value={editedProfile.location || ''}
-                                    onChange={(e) => setEditedProfile({ ...editedProfile, location: e.target.value })}
-                                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                                />
-                            ) : (
-                                <p className="p-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100">
-                                    {displayProfile.location || 'Not provided'}
-                                </p>
-                            )}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Order Statistics */}
-                <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-lg mb-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h3 className="text-sm font-medium text-gray-600">Total Orders Placed</h3>
-                            <p className="text-3xl font-bold text-orange-600">{displayProfile.totalOrders || 0}</p>
-                        </div>
-                        <span className="text-4xl">📦</span>
-                    </div>
-                </div>
-
-                {/* Current Order*/}
-                {displayProfile.currentOrder && (
-                    <div className="bg-blue-50 p-6 rounded-lg mb-6 border border-blue-200">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                            📦 Current Order
-                        </h2>
-                        <div className="space-y-2">
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Order ID:</span>
-                                <span className="font-semibold">{displayProfile.currentOrder.orderId}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Status:</span>
-                                <span className="font-semibold text-green-600">{displayProfile.currentOrder.status}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Order date:</span>
-                                <span className="font-semibold">{displayProfile.currentOrder.orderDate}</span>
-                            </div>
-                        </div>
-                        <button
-                            onClick={handleTrackOrder}
-                            className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
-                        >
-                            Track Order →
-                        </button>
-                    </div>
-                )}
-
-                {/* Previous Orders*/}
-                <div className="bg-gray-50 p-6 rounded-lg mb-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Previous Orders</h2>
-                    {displayProfile.previousOrders && displayProfile.previousOrders.length > 0 ? (
-                        <div className="space-y-3">
-                            {displayProfile.previousOrders.map((order) => (
-                                <div key={order.id} className="bg-white p-4 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
-                                    <div className="flex justify-between items-start mb-2">
-                                        <div>
-                                            <p className="font-semibold text-gray-800">{order.orderId}</p>
-                                            <p className="text-sm text-gray-500">{order.orderDate}</p>
-                                        </div>
-                                        <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
-                                            {order.status}
-                                        </span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">{order.items.length} items</span>
-                                        <span className="font-semibold text-gray-800">₹{order.total}</span>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-center py-8 bg-white rounded-lg border-2 border-dashed border-gray-300">
-                            <span className="text-4xl mb-2 block">📦</span>
-                            <p className="text-gray-500">No previous orders yet</p>
-                            <p className="text-sm text-gray-400 mt-1">Your order history will appear here</p>
-                        </div>
-                    )}
-                </div>
-
-                {/* Saved Addresses */}
-                <div className="bg-gray-50 p-6 rounded-lg mb-6">
-                    <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-lg font-semibold text-gray-800">Saved Addresses</h2>
-                        {isEditing && (
-                            <button
-                                onClick={() => setShowAddressForm(!showAddressForm)}
-                                className="text-orange-500 hover:text-orange-600 font-semibold"
-                            >
-                                + Add New
-                            </button>
-                        )}
-                    </div>
-
-                    {showAddressForm && isEditing && (
-                        <div className="bg-white p-4 rounded-lg border border-orange-200 mb-4">
-                            <input
-                                type="text"
-                                placeholder="Label (e.g., Home, Office)"
-                                value={newAddress.label}
-                                onChange={(e) => setNewAddress({ ...newAddress, label: e.target.value })}
-                                className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
-                            />
-                            <textarea
-                                placeholder="Full Address"
-                                value={newAddress.address}
-                                onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })}
-                                className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
-                                rows="3"
-                            />
-                            <div className="flex space-x-2">
-                                <button
-                                    onClick={handleAddAddress}
-                                    className="flex-1 bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600"
-                                >
-                                    Add Address
-                                </button>
-                                <button
-                                    onClick={() => setShowAddressForm(false)}
-                                    className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400"
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    <div className="space-y-3">
-                        {displayProfile.savedAddresses && displayProfile.savedAddresses.length > 0 ? (
-                            displayProfile.savedAddresses.map((addr) => (
-                                <div key={addr.id} className="bg-white p-4 rounded-lg border border-gray-200">
-                                    <div className="flex justify-between items-start">
-                                        <div className="flex-1">
-                                            <div className="flex items-center mb-2">
-                                                <span className="text-xl mr-2">📍</span>
-                                                <span className="font-semibold text-gray-800">{addr.label}</span>
-                                                {addr.isDefault && (
-                                                    <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded">
-                                                        Default
-                                                    </span>
-                                                )}
-                                            </div>
-                                            <p className="text-sm text-gray-600 ml-7">{addr.address}</p>
-                                        </div>
-                                        {isEditing && (
-                                            <div className="flex flex-col space-y-2 ml-2">
-                                                {!addr.isDefault && (
-                                                    <button
-                                                        onClick={() => handleSetDefaultAddress(addr.id)}
-                                                        className="text-orange-500 hover:text-orange-600 text-xs"
-                                                    >
-                                                        Set Default
-                                                    </button>
-                                                )}
-                                                <button
-                                                    onClick={() => handleDeleteAddress(addr.id)}
-                                                    className="text-red-500 hover:text-red-600 text-xs"
-                                                >
-                                                    🗑️ Delete
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            <div className="text-center py-8 bg-white rounded-lg border-2 border-dashed border-gray-300">
-                                <span className="text-4xl mb-2 block">📍</span>
-                                <p className="text-gray-500">No saved addresses yet</p>
-                                {isEditing && (
-                                    <p className="text-sm text-gray-400 mt-1">Click "Add New" to save an address</p>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex justify-end space-x-4">
-                    {isEditing ? (
-                        <>
-                            <button
-                                onClick={handleCancel}
-                                className="px-6 py-2 border border-gray-300 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleSave}
-                                className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
-                            >
-                                Save Changes
-                            </button>
-                        </>
-                    ) : (
-                        <button
-                            onClick={() => setIsEditing(true)}
-                            className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
-                        >
-                            Edit Profile
-                        </button>
-                    )}
-                </div>
-            </div>
+    <div className="max-w-4xl mx-auto p-6 min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="bg-[hsl(var(--card))] dark:bg-gray-800 text-[hsl(var(--card-foreground))] rounded-lg shadow-lg p-6 mb-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <button
+            onClick={onBack}
+            className="text-orange-500 hover:text-orange-600 font-semibold"
+          >
+            ← Back
+          </button>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+            My Profile
+          </h1>
+          <div className="w-16" />
         </div>
-    );
+
+        {/* Profile Photo */}
+        <div className="flex justify-center mb-6">
+          <div className="relative">
+            <div className="w-32 h-32 rounded-full bg-orange-500 dark:bg-orange-600 flex items-center justify-center overflow-hidden">
+              {displayProfile.profilePhoto ? (
+                <img
+                  src={displayProfile.profilePhoto}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-4xl text-white font-bold">
+                  {displayProfile.fullName?.charAt(0) || "U"}
+                </span>
+              )}
+            </div>
+            {isEditing && (
+              <label className="absolute bottom-0 right-0 bg-orange-500 text-white px-3 py-1 rounded-full cursor-pointer hover:bg-orange-600 text-sm">
+                📷
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoUpload}
+                  className="hidden"
+                />
+              </label>
+            )}
+          </div>
+        </div>
+
+        {/* Personal Information */}
+        <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg mb-6">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+            Personal Information
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { label: "Full Name", key: "fullName", type: "text" },
+              { label: "Email Address", key: "email", type: "email" },
+              { label: "Phone Number", key: "phoneNumber", type: "tel" },
+              { label: "Location", key: "location", type: "text" },
+            ].map((field) => (
+              <div key={field.key}>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                  {field.label}
+                </label>
+                {isEditing ? (
+                  <input
+                    type={field.type}
+                    value={editedProfile[field.key] || ""}
+                    onChange={(e) =>
+                      setEditedProfile({
+                        ...editedProfile,
+                        [field.key]: e.target.value,
+                      })
+                    }
+                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  />
+                ) : (
+                  <p className="p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100">
+                    {displayProfile[field.key] || "Not provided"}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Total Orders */}
+        <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                Total Orders Placed
+              </h3>
+              <p className="text-3xl font-bold text-orange-600">
+                {displayProfile.totalOrders || 0}
+              </p>
+            </div>
+            <span className="text-4xl">📦</span>
+          </div>
+        </div>
+
+        {/* Current Order */}
+        {displayProfile.currentOrder && (
+          <div className="bg-blue-50 dark:bg-blue-700 p-6 rounded-lg mb-6 border border-blue-200 dark:border-blue-600">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+              📦 Current Order
+            </h2>
+            <div className="space-y-2">
+              {["Order ID", "Status", "Order date"].map((label, index) => (
+                <div key={index} className="flex justify-between">
+                  <span className="text-gray-600 dark:text-gray-300">{label}:</span>
+                  <span className="font-semibold">
+                    {index === 0
+                      ? displayProfile.currentOrder.orderId
+                      : index === 1
+                      ? displayProfile.currentOrder.status
+                      : displayProfile.currentOrder.orderDate}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={handleTrackOrder}
+              className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              Track Order →
+            </button>
+          </div>
+        )}
+
+        {/* Previous Orders */}
+        <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg mb-6">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+            Previous Orders
+          </h2>
+          {displayProfile.previousOrders && displayProfile.previousOrders.length > 0 ? (
+            <div className="space-y-3">
+              {displayProfile.previousOrders.map((order) => (
+                <div
+                  key={order.id}
+                  className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-md transition-shadow"
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <p className="font-semibold text-gray-800 dark:text-gray-100">
+                        {order.orderId}
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {order.orderDate}
+                      </p>
+                    </div>
+                    <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
+                      {order.status}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600 dark:text-gray-300">
+                      {order.items.length} items
+                    </span>
+                    <span className="font-semibold text-gray-800 dark:text-gray-100">
+                      ₹{order.total}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8 bg-gray-100 dark:bg-gray-800 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600">
+              <span className="text-4xl mb-2 block">📦</span>
+              <p className="text-gray-500 dark:text-gray-400">No previous orders yet</p>
+              <p className="text-sm text-gray-400 mt-1">
+                Your order history will appear here
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Saved Addresses */}
+        <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg mb-6">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+              Saved Addresses
+            </h2>
+            {isEditing && (
+              <button
+                onClick={() => setShowAddressForm(!showAddressForm)}
+                className="text-orange-500 hover:text-orange-600 font-semibold"
+              >
+                + Add New
+              </button>
+            )}
+          </div>
+
+          {showAddressForm && isEditing && (
+            <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg border border-orange-300 dark:border-orange-500 mb-4">
+              <input
+                type="text"
+                placeholder="Label (e.g., Home, Office)"
+                value={newAddress.label}
+                onChange={(e) =>
+                  setNewAddress({ ...newAddress, label: e.target.value })
+                }
+                className="w-full p-2 mb-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+              />
+              <textarea
+                placeholder="Full Address"
+                value={newAddress.address}
+                onChange={(e) =>
+                  setNewAddress({ ...newAddress, address: e.target.value })
+                }
+                className="w-full p-2 mb-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                rows="3"
+              />
+              <div className="flex space-x-2">
+                <button
+                  onClick={handleAddAddress}
+                  className="flex-1 bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600"
+                >
+                  Add Address
+                </button>
+                <button
+                  onClick={() => setShowAddressForm(false)}
+                  className="flex-1 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 py-2 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className="space-y-3">
+            {displayProfile.savedAddresses && displayProfile.savedAddresses.length > 0 ? (
+              displayProfile.savedAddresses.map((addr) => (
+                <div
+                  key={addr.id}
+                  className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-600"
+                >
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <div className="flex items-center mb-2">
+                        <span className="text-xl mr-2">📍</span>
+                        <span className="font-semibold text-gray-800 dark:text-gray-100">
+                          {addr.label}
+                        </span>
+                        {addr.isDefault && (
+                          <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded">
+                            Default
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 ml-7">
+                        {addr.address}
+                      </p>
+                    </div>
+                    {isEditing && (
+                      <div className="flex flex-col space-y-2 ml-2">
+                        {!addr.isDefault && (
+                          <button
+                            onClick={() => handleSetDefaultAddress(addr.id)}
+                            className="text-orange-500 hover:text-orange-600 text-xs"
+                          >
+                            Set Default
+                          </button>
+                        )}
+                        <button
+                          onClick={() => handleDeleteAddress(addr.id)}
+                          className="text-red-500 hover:text-red-600 text-xs"
+                        >
+                          🗑 Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 bg-gray-100 dark:bg-gray-800 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600">
+                <span className="text-4xl mb-2 block">📍</span>
+                <p className="text-gray-500 dark:text-gray-400">No saved addresses yet</p>
+                {isEditing && (
+                  <p className="text-sm text-gray-400 mt-1">Click "Add New" to save an address</p>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex justify-end space-x-4">
+          {isEditing ? (
+            <>
+              <button
+                onClick={handleCancel}
+                className="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSave}
+                className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+              >
+                Save Changes
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() => setIsEditing(true)}
+              className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+            >
+              Edit Profile
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 
