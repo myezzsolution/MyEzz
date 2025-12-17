@@ -128,14 +128,23 @@ function PaymentPage() {
         orderDate: new Date().toISOString(),
       };
 
-      await fetch("https://script.google.com/macros/s/AKfycbyHnZfPK_Yc4e0_TBm_7AMfBJ9jElkel2WPbPK27MHnkUutGPYhl_PEVy2Yv_JMaNev/exec ", {
+      const scriptUrl = import.meta.env.VITE_APP_SCRIPT_URL;
+      if (!scriptUrl) {
+        console.error("VITE_APP_SCRIPT_URL is not defined in .env");
+        alert("Configuration Error: API URL missing");
+        setLoading(false);
+        return;
+      }
+
+      await fetch(scriptUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
         mode: "no-cors",
       });
 
-      // Update user profile in localStorage
+      // Update user profile in localStorage (removed - now handled by backend)
+      /* 
       try {
         const savedProfile = localStorage.getItem("userProfile");
         if (savedProfile) {
@@ -150,6 +159,7 @@ function PaymentPage() {
       } catch (err) {
         console.error("Error updating user profile:", err);
       }
+      */
 
 
       setShowSuccess(true);
