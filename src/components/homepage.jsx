@@ -174,12 +174,13 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
                         <p className="text-sm opacity-70">{userEmail}</p>
                     </div>
 
-                    {/* My Profile */}
-                    <div className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
+                    {/* Dark Mode */}
+                    <div className="flex items-center justify-between px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 border-b border-gray-200 dark:border-white-700">
                         <span className="text-sm font-medium">Dark Mode</span>
                         <ThemeToggle />
                     </div>
 
+                    {/* My Profile */}
                     <button
                         onClick={onMyProfile}
                         className="w-full flex items-center px-4 py-3 text-left hover:bg-orange-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-colors duration-200"
