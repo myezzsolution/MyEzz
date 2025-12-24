@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import { useAuth } from '../auth/AuthContext';
 import ThemeToggle from './ThemeToggle';
 import { logOut } from '../auth/authService';
+import Toast from './Toast';
 
 // --- SVG ICONS (Your existing SVG components go here) ---
 const SunIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`text-yellow-500 ${className}`}><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>;
@@ -44,9 +45,9 @@ const categoryFilters = [
 // --- COMPONENTS ---
 const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange, isProfileOpen, onProfileToggle, onProfileClose, onMyProfile, onLogoClick }) => (
     <header className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] 
-shadow-sm p-4 px-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 transition-colors duration-200">
+    shadow-sm p-2 px-4 sm:p-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 transition-colors duration-200">
 
-        <button onClick={onLogoClick} className="focus:outline-none"><img src={logo} alt="MyEzz Logo" className="h-25" /></button>
+        <button onClick={onLogoClick} className="focus:outline-none"><img src={logo} alt="MyEzz Logo" className="h-10 sm:h-20" /></button>
         <div className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] relative flex-1 max-w-xl mx-4">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <SearchIcon className="text-gray-400" />
@@ -60,7 +61,6 @@ shadow-sm p-4 px-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 t
             />
         </div>
         <div className="flex items-center space-x-3">
-            <ThemeToggle />
             <button onClick={onCartClick} className="relative text-gray-600 dark:text-gray-300 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hidden md:block transition-colors duration-200">
                 <CartIcon />
                 {cartItems.length > 0 && <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{cartItems.reduce((acc, item) => acc + item.quantity, 0)}</span>}
@@ -174,11 +174,17 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
                         <p className="text-sm opacity-70">{userEmail}</p>
                     </div>
 
+                    {/* Dark Mode */}
+                    <div className="flex items-center justify-between px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 border-b border-gray-200 dark:border-white-700">
+                        <span className="text-sm font-medium">Dark Mode</span>
+                        <ThemeToggle />
+                    </div>
+
                     {/* My Profile */}
                     <button
                         onClick={onMyProfile}
-                        className="w-full flex items-center px-4 py-3 text-left text-black dark:text-white hover:bg-orange-400 transition-colors duration-200"
-                    >
+className="w-full flex items-center px-4 py-3 text-left hover:bg-orange-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-colors duration-200"
+>
                         <UserIcon />
                         <span className="ml-3">My Profile</span>
                     </button>
@@ -224,19 +230,18 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
 
             {/* Sidebar - Desktop & Mobile */}
             <aside className={`
-                fixed md:relative
-                top-0 left-0 h-full md:h-auto
-                w-80 sm:w-96 md:w-72
+                fixed
+                top-0 left-0 h-full
+                w-80 sm:w-96
                 flex-shrink-0
-                p-6 sm:p-8 md:p-5 lg:p-6
-                space-y-6 md:space-y-6
-                bg-[hsl(var(--background))] text-[hsl(var(--foreground))] md:bg-transparent
-                shadow-2xl md:shadow-none
-                z-50 md:z-auto
+                p-6 sm:p-8
+                space-y-6
+                bg-[hsl(var(--background))] text-[hsl(var(--foreground))]
+                shadow-2xl
+                z-50
                 transform transition-transform duration-300 ease-in-out
-                ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-                md:block
-                overflow-y-auto md:overflow-visible
+                ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+                overflow-y-auto
             `}>
                 {/* Mobile Header */}
                 <div className="flex items-center justify-between mb-6 md:hidden pb-4 border-b border-gray-200 dark:border-gray-700">
@@ -325,7 +330,7 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
 };
 const RestaurantCard = ({ name, distance, cuisines, rating, reviews, delivery_time, image_url, onClick, isFavorite, onToggleFavorite }) => (
     // The props are updated to include 'image_url' and 'delivery_time'
-    <div onClick={onClick} className="bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-2xl shadow-md overflow-hidden group hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-100 dark:border-gray-800 hover:border-orange-200 dark:hover:border-orange-800">
+    <div onClick={onClick} className="bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-2xl shadow-md overflow-hidden group hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-100 dark:border-gray-800 hover:border-orange-200 dark:hover:border-orange-800 h-full flex flex-col">
         <div className="relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-900">
             {/* FIXED: The src attribute now correctly uses the 'image_url' prop */}
             <img src={image_url} alt={name} className="w-full h-44 sm:h-48 object-cover group-hover:scale-110 transition-transform duration-700 ease-out" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/600x400/cccccc/ffffff?text=Image+Missing'; }} />
@@ -333,14 +338,8 @@ const RestaurantCard = ({ name, distance, cuisines, rating, reviews, delivery_ti
             {/* Gradient Overlay on Hover */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-            {/* Rating Badge - Top Left */}
-            <div className="absolute top-3 left-3 flex items-center bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm text-green-700 dark:text-green-400 px-2.5 py-1 rounded-lg text-xs sm:text-sm shadow-lg flex-shrink-0 border border-green-100 dark:border-green-800">
-                <StarIcon />
-                <span className="ml-1 font-bold">{rating}</span>
-            </div>
-
-            {/* Heart Icon - Top Right */}
-            <div className="absolute top-3 right-3 p-2.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110 group-hover:scale-110">
+            {/* Heart Icon - Top Right - FIXED PADDING */}
+            <div className="absolute top-3 right-3 w-10 h-10 flex items-center justify-center bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110 group-hover:scale-110">
                 <button
                     onClick={(e) => {
                         e.stopPropagation();
@@ -352,13 +351,18 @@ const RestaurantCard = ({ name, distance, cuisines, rating, reviews, delivery_ti
                 </button>
             </div>
         </div>
-        <div className="p-4 sm:p-5 bg-[hsl(var(--card))]">
+        <div className="p-4 sm:p-5 bg-[hsl(var(--card))] flex flex-col flex-1">
             <div className="flex justify-between items-start mb-2">
                 <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-100 pr-2 line-clamp-1 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">{name}</h3>
+                {/* Rating Badge - Moved Here */}
+                <div className="flex items-center bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 rounded-lg text-xs sm:text-sm font-bold flex-shrink-0 border border-green-200 dark:border-green-800">
+                    <span className="mr-1"><StarIcon className="w-4 h-4" /></span>
+                    <span>{rating}</span>
+                </div>
             </div>
             {/* Use a check to prevent errors if cuisines is not available */}
             <p className="text-gray-600 dark:text-gray-400 text-sm truncate mb-3">{cuisines ? cuisines.join(', ') : 'Cuisine not available'}</p>
-            <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-400 pt-3 border-t border-gray-100 dark:border-gray-800">
+            <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-400 pt-3 border-t border-gray-100 dark:border-gray-800 mt-auto">
                 <div className="flex items-center space-x-1">
                     <svg className="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -373,11 +377,15 @@ const RestaurantCard = ({ name, distance, cuisines, rating, reviews, delivery_ti
                     <span className="font-semibold">{delivery_time} mins</span>
                 </div>
             </div>
+            {/* Primary Action Button */}
+            <button className="w-full mt-4 py-2 bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white font-semibold rounded-lg transition-colors duration-200">
+                View Menu
+            </button>
         </div>
     </div>
 );
 
-const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItems, setCartItems }) => {
+const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItems, setCartItems, showToastMessage }) => {
     const [restaurants, setRestaurants] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCuisines, setSelectedCuisines] = useState([]);
@@ -407,12 +415,14 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
             const restaurantName = dish.restaurants?.name || 'Unknown Restaurant';
             const itemExists = prevItems.find(i => i.id === dish.id && i.vendor === restaurantName);
             if (itemExists) {
+                showToastMessage(`${dish.name} quantity updated in cart!`);
                 return prevItems.map(i =>
                     i.id === dish.id && i.vendor === restaurantName
                         ? { ...i, quantity: i.quantity + 1 }
                         : i
                 );
             }
+            showToastMessage(`${dish.name} added to cart!`);
             return [...prevItems, { ...dish, quantity: 1, vendor: restaurantName, restaurantName: restaurantName }];
         });
     };
@@ -501,33 +511,77 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                 setShowFavorites={setShowFavorites}
             />
             <main className="flex-1 py-6 sm:py-8 w-full">
+                {/* HORIZONTAL FILTERS - Moved from Sidebar to top of main */}
+                <div className="mb-6">
+                    <div className="flex items-center justify-between mb-3">
+                        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200">What's on your mind?</h2>
+                        {/* Mobile Filter Button */}
+                        <button
+                            onClick={() => setShowFilters(!showFilters)}
+                            className="flex md:hidden items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-sm font-semibold text-gray-700 dark:text-gray-300 shadow-sm"
+                        >
+                            <FilterIcon />
+                            <span>Filters</span>
+                        </button>
+                    </div>
+
+                    <div className="flex space-x-3 overflow-x-auto pb-4 scrollbar-hide">
+                        {/* Cuisine Chips */}
+                        {["Jain", "Non-Jain", "Beverages"].map(cuisine => (
+                            <button
+                                key={cuisine}
+                                onClick={() => {
+                                    setSelectedCuisines(prev => prev.includes(cuisine) ? prev.filter(c => c !== cuisine) : [...prev, cuisine]);
+                                }}
+                                className={`
+                                    flex-shrink-0 px-5 py-2 text-sm font-semibold rounded-full border transition-all duration-200 whitespace-nowrap
+                                    ${selectedCuisines.includes(cuisine)
+                                        ? 'bg-orange-500 text-white border-orange-500 shadow-md'
+                                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-orange-500 hover:text-orange-500'
+                                    }
+                                `}
+                            >
+                                {cuisine}
+                            </button>
+                        ))}
+
+                        {/* Favourites Filter */}
+                        <button
+                            onClick={() => setShowFavorites(!showFavorites)}
+                            className={`
+                                flex-shrink-0 px-5 py-2 text-sm font-semibold rounded-full border transition-all duration-200 whitespace-nowrap flex items-center gap-2
+                                ${showFavorites
+                                    ? 'bg-red-500 text-white border-red-500 shadow-md'
+                                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-red-500 hover:text-red-500'
+                                }
+                            `}
+                        >
+                            <span>❤️</span>
+                            <span>Favourites</span>
+                        </button>
+
+                        {/* Clear All */}
+                        {(selectedCuisines.length > 0 || showFavorites) && (
+                            <button
+                                onClick={() => {
+                                    setSelectedCuisines([]);
+                                    setShowFavorites(false);
+                                }}
+                                className="flex-shrink-0 px-5 py-2 text-sm font-semibold text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 underline whitespace-nowrap"
+                            >
+                                Clear All
+                            </button>
+                        )}
+                    </div>
+                </div>
+
+
                 <div className="flex justify-between items-center mb-6 sm:mb-8">
                     <div className="flex items-center space-x-3">
                         <p className="text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-200">
                             {filteredRestaurants.length} restaurant{filteredRestaurants.length !== 1 ? 's' : ''} found
                         </p>
-                        {selectedCuisines.length > 0 && (
-                            <span className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-semibold rounded-full border border-orange-200 dark:border-orange-800 shadow-sm">
-                                {selectedCuisines.length} active
-                            </span>
-                        )}
-
                     </div>
-                    <button
-                        onClick={() => setShowFilters(!showFilters)}
-                        className="md:hidden flex items-center px-5 py-2.5 border-2 border-orange-300 dark:border-orange-700 rounded-full text-sm font-semibold text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 hover:border-orange-400 dark:hover:border-orange-600 transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 bg-white dark:bg-gray-800"
-                    >
-                        <FilterIcon />
-                        <span className="ml-2">Filters</span>
-                        {selectedCuisines.length > 0 && (
-                            <span className="ml-2 px-2 py-0.5 bg-orange-500 text-white text-xs font-bold rounded-full">
-                                {selectedCuisines.length}
-                            </span>
-                        )}
-                        {showFavorites && (
-                            <span className="ml-1 text-xs">❤️</span>
-                        )}
-                    </button>
                 </div>
                 {searchQuery.trim() !== '' ? (
                     <div className="flex flex-col gap-8 mb-8">
@@ -631,7 +685,7 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
         </div>
     );
 };
-const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searchQuery }) => {
+const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searchQuery, showToastMessage }) => {
     const [menuItems, setMenuItems] = useState([]);
     // NEW: Add state to hold categories fetched from the database
     const [categories, setCategories] = useState([]);
@@ -676,12 +730,14 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
         setCartItems(prevItems => {
             const itemExists = prevItems.find(i => i.id === item.id && i.vendor === restaurant.name);
             if (itemExists) {
+                showToastMessage(`${item.name} quantity updated in cart!`);
                 return prevItems.map(i =>
                     i.id === item.id && i.vendor === restaurant.name
                         ? { ...i, quantity: i.quantity + 1 }
                         : i
                 );
             }
+            showToastMessage(`${item.name} added to cart!`);
             return [...prevItems, { ...item, quantity: 1, vendor: restaurant.name, restaurantName: restaurant.name }];
         });
     };
@@ -798,6 +854,9 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
     const [onlineOrders, setOnlineOrders] = useState([]);
     const [loadingOrders, setLoadingOrders] = useState(false);
 
+    // Toast state
+    const [toast, setToast] = useState({ isVisible: false, message: '', type: 'success' });
+
     // FETCH ORDERS FROM APP SCRIPT
     useEffect(() => {
         console.log("MyProfilePage: Checking userProfile for email...", userProfile);
@@ -831,6 +890,24 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
     }, [userProfile.email]);
 
     const handleSave = () => {
+        // CHECK FOR PRIVATE INFO CHANGES
+        const privateFields = ['email', 'phoneNumber', 'fullName', 'location'];
+        const hasPrivateChanges = privateFields.some(field => editedProfile[field] !== userProfile[field]);
+
+        if (hasPrivateChanges) {
+            setToast({
+                isVisible: true,
+                message: "Your profile has been updated successfully!",
+                type: 'success'
+            });
+        } else {
+            setToast({
+                isVisible: true,
+                message: "Profile updated successfully!",
+                type: 'success'
+            });
+        }
+
         setUserProfile(editedProfile);
         setIsEditing(false);
         localStorage.setItem('userProfile', JSON.stringify(editedProfile));
@@ -914,8 +991,15 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
     }, [displayProfile?.currentOrder?.status]);
 
 
+
     return (
         <div className="max-w-4xl mx-auto p-6 min-h-screen bg-gray-50 dark:bg-gray-900">
+            <Toast
+                message={toast.message}
+                type={toast.type}
+                isVisible={toast.isVisible}
+                onClose={() => setToast(prev => ({ ...prev, isVisible: false }))}
+            />
             <div className="bg-[hsl(var(--card))] dark:bg-gray-800 text-[hsl(var(--card-foreground))] rounded-lg shadow-lg p-6 mb-6">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
@@ -1437,6 +1521,8 @@ export default function App() {
     const [searchQuery, setSearchQuery] = useState('');
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState('home'); // Track current page
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
 
     const [address, setAddress] = useState({
         fullName: '',
@@ -1531,6 +1617,11 @@ export default function App() {
         setSearchQuery('');
     };
 
+    const showToastMessage = (message) => {
+        setToastMessage(message);
+        setShowToast(true);
+    };
+
 
     const isValidEmail = (email) => {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -1599,6 +1690,7 @@ export default function App() {
                 cartItems={cartItems}
                 setCartItems={setCartItems}
                 searchQuery={searchQuery}
+                showToastMessage={showToastMessage}
             />;
         }
 
@@ -1609,6 +1701,7 @@ export default function App() {
             setSearchQuery={setSearchQuery}
             cartItems={cartItems}
             setCartItems={setCartItems}
+            showToastMessage={showToastMessage}
         />;
     };
 
@@ -1640,6 +1733,12 @@ export default function App() {
                     <span>Cart</span>
                 </button>
             </nav>
+            <Toast
+                message={toastMessage}
+                type="success"
+                isVisible={showToast}
+                onClose={() => setShowToast(false)}
+            />
             <Footer />
         </div>
     );
