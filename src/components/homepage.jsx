@@ -177,7 +177,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
                     {/* My Profile */}
                     <button
                         onClick={onMyProfile}
-                        className="w-full flex items-center px-4 py-3 text-left text-white hover:bg-orange-400 transition-colors duration-200"
+                        className="w-full flex items-center px-4 py-3 text-left text-black dark:text-white hover:bg-orange-400 transition-colors duration-200"
                     >
                         <UserIcon />
                         <span className="ml-3">My Profile</span>
