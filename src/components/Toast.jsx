@@ -6,7 +6,7 @@ const Toast = ({ message, type = 'success', isVisible, onClose }) => {
     if (isVisible) {
       const timer = setTimeout(() => {
         onClose();
-      }, 4000); // Auto hide after 4 seconds
+      }, 2000); // Auto hide after 2 seconds
 
       return () => clearTimeout(timer);
     }
@@ -61,11 +61,11 @@ const Toast = ({ message, type = 'success', isVisible, onClose }) => {
           initial={{ opacity: 0, y: -100, scale: 0.8, x: 100 }}
           animate={{ opacity: 1, y: 0, scale: 1, x: 0 }}
           exit={{ opacity: 0, y: -100, scale: 0.8, x: 100 }}
-          transition={{ 
-            type: "spring", 
-            stiffness: 300, 
+          transition={{
+            type: "spring",
+            stiffness: 300,
             damping: 30,
-            duration: 0.3 
+            duration: 0.3
           }}
           className={`fixed top-6 right-6 z-50 px-6 py-4 rounded-xl shadow-lg border ${getToastStyles()} max-w-sm`}
         >

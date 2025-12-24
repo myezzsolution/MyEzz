@@ -385,7 +385,7 @@ const RestaurantCard = ({ name, distance, cuisines, rating, reviews, delivery_ti
     </div>
 );
 
-const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItems, setCartItems }) => {
+const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItems, setCartItems, showToastMessage }) => {
     const [restaurants, setRestaurants] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCuisines, setSelectedCuisines] = useState([]);
@@ -415,12 +415,14 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
             const restaurantName = dish.restaurants?.name || 'Unknown Restaurant';
             const itemExists = prevItems.find(i => i.id === dish.id && i.vendor === restaurantName);
             if (itemExists) {
+                showToastMessage(`${dish.name} quantity updated in cart!`);
                 return prevItems.map(i =>
                     i.id === dish.id && i.vendor === restaurantName
                         ? { ...i, quantity: i.quantity + 1 }
                         : i
                 );
             }
+            showToastMessage(`${dish.name} added to cart!`);
             return [...prevItems, { ...dish, quantity: 1, vendor: restaurantName, restaurantName: restaurantName }];
         });
     };
@@ -683,7 +685,7 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
         </div>
     );
 };
-const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searchQuery }) => {
+const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searchQuery, showToastMessage }) => {
     const [menuItems, setMenuItems] = useState([]);
     // NEW: Add state to hold categories fetched from the database
     const [categories, setCategories] = useState([]);
@@ -728,12 +730,14 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
         setCartItems(prevItems => {
             const itemExists = prevItems.find(i => i.id === item.id && i.vendor === restaurant.name);
             if (itemExists) {
+                showToastMessage(`${item.name} quantity updated in cart!`);
                 return prevItems.map(i =>
                     i.id === item.id && i.vendor === restaurant.name
                         ? { ...i, quantity: i.quantity + 1 }
                         : i
                 );
             }
+            showToastMessage(`${item.name} added to cart!`);
             return [...prevItems, { ...item, quantity: 1, vendor: restaurant.name, restaurantName: restaurant.name }];
         });
     };
@@ -1517,6 +1521,8 @@ export default function App() {
     const [searchQuery, setSearchQuery] = useState('');
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState('home'); // Track current page
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
 
     const [address, setAddress] = useState({
         fullName: '',
@@ -1611,6 +1617,11 @@ export default function App() {
         setSearchQuery('');
     };
 
+    const showToastMessage = (message) => {
+        setToastMessage(message);
+        setShowToast(true);
+    };
+
 
     const isValidEmail = (email) => {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -1679,6 +1690,7 @@ export default function App() {
                 cartItems={cartItems}
                 setCartItems={setCartItems}
                 searchQuery={searchQuery}
+                showToastMessage={showToastMessage}
             />;
         }
 
@@ -1689,6 +1701,7 @@ export default function App() {
             setSearchQuery={setSearchQuery}
             cartItems={cartItems}
             setCartItems={setCartItems}
+            showToastMessage={showToastMessage}
         />;
     };
 
@@ -1720,6 +1733,12 @@ export default function App() {
                     <span>Cart</span>
                 </button>
             </nav>
+            <Toast
+                message={toastMessage}
+                type="success"
+                isVisible={showToast}
+                onClose={() => setShowToast(false)}
+            />
             <Footer />
         </div>
     );
