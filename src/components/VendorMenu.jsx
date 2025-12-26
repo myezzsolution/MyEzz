@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import MenuItem from "./MenuItem";
 
-function VendorMenu({ vendor, closeMenu, addToCart }) {
+function VendorMenu({ vendor, closeMenu, addToCart, cart, removeFromCart }) {
   const [activeCategory, setActiveCategory] = useState(
     vendor.categories[0]?.name || ""
   );
@@ -232,6 +232,8 @@ function VendorMenu({ vendor, closeMenu, addToCart }) {
                       item={item}
                       vendor={vendor.name}
                       addToCart={addToCart}
+                      cart={cart}
+                      removeFromCart={removeFromCart}
                     />
                   ))}
                 </div>

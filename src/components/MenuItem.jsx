@@ -3,13 +3,18 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-function MenuItem({ item, vendor, addToCart }) {
+function MenuItem({ item, vendor, addToCart, cart, removeFromCart }) {
   const priceKeys = typeof item.price === "object" ? Object.keys(item.price) : [];
   const [selectedPortion, setSelectedPortion] = useState(priceKeys[0] || "");
 
+  // Find if this item is already in cart
+  const itemId = `${item.id}-${selectedPortion}`;
+  const cartItem = cart?.find(i => i.id === itemId && i.vendor === vendor);
+  const quantity = cartItem?.quantity || 0;
+
   const handleAdd = () => {
     const selectedItem = {
-      id: `${item.id}-${selectedPortion}`,
+      id: itemId,
       name: item.name,
       price: typeof item.price === "object" ? item.price[selectedPortion] : item.price,
       vendor,
@@ -19,6 +24,16 @@ function MenuItem({ item, vendor, addToCart }) {
       quantity: 1,
     };
     addToCart(selectedItem);
+  };
+
+  const handleIncrement = () => {
+    handleAdd();
+  };
+
+  const handleDecrement = () => {
+    if (cartItem) {
+      removeFromCart(cartItem);
+    }
   };
 
   return (
@@ -54,12 +69,32 @@ function MenuItem({ item, vendor, addToCart }) {
       </div>
 
       <div className="flex flex-col items-end gap-3">
-        <button
-          onClick={handleAdd}
-          className="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 rounded-lg font-medium"
-        >
-          Add
-        </button>
+        {quantity === 0 ? (
+          <button
+            onClick={handleAdd}
+            className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
+          >
+            ADD
+          </button>
+        ) : (
+          <div className="flex items-center gap-1">
+            <button
+              onClick={handleDecrement}
+              className="border-2 border-sky-600 text-sky-600 hover:text-white hover:bg-sky-600 w-8 h-8 rounded-md transition-all duration-200 font-bold text-xl flex items-center justify-center active:scale-90"
+            >
+              −
+            </button>
+            <span className="text-sky-700 font-bold px-3 min-w-[2.5rem] text-center">
+              {quantity}
+            </span>
+            <button
+              onClick={handleIncrement}
+              className="border-2 border-sky-600 text-sky-600 hover:text-white hover:bg-sky-600 w-8 h-8 rounded-md transition-all duration-200 font-bold text-xl flex items-center justify-center active:scale-90"
+            >
+              +
+            </button>
+          </div>
+        )}
         <div className="text-xs text-gray-500">{item.jain ? "Jain" : ""}</div>
       </div>
     </motion.div>

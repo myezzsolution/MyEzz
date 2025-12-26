@@ -742,6 +742,25 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
         });
     };
 
+    const removeFromCart = (item) => {
+        setCartItems(prevItems => {
+            const existingItem = prevItems.find(i => i.id === item.id && i.vendor === restaurant.name);
+            if (!existingItem) return prevItems;
+            
+            if (existingItem.quantity === 1) {
+                showToastMessage(`${item.name} removed from cart!`);
+                return prevItems.filter(i => !(i.id === item.id && i.vendor === restaurant.name));
+            }
+            
+            showToastMessage(`${item.name} quantity decreased!`);
+            return prevItems.map(i =>
+                i.id === item.id && i.vendor === restaurant.name
+                    ? { ...i, quantity: i.quantity - 1 }
+                    : i
+            );
+        });
+    };
+
     // FIXED: This logic now correctly uses the 'categories' state fetched from the database
     const availableCategories = categories.filter(category =>
         menuItems.some(item =>
@@ -824,15 +843,48 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                         <p>Loading menu...</p>
                     ) : filteredMenuItems.length > 0 ? (
                         <div className="space-y-4">
-                            {filteredMenuItems.map((item) => (
-                                <div key={item.id} className="flex justify-between items-center p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
-                                    <div>
-                                        <h4 className="font-semibold text-gray-800 dark:text-gray-100">{item.name}</h4>
-                                        {item.price && <p className="text-sm text-gray-500 dark:text-gray-400">₹{item.price}</p>}
+                            {filteredMenuItems.map((item) => {
+                                // Find if this item is already in cart
+                                const cartItem = cartItems.find(i => i.id === item.id && i.vendor === restaurant.name);
+                                const quantity = cartItem?.quantity || 0;
+                                
+                                return (
+                                    <div key={item.id} className="flex justify-between items-center p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                        <div>
+                                            <h4 className="font-semibold text-gray-800 dark:text-gray-100">{item.name}</h4>
+                                            {item.price && <p className="text-sm text-gray-500 dark:text-gray-400">₹{item.price}</p>}
+                                        </div>
+                                        {item.price && (
+                                            quantity === 0 ? (
+                                                <button 
+                                                    onClick={() => addToCart(item)} 
+                                                    className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
+                                                >
+                                                    ADD
+                                                </button>
+                                            ) : (
+                                                <div className="flex items-center gap-1">
+                                                    <button
+                                                        onClick={() => removeFromCart(item)}
+                                                        className="border-2 border-orange-500 text-orange-600 hover:text-white hover:bg-orange-500 w-8 h-8 rounded-md transition-all duration-200 font-bold text-xl flex items-center justify-center active:scale-90"
+                                                    >
+                                                        −
+                                                    </button>
+                                                    <span className="text-orange-600 font-bold px-3 min-w-[2.5rem] text-center">
+                                                        {quantity}
+                                                    </span>
+                                                    <button
+                                                        onClick={() => addToCart(item)}
+                                                        className="border-2 border-orange-500 text-orange-600 hover:text-white hover:bg-orange-500 w-8 h-8 rounded-md transition-all duration-200 font-bold text-xl flex items-center justify-center active:scale-90"
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
+                                            )
+                                        )}
                                     </div>
-                                    {item.price && <button onClick={() => addToCart(item)} className="px-4 py-2 text-sm font-bold text-orange-500 border border-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition-colors">ADD</button>}
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     ) : (
                         <p className="text-gray-500 dark:text-gray-400 text-center py-8">No items found for this filter.</p>

@@ -104,35 +104,18 @@ export default function Register() {
   return (
     <div className="min-h-screen flex">
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-orange-400 to-red-500 relative overflow-hidden">
-        <div className="relative z-10 flex flex-col justify-center items-center px-12 w-full">
-          <div className="text-center mb-8">
-            <h1 className="text-6xl font-bold mb-4 text-white drop-shadow-lg">Welcome to MyEzz</h1>
-            <p className="text-xl opacity-90 text-white drop-shadow-md">Food delivery at your seat</p>
-          </div>
-          
-          <div className="flex justify-between items-center w-full max-w-md">
-            <div className="flex justify-center items-center">
-              <img src="/spoonandfork355-zham.svg" alt="Spoon" className="w-48 h-48 transform -rotate-12" />
-            </div>
-            
-            <div className="flex justify-center items-center">
-              <div className="w-20 h-20 bg-white rounded-full shadow-lg flex items-center justify-center">
-                <div className="w-16 h-16 bg-gray-100 rounded-full border-2 border-gray-200"></div>
-              </div>
-            </div>
-            
-            <div className="flex justify-center items-center">
-              <img src="/spoonandfork322-728kk.svg" alt="Fork" className="w-48 h-48 transform rotate-12" />
-            </div>
-          </div>
-        </div>
+        <img 
+          src="/myezz_signup.jpeg" 
+          alt="MyEzz Food Delivery" 
+          className="w-full h-full object-cover"
+        />
       </div>
 
       <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-12 bg-gray-50">
         <div className="w-full max-w-md">
           <div className="lg:hidden text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-800 mb-2">MyEzz</h1>
-            <p className="text-gray-600">Create your account</p>
+            <p className="text-gray-600">Delicious food delivered to your doorstep</p>
           </div>
 
           <div className="hidden lg:block mb-8">
@@ -249,13 +232,12 @@ export default function Register() {
               Already have an account?{" "}
               <button 
                 onClick={handleSignInClick}
-                className={`text-orange-500 hover:text-orange-600 font-medium transition-all duration-300 ${
-                  isSignInClicked 
-                    ? 'scale-110 ring-4 ring-orange-200 bg-orange-50 px-3 py-1 rounded-lg' 
-                    : 'hover:scale-105'
-                }`}
+                className="text-orange-500 hover:text-orange-600 font-medium transition-all duration-300 relative inline-block group"
               >
-                Sign in
+                <span className="relative">
+                  Sign in
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-500 group-hover:w-full transition-all duration-300"></span>
+                </span>
               </button>
             </p>
           </div>
