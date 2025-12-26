@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { signInWithGoogle } from "./authService";
 import { useNavigate } from "react-router-dom";
 import Toast from "../components/Toast";
+import bgImage from "./public/bg.png";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -62,9 +63,9 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex">
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-orange-400 to-red-500 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <img 
-          src="/myezz_signup.jpeg" 
+          src={bgImage} 
           alt="MyEzz Food Delivery" 
           className="w-full h-full object-cover"
         />
