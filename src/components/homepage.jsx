@@ -788,7 +788,7 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
 
     return (
         <div className="max-w-screen-xl mx-auto p-4 sm:p-8 text-gray-800 dark:text-gray-100">
-            <button onClick={onBack} className="flex items-center font-semibold text-orange-500 mb-4">
+            <button onClick={onBack} className="flex items-center font-semibold text-orange-500 mb-4 px-4 py-2 border-2 border-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition-all duration-200">
                 <BackIcon />
                 <span className="ml-2">Back to Restaurants</span>
             </button>
@@ -1057,7 +1057,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
                 <div className="flex items-center justify-between mb-6">
                     <button
                         onClick={onBack}
-                        className="text-orange-500 hover:text-orange-600 font-semibold"
+                        className="text-orange-500 hover:text-white font-semibold px-4 py-2 border-2 border-orange-500 rounded-lg hover:bg-orange-500 transition-all duration-200"
                     >
                         ← Back
                     </button>
