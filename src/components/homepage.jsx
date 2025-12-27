@@ -378,7 +378,7 @@ const RestaurantCard = ({ name, distance, cuisines, rating, reviews, delivery_ti
                 </div>
             </div>
             {/* Primary Action Button */}
-            <button className="w-full mt-4 py-2 bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white font-semibold rounded-lg transition-colors duration-200">
+            <button className="w-full mt-4 py-2 bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-md hover:scale-[1.02] transform">
                 View Menu
             </button>
         </div>
@@ -1379,7 +1379,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
                     ) : (
                         <button
                             onClick={() => setIsEditing(true)}
-                            className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+                            className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all duration-300 hover:shadow-lg hover:scale-[1.05] transform"
                         >
                             Edit Profile
                         </button>
@@ -1442,7 +1442,7 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
                         </p>
                         <button
                             onClick={onBack}
-                            className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30 transform hover:-translate-y-1"
+                            className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30 transform hover:-translate-y-1 hover:shadow-xl hover:scale-[1.02]"
                         >
                             Start Ordering
                         </button>
