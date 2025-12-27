@@ -97,7 +97,7 @@ export default function Login() {
           <button
             onClick={handleGoogleLogin}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 disabled:bg-gray-100 text-gray-700 py-4 px-6 rounded-xl text-lg font-medium shadow-sm border border-gray-200 transition-all duration-300 hover:shadow-md disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 disabled:bg-gray-100 text-gray-700 py-4 px-6 rounded-xl text-lg font-medium shadow-sm border border-gray-200 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             {isLoading ? (
               <>
@@ -127,13 +127,12 @@ export default function Login() {
               Don't have an account?{" "}
               <button 
                 onClick={handleSignUpClick}
-                className={`text-orange-500 hover:text-orange-600 font-medium transition-all duration-300 ${
-                  isSignUpClicked 
-                    ? 'scale-110 ring-4 ring-orange-200 bg-orange-50 px-3 py-1 rounded-lg' 
-                    : 'hover:scale-105'
-                }`}
+                className="text-orange-500 hover:text-orange-600 font-medium transition-all duration-300 relative inline-block group"
               >
-                Sign up
+                <span className="relative">
+                  Sign up
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-500 group-hover:w-full transition-all duration-300"></span>
+                </span>
               </button>
             </p>
           </div>
