@@ -2,6 +2,7 @@
 import { sendSmsOtp, signInWithGoogle } from "./authService";
 import { useNavigate } from "react-router-dom";
 import Toast from "../components/Toast";
+import bgImage from "./public/bg.png";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -103,9 +104,9 @@ export default function Register() {
 
   return (
     <div className="min-h-screen flex">
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-orange-400 to-red-500 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <img 
-          src="/myezz_signup.jpeg" 
+          src={bgImage} 
           alt="MyEzz Food Delivery" 
           className="w-full h-full object-cover"
         />
@@ -137,7 +138,7 @@ export default function Register() {
           <button
             onClick={handleGoogleSignUp}
             disabled={googleLoading}
-            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 disabled:bg-gray-100 text-gray-700 py-4 px-6 rounded-xl text-lg font-medium shadow-sm border border-gray-200 transition-all duration-300 hover:shadow-md disabled:cursor-not-allowed mb-6"
+            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 disabled:bg-gray-100 text-gray-700 py-4 px-6 rounded-xl text-lg font-medium shadow-sm border border-gray-200 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] disabled:cursor-not-allowed disabled:hover:scale-100 mb-6"
           >
             {googleLoading ? (
               <>
