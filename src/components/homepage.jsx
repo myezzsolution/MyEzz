@@ -9,6 +9,7 @@ import { useAuth } from '../auth/AuthContext';
 import ThemeToggle from './ThemeToggle';
 import { logOut } from '../auth/authService';
 import Toast from './Toast';
+import FoodDeliveryLoader from './FoodDeliveryLoader';
 
 // --- SVG ICONS (Your existing SVG components go here) ---
 const SunIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`text-yellow-500 ${className}`}><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>;
@@ -328,62 +329,131 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
         </>
     );
 };
-const RestaurantCard = ({ name, distance, cuisines, rating, reviews, delivery_time, image_url, onClick, isFavorite, onToggleFavorite }) => (
-    // The props are updated to include 'image_url' and 'delivery_time'
-    <div onClick={onClick} className="bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-2xl shadow-md overflow-hidden group hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-100 dark:border-gray-800 hover:border-orange-200 dark:hover:border-orange-800 h-full flex flex-col">
-        <div className="relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-900">
-            {/* FIXED: The src attribute now correctly uses the 'image_url' prop */}
-            <img src={image_url} alt={name} className="w-full h-44 sm:h-48 object-cover group-hover:scale-110 transition-transform duration-700 ease-out" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/600x400/cccccc/ffffff?text=Image+Missing'; }} />
-
-            {/* Gradient Overlay on Hover */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-            {/* Heart Icon - Top Right - FIXED PADDING */}
-            <div className="absolute top-3 right-3 w-10 h-10 flex items-center justify-center bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110 group-hover:scale-110">
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleFavorite();
-                    }}
-                    className={`transition-colors ${isFavorite ? 'text-red-500 dark:text-red-400' : 'text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400'}`}
-                >
-                    <HeartIcon filled={isFavorite} />
-                </button>
-            </div>
+const RestaurantCard = ({
+    name,
+    distance,
+    cuisines,
+    rating,
+    reviews,
+    delivery_time,
+    image_url,
+    onClick,
+    isFavorite,
+    onToggleFavorite
+  }) => (
+    <div
+      onClick={onClick}
+      className="group relative bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))]
+                 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800
+                 shadow-md hover:shadow-2xl transition-all duration-300
+                 hover:-translate-y-1 cursor-pointer flex flex-col h-full"
+    >
+      <div className="relative h-48 sm:h-52 overflow-hidden">
+        <img
+          src={image_url}
+          alt={name}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src =
+              "https://placehold.co/600x400/cccccc/ffffff?text=Image+Missing";
+          }}
+        />
+  
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+  
+        <div className="absolute bottom-3 left-3 flex items-center gap-1
+                        bg-green-600 text-white px-3 py-1 rounded-xl
+                        text-sm font-semibold shadow-lg">
+          <StarIcon className="w-4 h-4" />
+          {rating}
         </div>
-        <div className="p-4 sm:p-5 bg-[hsl(var(--card))] flex flex-col flex-1">
-            <div className="flex justify-between items-start mb-2">
-                <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-100 pr-2 line-clamp-1 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">{name}</h3>
-                {/* Rating Badge - Moved Here */}
-                <div className="flex items-center bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 rounded-lg text-xs sm:text-sm font-bold flex-shrink-0 border border-green-200 dark:border-green-800">
-                    <span className="mr-1"><StarIcon className="w-4 h-4" /></span>
-                    <span>{rating}</span>
-                </div>
-            </div>
-            {/* Use a check to prevent errors if cuisines is not available */}
-            <p className="text-gray-600 dark:text-gray-400 text-sm truncate mb-3">{cuisines ? cuisines.join(', ') : 'Cuisine not available'}</p>
-            <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-400 pt-3 border-t border-gray-100 dark:border-gray-800 mt-auto">
-                <div className="flex items-center space-x-1">
-                    <svg className="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <span className="font-semibold">{distance} km</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                    <svg className="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span className="font-semibold">{delivery_time} mins</span>
-                </div>
-            </div>
-            {/* Primary Action Button */}
-            <button className="w-full mt-4 py-2 bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-md hover:scale-[1.02] transform">
-                View Menu
-            </button>
+  
+        {/* FAVORITE */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleFavorite();
+          }}
+          className="absolute top-3 right-3 w-11 h-11 rounded-full
+                     bg-white/90 dark:bg-gray-900/80 backdrop-blur-md
+                     flex items-center justify-center shadow-lg
+                     transition-all duration-200 hover:scale-110"
+        >
+          <span
+            className={`transition-colors ${
+              isFavorite
+                ? "text-red-500"
+                : "text-gray-600 hover:text-red-500"
+            }`}
+          >
+            <HeartIcon filled={isFavorite} />
+          </span>
+        </button>
+      </div>
+  
+      {/* CONTENT */}
+      <div className="p-5 flex flex-col flex-1">
+        <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100
+                       line-clamp-1 group-hover:text-orange-500 transition-colors">
+          {name}
+        </h3>
+  
+        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-1">
+          {cuisines ? cuisines.join(", ") : "Cuisine not available"}
+        </p>
+  
+        {/* META */}
+        <div className="mt-auto pt-4 flex justify-between items-center
+                        text-sm text-gray-600 dark:text-gray-400
+                        border-t border-gray-100 dark:border-gray-800">
+          <div className="flex items-center gap-1">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span className="font-medium">{distance} km</span>
+          </div>
+  
+          <div className="flex items-center gap-1">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span className="font-medium">{delivery_time} mins</span>
+          </div>
         </div>
+  
+        <button
+  className="relative overflow-hidden w-full mt-5 py-3 rounded-2xl
+             font-semibold text-white text-sm sm:text-base
+             bg-gradient-to-br from-orange-500 to-orange-600
+             shadow-[0_6px_18px_rgba(249,115,22,0.35)]
+             transition-all duration-300
+             hover:shadow-[0_10px_28px_rgba(249,115,22,0.55)]
+             hover:scale-[1.02] active:scale-[0.97]
+             group/button"
+>
+
+  <span className="absolute inset-x-0 top-0 h-1/3
+                   bg-gradient-to-b from-white/20 to-transparent" />
+
+  
+  <span className="absolute inset-0 -translate-x-full
+                   bg-gradient-to-r from-transparent via-white/25 to-transparent
+                   group-hover/button:translate-x-full
+                   transition-transform duration-700" />
+
+  <span className="relative z-10">View Menu</span>
+</button>
+
+      </div>
     </div>
-);
+  );
+  
+
 
 const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItems, setCartItems, showToastMessage }) => {
     const [restaurants, setRestaurants] = useState([]);
@@ -491,14 +561,8 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
     });
 
     if (loading) {
-        return (
-            <div className="text-center py-20 sm:py-24">
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-orange-500 border-t-transparent mb-4"></div>
-                <p className="font-semibold text-gray-700 dark:text-gray-300 text-lg">Loading restaurants...</p>
-                <p className="text-gray-500 dark:text-gray-500 text-sm mt-2">🛵 Finding the best food for you</p>
-            </div>
-        );
-    }
+        return <FoodDeliveryLoader />;
+      }
 
     return (
         <div className="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -527,7 +591,7 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
 
                     <div className="flex space-x-3 overflow-x-auto pb-4 scrollbar-hide">
                         {/* Cuisine Chips */}
-                        {["Jain", "Non-Jain", "Beverages"].map(cuisine => (
+                        {["Jain", "Non-Jain", "Beverages","Vegeterian"].map(cuisine => (
                             <button
                                 key={cuisine}
                                 onClick={() => {
