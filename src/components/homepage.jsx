@@ -56,18 +56,14 @@ const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange, isProfile
         <button onClick={onLogoClick} className="focus:outline-none"><img src={logo} alt="MyEzz Logo" className="h-10 sm:h-20" /></button>
         <div className="relative flex-1 max-w-xl mx-4">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <SearchIcon className="text-[#6b7fa3]" />
+                <SearchIcon className="text-[#8fa3c4]" />
             </div>
             <input
                 type="text"
                 placeholder="Search for restaurants..."
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl text-[#f5f5f7] placeholder-[#6b7fa3] focus:outline-none focus:border-[#ff6a00] transition-colors duration-200"
-                style={{ 
-                    background: 'rgba(15, 25, 50, 0.9)',
-                    border: '1px solid rgba(100, 130, 180, 0.2)'
-                }}
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white/5 backdrop-blur-md text-[#f5f5f7] placeholder-[#8fa3c4] focus:outline-none focus:bg-white/10 focus:ring-1 focus:ring-[#ff6a00]/50 transition-all duration-200 border border-white/10"
             />
         </div>
         <div className="flex items-center space-x-3">
