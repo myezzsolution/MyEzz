@@ -45,29 +45,28 @@ const categoryFilters = [
 
 // --- COMPONENTS ---
 const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange, isProfileOpen, onProfileToggle, onProfileClose, onMyProfile, onLogoClick }) => (
-    <header className="text-[#f5f5f7] p-2 px-4 sm:p-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 transition-all duration-200"
-    style={{ 
-        background: 'rgba(10, 15, 30, 0.88)',
-        backdropFilter: 'blur(12px)', 
-        WebkitBackdropFilter: 'blur(12px)',
-        borderBottom: '1px solid rgba(100, 130, 180, 0.15)'
-    }}>
+    <header className="p-2 px-4 sm:p-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 transition-all duration-200
+        bg-[#EBEDF0] border-b border-[#E0E2E6]
+        dark:bg-[rgba(10,15,30,0.88)] dark:border-b dark:border-white/10 dark:backdrop-blur-xl">
 
         <button onClick={onLogoClick} className="focus:outline-none"><img src={logo} alt="MyEzz Logo" className="h-10 sm:h-20" /></button>
         <div className="relative flex-1 max-w-xl mx-4">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <SearchIcon className="text-[#8fa3c4]" />
+                <SearchIcon className="text-[#9CA3AF] dark:text-[#8fa3c4]" />
             </div>
             <input
                 type="text"
                 placeholder="Search for restaurants..."
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white/5 backdrop-blur-md text-[#f5f5f7] placeholder-[#8fa3c4] focus:outline-none focus:bg-white/10 focus:ring-1 focus:ring-[#ff6a00]/50 transition-all duration-200 border border-white/10"
+                className="w-full pl-10 pr-4 py-2.5 rounded-full 
+                    bg-[#F1F3F5] text-[#374151] placeholder-[#9CA3AF] border-none
+                    dark:bg-white/5 dark:text-[#f5f5f7] dark:placeholder-[#8fa3c4] dark:border dark:border-white/10
+                    focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-all duration-200"
             />
         </div>
         <div className="flex items-center space-x-3">
-            <button onClick={onCartClick} className="relative text-[#8fa3c4] hover:text-[#ff6a00] hidden md:block transition-colors duration-200">
+            <button onClick={onCartClick} className="relative text-[#374151] dark:text-[#8fa3c4] hover:text-[#ff6a00] hidden md:block transition-colors duration-200">
                 <CartIcon />
                 {cartItems.length > 0 && <span className="absolute -top-2 -right-2 bg-gradient-to-b from-[#ff7a1a] to-[#ff5c00] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">{cartItems.reduce((acc, item) => acc + item.quantity, 0)}</span>}
             </button>
@@ -156,14 +155,14 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
             {/* Profile Button */}
             <button
                 onClick={onToggle}
-                className="relative text-[#94A3B8] hover:text-orange-500 transition-colors p-2 rounded-full"
+                className="relative text-[#374151] dark:text-[#94A3B8] hover:text-orange-500 transition-colors p-2 rounded-full"
                 style={{ minWidth: "48px", minHeight: "48px" }}
             >
                 {profilePhoto ? (
                     <img
                         src={profilePhoto}
                         alt="Profile"
-                        className="h-9 w-9 rounded-full object-cover border border-[#374151]"
+                        className="h-9 w-9 rounded-full object-cover"
                     />
                 ) : (
                     <UserIcon className="h-6 w-6" />
@@ -172,35 +171,35 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
 
             {/* Dropdown Menu */}
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-64 bg-[#1F2937] text-white rounded-lg shadow-lg border border-[#374151] z-50">
+                <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-[#16181d] rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] border border-[#E5E7EB] dark:border-[rgba(255,255,255,0.05)] z-50">
 
                     {/* User Info */}
-                    <div className="p-4 border-b border-[#374151]">
-                        <p className="font-semibold text-white">Hello, {userName}!</p>
-                        <p className="text-sm text-[#94A3B8]">{userEmail}</p>
+                    <div className="p-4 border-b border-[#E5E7EB] dark:border-[rgba(255,255,255,0.05)]">
+                        <p className="font-semibold text-[#1F2937] dark:text-white">Hello, {userName}!</p>
+                        <p className="text-sm text-[#6B7280] dark:text-[#94A3B8]">{userEmail}</p>
                     </div>
 
                     {/* Dark Mode */}
-                    <div className="flex items-center justify-between px-4 py-2 hover:bg-[#374151] transition-colors duration-200 border-b border-[#374151]">
-                        <span className="text-sm font-medium text-white">Dark Mode</span>
+                    <div className="flex items-center justify-between px-4 py-2 hover:bg-[#F3F4F6] dark:hover:bg-[#1f2128] transition-colors duration-200 border-b border-[#E5E7EB] dark:border-[rgba(255,255,255,0.05)]">
+                        <span className="text-sm font-medium text-[#374151] dark:text-white">Dark Mode</span>
                         <ThemeToggle />
                     </div>
 
                     {/* My Profile */}
                     <button
                         onClick={onMyProfile}
-className="w-full flex items-center px-4 py-3 text-left hover:bg-[#374151] text-white transition-colors duration-200"
+className="w-full flex items-center px-4 py-3 text-left hover:bg-[#F3F4F6] dark:hover:bg-[#1f2128] text-[#374151] dark:text-white transition-colors duration-200"
 >
                         <UserIcon />
                         <span className="ml-3">My Profile</span>
                     </button>
 
-                    <div className="border-t border-[#374151]"></div>
+                    <div className="border-t border-[#E5E7EB] dark:border-[rgba(255,255,255,0.05)]"></div>
 
                     {/* Logout */}
                     <button
                         onClick={handleLogout}
-                        className="w-full flex items-center px-4 py-3 text-left text-red-400 hover:bg-[#374151] transition-colors duration-200"
+                        className="w-full flex items-center px-4 py-3 text-left text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200 rounded-b-xl"
                     >
                         <LogoutIcon />
                         <span className="ml-3">Logout</span>
@@ -229,7 +228,7 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
             {/* Mobile Backdrop */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
+                    className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
                     onClick={onClose}
                 />
             )}
@@ -242,20 +241,20 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
                 flex-shrink-0
                 p-6 sm:p-8
                 space-y-6
-                bg-[#0B1120] text-white
-                shadow-2xl
+                bg-white dark:bg-[#0b0b0d]
+                shadow-[0_0_40px_rgba(0,0,0,0.1)] dark:shadow-2xl
                 z-50
                 transform transition-transform duration-300 ease-in-out
                 ${isOpen ? 'translate-x-0' : '-translate-x-full'}
                 overflow-y-auto
-                border-r border-[#374151]
+                border-r border-[#E5E7EB] dark:border-[rgba(255,255,255,0.05)]
             `}>
                 {/* Mobile Header */}
-                <div className="flex items-center justify-between mb-6 md:hidden pb-4 border-b border-[#374151]">
-                    <h2 className="text-2xl font-bold text-white">Filters</h2>
+                <div className="flex items-center justify-between mb-6 md:hidden pb-4 border-b border-[#E5E7EB] dark:border-[rgba(255,255,255,0.05)]">
+                    <h2 className="text-2xl font-bold text-[#1F2937] dark:text-white">Filters</h2>
                     <button
                         onClick={onClose}
-                        className="p-2 rounded-xl hover:bg-[#1F2937] transition-colors text-[#94A3B8]"
+                        className="p-2 rounded-xl hover:bg-[#F3F4F6] dark:hover:bg-[#16181d] transition-colors text-[#6B7280] dark:text-[#94A3B8]"
                     >
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -264,7 +263,7 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
                 </div>
 
                 <div>
-                    <h3 className="font-bold text-lg sm:text-xl mb-5 text-white flex items-center">
+                    <h3 className="font-bold text-lg sm:text-xl mb-5 text-[#1F2937] dark:text-white flex items-center">
                         <span className="mr-2 text-2xl">🍽️</span>
                         Cuisine Type
                     </h3>
@@ -274,11 +273,11 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
                                 key={cuisine}
                                 onClick={() => handleCuisineChange(cuisine)}
                                 className={`
-                                    px-5 py-2.5 text-sm font-semibold border-2 rounded-full 
+                                    px-5 py-2.5 text-sm font-semibold rounded-full 
                                     transition-all duration-300 transform hover:scale-105 active:scale-95
                                     ${selectedCuisines.includes(cuisine)
-                                        ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white border-orange-500 shadow-lg shadow-orange-900/30 scale-105'
-                                        : 'text-white border-[#374151] hover:bg-[#1F2937] hover:border-orange-400 hover:shadow-md bg-[#1F2937]'
+                                        ? 'bg-gradient-to-b from-[#ff7a1a] to-[#ff5c00] text-white shadow-md'
+                                        : 'bg-[#F3F4F6] dark:bg-[#16181d] text-[#374151] dark:text-white hover:bg-[#E5E7EB] dark:hover:bg-[#1f2128]'
                                     }
                                 `}
                             >
@@ -293,11 +292,11 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
                     <button
                         onClick={() => setShowFavorites(!showFavorites)}
                         className={`
-                            w-full px-5 py-3 text-sm font-semibold border-2 rounded-xl flex items-center justify-between
+                            w-full px-5 py-3 text-sm font-semibold rounded-xl flex items-center justify-between
                             transition-all duration-300 transform hover:scale-[1.02] active:scale-95
                             ${showFavorites
-                                ? 'bg-gradient-to-r from-red-500 to-red-600 text-white border-red-500 shadow-lg shadow-red-900/30'
-                                : 'text-white border-[#374151] hover:bg-[#1F2937] hover:border-red-400 hover:shadow-md bg-[#1F2937]'
+                                ? 'bg-red-500 text-white shadow-md'
+                                : 'bg-[#F3F4F6] dark:bg-[#16181d] text-[#374151] dark:text-white hover:bg-[#E5E7EB] dark:hover:bg-[#1f2128]'
                             }
                         `}
                     >
@@ -308,14 +307,14 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
 
                 {/* Active Filters Count */}
                 {(selectedCuisines.length > 0 || showFavorites) && (
-                    <div className="bg-[#1F2937] border border-orange-800 rounded-xl p-4 shadow-sm">
+                    <div className="bg-orange-50 dark:bg-[#16181d] border border-orange-200 dark:border-orange-800 rounded-xl p-4">
                         <div className="flex items-center justify-between">
-                            <span className="text-sm font-semibold text-orange-300">
+                            <span className="text-sm font-semibold text-orange-600 dark:text-orange-300">
                                 {selectedCuisines.length + (showFavorites ? 1 : 0)} filter{selectedCuisines.length + (showFavorites ? 1 : 0) > 1 ? 's' : ''} active
                             </span>
                             <button
                                 onClick={clearFilters}
-                                className="text-xs font-bold text-orange-400 hover:text-orange-300 underline transition-colors"
+                                className="text-xs font-bold text-orange-500 dark:text-orange-400 hover:text-orange-600 dark:hover:text-orange-300 underline transition-colors"
                             >
                                 Clear
                             </button>
@@ -326,7 +325,9 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
                 <div className="sticky bottom-4 space-y-2 pt-4 md:pt-4">
                     <button
                         onClick={clearFilters}
-                        className="w-full text-white font-semibold py-3 rounded-xl hover:bg-[#374151] transition-all duration-200 border-2 border-[#374151] hover:border-[#4B5563] hover:shadow-md bg-[#1F2937]"
+                        className="w-full font-semibold py-3 rounded-xl transition-all duration-200 
+                            bg-[#F3F4F6] dark:bg-[#16181d] text-[#374151] dark:text-white 
+                            hover:bg-[#E5E7EB] dark:hover:bg-[#1f2128]"
                     >
                         Clear All Filters
                     </button>
@@ -349,16 +350,20 @@ const RestaurantCard = ({
   }) => (
     <div
       onClick={onClick}
-      className="group relative bg-[#1F2937] text-white
-                 rounded-3xl overflow-hidden border border-[#374151]
-                 shadow-md hover:shadow-2xl transition-all duration-300
-                 hover:-translate-y-1 cursor-pointer flex flex-col h-full"
+      className="group relative 
+                 bg-white dark:bg-[#16181d]
+                 rounded-2xl overflow-hidden 
+                 shadow-[0_6px_20px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.6)]
+                 border border-transparent dark:border-[rgba(255,255,255,0.05)]
+                 hover:shadow-[0_12px_32px_rgba(0,0,0,0.12)] dark:hover:shadow-[0_12px_32px_rgba(0,0,0,0.8)]
+                 transition-all duration-300
+                 hover:-translate-y-0.5 cursor-pointer flex flex-col h-full"
     >
       <div className="relative h-48 sm:h-52 overflow-hidden">
         <img
           src={image_url}
           alt={name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           onError={(e) => {
             e.target.onerror = null;
             e.target.src =
@@ -366,10 +371,8 @@ const RestaurantCard = ({
           }}
         />
   
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-  
         <div className="absolute bottom-3 left-3 flex items-center gap-1
-                        bg-green-600 text-white px-3 py-1 rounded-xl
+                        bg-[#22C55E] text-white px-3 py-1 rounded-lg
                         text-sm font-semibold shadow-lg">
           <StarIcon className="w-4 h-4" />
           {rating}
@@ -381,10 +384,10 @@ const RestaurantCard = ({
             e.stopPropagation();
             onToggleFavorite();
           }}
-          className="absolute top-3 right-3 w-11 h-11 rounded-full
-                     bg-white/90 dark:bg-[#1F2937]/80 backdrop-blur-md
-                     flex items-center justify-center shadow-lg
-                     transition-all duration-200 hover:scale-110 border border-[#374151]"
+          className="absolute top-3 right-3 w-10 h-10 rounded-full
+                     bg-white/95 dark:bg-[#16181d]/90 backdrop-blur-sm
+                     flex items-center justify-center shadow-md
+                     transition-all duration-200 hover:scale-110"
         >
           <span
             className={`transition-colors ${
@@ -399,20 +402,19 @@ const RestaurantCard = ({
       </div>
   
       {/* CONTENT */}
-      <div className="p-5 flex flex-col flex-1">
-        <h3 className="text-lg sm:text-xl font-bold text-white
+      <div className="p-4 flex flex-col flex-1">
+        <h3 className="text-lg font-bold text-[#1F2937] dark:text-[#f5f5f7]
                        line-clamp-1 group-hover:text-orange-500 transition-colors">
           {name}
         </h3>
   
-        <p className="mt-1 text-sm text-[#94A3B8] line-clamp-1">
+        <p className="mt-1 text-sm text-[#6B7280] dark:text-[#a1a1aa] line-clamp-1">
           {cuisines ? cuisines.join(", ") : "Cuisine not available"}
         </p>
   
         {/* META */}
-        <div className="mt-auto pt-4 flex justify-between items-center
-                        text-sm text-[#94A3B8]
-                        border-t border-[#374151]">
+        <div className="mt-auto pt-3 flex justify-between items-center
+                        text-sm text-[#9CA3AF] dark:text-[#71717a]">
           <div className="flex items-center gap-1">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -433,13 +435,13 @@ const RestaurantCard = ({
         </div>
   
         <button
-  className="relative overflow-hidden w-full mt-5 py-3 rounded-2xl
-             font-semibold text-white text-sm sm:text-base
-             bg-gradient-to-br from-orange-500 to-orange-600
-             shadow-[0_6px_18px_rgba(249,115,22,0.35)]
+  className="relative overflow-hidden w-full mt-4 py-3 rounded-xl
+             font-semibold text-white text-sm
+             bg-gradient-to-b from-[#ff7a1a] to-[#ff5c00]
+             shadow-[0_4px_12px_rgba(255,106,0,0.3)]
              transition-all duration-300
-             hover:shadow-[0_10px_28px_rgba(249,115,22,0.55)]
-             hover:scale-[1.02] active:scale-[0.97]
+             hover:shadow-[0_6px_20px_rgba(255,106,0,0.4)]
+             hover:scale-[1.02] active:scale-[0.98]
              group/button"
 >
 
@@ -571,7 +573,7 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
       }
 
     return (
-        <div className="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative dark:bg-[#0b0b0d] min-h-screen">
             <Sidebar
                 selectedCuisines={selectedCuisines}
                 setSelectedCuisines={setSelectedCuisines}
@@ -581,21 +583,31 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                 setShowFavorites={setShowFavorites}
             />
             <main className="flex-1 py-6 sm:py-8 w-full">
-                {/* HORIZONTAL FILTERS - Moved from Sidebar to top of main */}
+                {/* HORIZONTAL FILTERS - Hidden on mobile, shown on desktop */}
                 <div className="mb-6">
                     <div className="flex items-center justify-between mb-3">
-                        <h2 className="text-xl font-bold text-white">What's on your mind?</h2>
-                        {/* Mobile Filter Button */}
+                        <h2 className="text-xl font-bold text-[#1F2937] dark:text-white">What's on your mind?</h2>
+                        {/* Mobile Filter Button - Only button shown on mobile */}
                         <button
                             onClick={() => setShowFilters(!showFilters)}
-                            className="flex md:hidden items-center px-4 py-2 bg-[#1F2937] border border-[#374151] rounded-full text-sm font-semibold text-white shadow-sm"
+                            className="flex md:hidden items-center px-4 py-2.5 
+                                bg-[#F3F4F6] dark:bg-[#16181d] 
+                                rounded-full text-sm font-semibold 
+                                text-[#374151] dark:text-white 
+                                shadow-sm hover:shadow-md transition-all"
                         >
                             <FilterIcon />
                             <span>Filters</span>
+                            {(selectedCuisines.length > 0 || showFavorites) && (
+                                <span className="ml-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                    {selectedCuisines.length + (showFavorites ? 1 : 0)}
+                                </span>
+                            )}
                         </button>
                     </div>
 
-                    <div className="flex space-x-3 overflow-x-auto pb-4 scrollbar-hide">
+                    {/* Desktop filter pills - hidden on mobile */}
+                    <div className="hidden md:flex space-x-3 overflow-x-auto pb-4 scrollbar-hide">
                         {/* Cuisine Chips */}
                         {["Jain", "Non-Jain", "Beverages","Vegeterian"].map(cuisine => (
                             <button
@@ -604,10 +616,10 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                                     setSelectedCuisines(prev => prev.includes(cuisine) ? prev.filter(c => c !== cuisine) : [...prev, cuisine]);
                                 }}
                                 className={`
-                                    flex-shrink-0 px-5 py-2 text-sm font-semibold rounded-full border transition-all duration-200 whitespace-nowrap
+                                    flex-shrink-0 px-5 py-2 text-sm font-semibold rounded-full transition-all duration-200 whitespace-nowrap
                                     ${selectedCuisines.includes(cuisine)
-                                        ? 'bg-orange-500 text-white border-orange-500 shadow-md'
-                                        : 'bg-[#1F2937] text-white border-[#374151] hover:border-orange-500 hover:text-orange-500'
+                                        ? 'bg-gradient-to-b from-[#ff7a1a] to-[#ff5c00] text-white shadow-md'
+                                        : 'bg-[#F3F4F6] dark:bg-[#16181d] text-[#374151] dark:text-white hover:bg-[#E5E7EB] dark:hover:bg-[#1f2128]'
                                     }
                                 `}
                             >
@@ -619,10 +631,10 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                         <button
                             onClick={() => setShowFavorites(!showFavorites)}
                             className={`
-                                flex-shrink-0 px-5 py-2 text-sm font-semibold rounded-full border transition-all duration-200 whitespace-nowrap flex items-center gap-2
+                                flex-shrink-0 px-5 py-2 text-sm font-semibold rounded-full transition-all duration-200 whitespace-nowrap flex items-center gap-2
                                 ${showFavorites
-                                    ? 'bg-red-500 text-white border-red-500 shadow-md'
-                                    : 'bg-[#1F2937] text-white border-[#374151] hover:border-red-500 hover:text-red-500'
+                                    ? 'bg-red-500 text-white shadow-md'
+                                    : 'bg-[#F3F4F6] dark:bg-[#16181d] text-[#374151] dark:text-white hover:bg-[#E5E7EB] dark:hover:bg-[#1f2128]'
                                 }
                             `}
                         >
@@ -637,7 +649,7 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                                     setSelectedCuisines([]);
                                     setShowFavorites(false);
                                 }}
-                                className="flex-shrink-0 px-5 py-2 text-sm font-semibold text-[#94A3B8] hover:text-white underline whitespace-nowrap"
+                                className="flex-shrink-0 px-5 py-2 text-sm font-semibold text-[#6B7280] dark:text-[#94A3B8] hover:text-[#374151] dark:hover:text-white underline whitespace-nowrap"
                             >
                                 Clear All
                             </button>
@@ -648,7 +660,7 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
 
                 <div className="flex justify-between items-center mb-6 sm:mb-8">
                     <div className="flex items-center space-x-3">
-                        <p className="text-sm sm:text-base font-semibold text-white">
+                        <p className="text-sm sm:text-base font-semibold text-[#374151] dark:text-white">
                             {filteredRestaurants.length} restaurant{filteredRestaurants.length !== 1 ? 's' : ''} found
                         </p>
                     </div>
@@ -656,20 +668,20 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                 {searchQuery.trim() !== '' ? (
                     <div className="flex flex-col gap-8 mb-8">
                         {/* Top: Dish suggestions */}
-                        <div className="bg-[#1F2937] p-4 rounded-xl shadow-sm border border-[#374151]">
-                            <h2 className="text-lg font-bold text-white mb-3 flex items-center justify-between cursor-pointer hover:text-orange-500 transition-colors" onClick={() => setShowAllDishes(!showAllDishes)}>
+                        <div className="bg-white dark:bg-[#16181d] p-4 rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.6)] border border-transparent dark:border-[rgba(255,255,255,0.05)]">
+                            <h2 className="text-lg font-bold text-[#1F2937] dark:text-white mb-3 flex items-center justify-between cursor-pointer hover:text-orange-500 transition-colors" onClick={() => setShowAllDishes(!showAllDishes)}>
                                 <span>🍽️ Explore Dishes</span>
-                                <span className="text-sm text-[#94A3B8]">{showAllDishes ? 'Show Less' : 'View All'}</span>
+                                <span className="text-sm text-[#6B7280] dark:text-[#94A3B8]">{showAllDishes ? 'Show Less' : 'View All'}</span>
                             </h2>
                             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                 {(showAllDishes ? dishes : dishes.slice(0, 4)).map(d => (
-                                    <li key={d.id} onClick={() => addToCart(d)} className="flex justify-between items-center p-3 bg-[#0B1120] rounded-xl border border-[#374151] hover:border-orange-500 transition-all cursor-pointer group hover:shadow-md">
+                                    <li key={d.id} onClick={() => addToCart(d)} className="flex justify-between items-center p-3 bg-white dark:bg-[#0b0b0d] rounded-xl hover:bg-[#F3F4F6] dark:hover:border-orange-500 transition-all cursor-pointer group hover:shadow-md border border-[#E5E7EB] dark:border-[rgba(255,255,255,0.05)]">
                                         <div>
-                                            <p className="font-medium text-white line-clamp-1 group-hover:text-orange-500 transition-colors">{d.name}</p>
-                                            {d.restaurants && <p className="text-xs text-[#94A3B8] line-clamp-1">from {d.restaurants.name}</p>}
-                                            {d.price && <p className="text-xs font-bold text-white mt-1">₹{d.price}</p>}
+                                            <p className="font-medium text-[#1F2937] dark:text-white line-clamp-1 group-hover:text-orange-500 transition-colors">{d.name}</p>
+                                            {d.restaurants && <p className="text-xs text-[#6B7280] dark:text-[#94A3B8] line-clamp-1">from {d.restaurants.name}</p>}
+                                            {d.price && <p className="text-xs font-bold text-[#374151] dark:text-white mt-1">₹{d.price}</p>}
                                         </div>
-                                        <button className="p-2 bg-[#1F2937] rounded-full shadow-sm text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-colors border border-[#374151]">
+                                        <button className="p-2 bg-white dark:bg-[#16181d] rounded-full shadow-sm text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                             </svg>
@@ -677,35 +689,35 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                                     </li>
                                 ))}
                             </ul>
-                            {dishes.length === 0 && <p className="text-[#94A3B8] text-sm mt-2">No dishes found matching "{searchQuery}"</p>}
+                            {dishes.length === 0 && <p className="text-[#6B7280] dark:text-[#94A3B8] text-sm mt-2">No dishes found matching "{searchQuery}"</p>}
                         </div>
 
                         {/* Bottom: Restaurant suggestions */}
-                        <div className="bg-[#1F2937] p-4 rounded-xl shadow-sm border border-[#374151]">
-                            <h2 className="text-lg font-bold text-white mb-3 flex items-center justify-between cursor-pointer hover:text-orange-500 transition-colors" onClick={() => setShowAllRestaurants(!showAllRestaurants)}>
+                        <div className="bg-white dark:bg-[#16181d] p-4 rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.6)] border border-transparent dark:border-[rgba(255,255,255,0.05)]">
+                            <h2 className="text-lg font-bold text-[#1F2937] dark:text-white mb-3 flex items-center justify-between cursor-pointer hover:text-orange-500 transition-colors" onClick={() => setShowAllRestaurants(!showAllRestaurants)}>
                                 <span>🏙️ Explore Restaurants</span>
-                                <span className="text-sm text-[#94A3B8]">{showAllRestaurants ? 'Show Less' : 'View All'}</span>
+                                <span className="text-sm text-[#6B7280] dark:text-[#94A3B8]">{showAllRestaurants ? 'Show Less' : 'View All'}</span>
                             </h2>
                             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                 {(showAllRestaurants ? filteredRestaurants : filteredRestaurants.slice(0, 4)).map(r => (
-                                    <li key={r.id} onClick={() => { setSelectedRestaurant(r); setSearchQuery(''); }} className="cursor-pointer p-3 bg-[#0B1120] rounded-xl border border-[#374151] hover:border-orange-500 transition-all hover:shadow-md">
+                                    <li key={r.id} onClick={() => { setSelectedRestaurant(r); setSearchQuery(''); }} className="cursor-pointer p-3 bg-white dark:bg-[#0b0b0d] rounded-xl hover:bg-[#F3F4F6] dark:hover:border-orange-500 transition-all hover:shadow-md border border-[#E5E7EB] dark:border-[rgba(255,255,255,0.05)]">
                                         <div className="flex items-center gap-3">
                                             {/* Simple list item style without big image tiles */}
                                             <img
                                                 src={r.image_url}
                                                 alt={r.name}
-                                                className="w-10 h-10 rounded-full object-cover shrink-0 border border-[#374151]"
+                                                className="w-10 h-10 rounded-full object-cover shrink-0"
                                                 onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/100x100?text=IMG'; }}
                                             />
                                             <div className="min-w-0">
-                                                <p className="font-medium text-white truncate">{r.name}</p>
-                                                <p className="text-xs text-[#94A3B8] truncate">{r.cuisines.join(', ')}</p>
+                                                <p className="font-medium text-[#1F2937] dark:text-white truncate">{r.name}</p>
+                                                <p className="text-xs text-[#6B7280] dark:text-[#94A3B8] truncate">{r.cuisines.join(', ')}</p>
                                             </div>
                                         </div>
                                     </li>
                                 ))}
                             </ul>
-                            {filteredRestaurants.length === 0 && <p className="text-[#94A3B8] text-sm mt-2">No restaurants found matching "{searchQuery}"</p>}
+                            {filteredRestaurants.length === 0 && <p className="text-[#6B7280] dark:text-[#94A3B8] text-sm mt-2">No restaurants found matching "{searchQuery}"</p>}
                         </div>
                     </div>
                 ) : (
@@ -732,10 +744,10 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-20 sm:py-24 bg-[#1F2937] rounded-3xl border-2 border-dashed border-[#374151] shadow-inner">
+                        <div className="text-center py-20 sm:py-24 bg-white dark:bg-[#16181d] rounded-2xl border border-[#E5E7EB] dark:border-[rgba(255,255,255,0.05)] shadow-[0_4px_16px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.6)]">
                             <div className="text-7xl mb-5 animate-bounce">🍽️</div>
-                            <p className="text-white font-bold text-xl mb-2">No restaurants found</p>
-                            <p className="text-[#94A3B8] text-sm mb-4">Try adjusting your search or filters</p>
+                            <p className="text-[#1F2937] dark:text-white font-bold text-xl mb-2">No restaurants found</p>
+                            <p className="text-[#6B7280] dark:text-[#94A3B8] text-sm mb-4">Try adjusting your search or filters</p>
                             {(selectedCuisines.length > 0 || showFavorites || searchQuery.trim() !== '') && (
                                 <button
                                     onClick={() => {
@@ -743,7 +755,7 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                                         setShowFavorites(false);
                                         setShowFilters(false);
                                     }}
-                                    className="mt-4 px-6 py-2.5 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg"
+                                    className="mt-4 px-6 py-2.5 bg-gradient-to-b from-[#ff7a1a] to-[#ff5c00] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-200"
                                 >
                                     Clear All Filters
                                 </button>
