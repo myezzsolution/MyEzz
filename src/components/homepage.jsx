@@ -11,6 +11,7 @@ import { logOut } from '../auth/authService';
 import Toast from './Toast';
 import FoodDeliveryLoader from './FoodDeliveryLoader';
 import SurpriseMe from './SurpriseMe';
+import LocationSelector from './LocationSelector'; // [ADD]
 
 // --- SVG ICONS (Your existing SVG components go here) ---
 const SunIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`text-yellow-500 ${className}`}><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>;
@@ -45,11 +46,26 @@ const categoryFilters = [
 ];
 
 // --- COMPONENTS ---
-const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange, isProfileOpen, onProfileToggle, onProfileClose, onMyProfile, onLogoClick }) => (
+const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange, isProfileOpen, onProfileToggle, onProfileClose, onMyProfile, onLogoClick, userLocation, onLocationClick }) => (
     <header className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] 
     shadow-sm p-2 px-4 sm:p-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 transition-colors duration-200">
 
-        <button onClick={onLogoClick} className="focus:outline-none"><img src={logo} alt="MyEzz Logo" className="h-10 sm:h-20" /></button>
+        <div className="flex items-center gap-4">
+            <button onClick={onLogoClick} className="focus:outline-none"><img src={logo} alt="MyEzz Logo" className="h-10 sm:h-20" /></button>
+            <button
+                onClick={onLocationClick}
+                className="hidden lg:flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-2xl transition-all group max-w-[200px]"
+            >
+                <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-full group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                    <MapPin className="w-4 h-4 text-orange-600 dark:text-orange-400 group-hover:text-white" />
+                </div>
+                <div className="text-left overflow-hidden">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 leading-none mb-1">Deliver to</p>
+                    <p className="text-sm font-bold dark:text-gray-200 truncate">{userLocation?.address?.split(',')[0] || 'Select Location'}</p>
+                </div>
+            </button>
+        </div>
+
         <div className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] relative flex-1 max-w-xl mx-4">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <SearchIcon className="text-gray-400" />
@@ -485,6 +501,16 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
     const [dishes, setDishes] = useState([]);
     const [showAllDishes, setShowAllDishes] = useState(false);
     const [showAllRestaurants, setShowAllRestaurants] = useState(false);
+    const [showLocationModal, setShowLocationModal] = useState(false);
+    const [userLocation, setUserLocation] = useState(() => {
+        const saved = localStorage.getItem('userLocation');
+        return saved ? JSON.parse(saved) : null;
+    });
+
+    const handleLocationSelect = (location) => {
+        setUserLocation(location);
+        localStorage.setItem('userLocation', JSON.stringify(location));
+    };
 
     const toggleFavorite = (restaurantId) => {
         setFavorites(prev => {
@@ -582,6 +608,11 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
 
     return (
         <div className="flex items-center space-x-4 pb-6 scrollbar-hide px-2">
+            <LocationSelector
+                isOpen={showLocationModal}
+                onClose={() => setShowLocationModal(false)}
+                onLocationSelect={handleLocationSelect}
+            />
 
             <Sidebar
                 selectedCuisines={selectedCuisines}
@@ -1032,11 +1063,9 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
 };
 
 
-const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
+const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedProfile, setEditedProfile] = useState(userProfile);
-    const [showAddressForm, setShowAddressForm] = useState(false);
-    const [newAddress, setNewAddress] = useState({ label: '', address: '' });
 
     // NEW: State for online orders
     const [onlineOrders, setOnlineOrders] = useState([]);
@@ -1250,17 +1279,30 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
                                     {field.label}
                                 </label>
                                 {isEditing ? (
-                                    <input
-                                        type={field.type}
-                                        value={editedProfile[field.key] || ""}
-                                        onChange={(e) =>
-                                            setEditedProfile({
-                                                ...editedProfile,
-                                                [field.key]: e.target.value,
-                                            })
-                                        }
-                                        className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-                                    />
+                                    field.key === 'location' ? (
+                                        <div className="relative group cursor-pointer" onClick={() => onAddAddress('profile-main')}>
+                                            <input
+                                                type="text"
+                                                readOnly
+                                                value={editedProfile[field.key] || ""}
+                                                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 cursor-pointer pr-10"
+                                                placeholder="Click to pick on map"
+                                            />
+                                            <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-500 group-hover:scale-110 transition-transform" />
+                                        </div>
+                                    ) : (
+                                        <input
+                                            type={field.type}
+                                            value={editedProfile[field.key] || ""}
+                                            onChange={(e) =>
+                                                setEditedProfile({
+                                                    ...editedProfile,
+                                                    [field.key]: e.target.value,
+                                                })
+                                            }
+                                            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                                        />
+                                    )
                                 ) : (
                                     <p className="p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100">
                                         {displayProfile[field.key] || "Not provided"}
@@ -1393,50 +1435,15 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
                         </h2>
                         {isEditing && (
                             <button
-                                onClick={() => setShowAddressForm(!showAddressForm)}
-                                className="text-orange-500 hover:text-orange-600 font-semibold"
+                                onClick={() => onAddAddress('profile-saved')}
+                                className="text-orange-500 hover:text-orange-600 font-semibold flex items-center gap-1"
                             >
-                                + Add New
+                                <MapPin className="w-4 h-4" />
+                                Pick on Map
                             </button>
                         )}
                     </div>
 
-                    {showAddressForm && isEditing && (
-                        <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg border border-orange-300 dark:border-orange-500 mb-4">
-                            <input
-                                type="text"
-                                placeholder="Label (e.g., Home, Office)"
-                                value={newAddress.label}
-                                onChange={(e) =>
-                                    setNewAddress({ ...newAddress, label: e.target.value })
-                                }
-                                className="w-full p-2 mb-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
-                            />
-                            <textarea
-                                placeholder="Full Address"
-                                value={newAddress.address}
-                                onChange={(e) =>
-                                    setNewAddress({ ...newAddress, address: e.target.value })
-                                }
-                                className="w-full p-2 mb-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
-                                rows="3"
-                            />
-                            <div className="flex space-x-2">
-                                <button
-                                    onClick={handleAddAddress}
-                                    className="flex-1 bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600"
-                                >
-                                    Add Address
-                                </button>
-                                <button
-                                    onClick={() => setShowAddressForm(false)}
-                                    className="flex-1 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 py-2 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500"
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    )}
 
                     <div className="space-y-3">
                         {displayProfile.savedAddresses && displayProfile.savedAddresses.length > 0 ? (
@@ -1529,7 +1536,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile }) => {
 
 
 
-const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, onPayNow }) => {
+const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, onPayNow, userLocation }) => {
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const platformFee = cartItems.length > 0 ? 8 : 0;
 
@@ -1690,6 +1697,18 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
                                     placeholder="Full Delivery Address"
                                     className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition-all"
                                 />
+                                {userLocation && userLocation.lat && (
+                                    <div className="flex gap-4 px-1">
+                                        <div className="flex-1 p-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-100 dark:border-gray-700">
+                                            <p className="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-0.5">Latitude</p>
+                                            <p className="text-sm font-mono text-orange-600 dark:text-orange-400">{userLocation.lat.toFixed(6)}</p>
+                                        </div>
+                                        <div className="flex-1 p-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-100 dark:border-gray-700">
+                                            <p className="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-0.5">Longitude</p>
+                                            <p className="text-sm font-mono text-orange-600 dark:text-orange-400">{userLocation.lng.toFixed(6)}</p>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <button onClick={() => onPayNow(address)} className="w-full mt-8 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30 transform hover:scale-[1.02] active:scale-[0.98]">
@@ -1711,6 +1730,45 @@ export default function App() {
     const [currentPage, setCurrentPage] = useState('home'); // Track current page
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
+    const [showLocationModal, setShowLocationModal] = useState(false);
+    const [locationPickerPurpose, setLocationPickerPurpose] = useState('delivery'); // 'delivery' or 'profile'
+    const [userLocation, setUserLocation] = useState(() => {
+        const saved = localStorage.getItem('userLocation');
+        return saved ? JSON.parse(saved) : null;
+    });
+
+    const handleLocationSelect = (location) => {
+        if (locationPickerPurpose === 'delivery') {
+            setUserLocation(location);
+            localStorage.setItem('userLocation', JSON.stringify(location));
+        } else if (locationPickerPurpose === 'profile-main') {
+            const updatedProfile = {
+                ...userProfile,
+                location: location.address,
+                // Optional: Store lat/lng if we want to use them for tracking later
+                coordinates: { lat: location.lat, lng: location.lng }
+            };
+            setUserProfile(updatedProfile);
+            localStorage.setItem('userProfile', JSON.stringify(updatedProfile));
+            showToastMessage('Profile location updated!');
+        } else if (locationPickerPurpose === 'profile-saved') {
+            const newAddr = {
+                id: Date.now(),
+                label: 'Saved Location',
+                address: location.address,
+                isDefault: userProfile.savedAddresses.length === 0,
+                coordinates: { lat: location.lat, lng: location.lng }
+            };
+            const updatedProfile = {
+                ...userProfile,
+                savedAddresses: [...userProfile.savedAddresses, newAddr]
+            };
+            setUserProfile(updatedProfile);
+            localStorage.setItem('userProfile', JSON.stringify(updatedProfile));
+            showToastMessage('Address added to your profile!');
+        }
+        setShowLocationModal(false);
+    };
 
     const [address, setAddress] = useState({
         fullName: '',
@@ -1758,7 +1816,7 @@ export default function App() {
         }
     }, [currentUser]);
 
-    // Sync profile data with payment address when profile is updated
+    // Sync profile and map selection with payment address
     useEffect(() => {
         if (userProfile.fullName || userProfile.email || userProfile.phoneNumber || userProfile.location) {
             setAddress(prev => ({
@@ -1770,6 +1828,15 @@ export default function App() {
             }));
         }
     }, [userProfile]);
+
+    useEffect(() => {
+        if (userLocation) {
+            setAddress(prev => ({
+                ...prev,
+                fullAddress: userLocation.address
+            }));
+        }
+    }, [userLocation]);
 
     // Handle browser back button to prevent going to login page
     useEffect(() => {
@@ -1841,7 +1908,9 @@ export default function App() {
             fullName: addressData.fullName,
             phoneNumber: addressData.phoneNumber,
             emailId: addressData.emailId,
-            fullAddress: addressData.fullAddress
+            fullAddress: addressData.fullAddress,
+            latitude: userLocation?.lat,
+            longitude: userLocation?.lng
         };
 
         const cartWithVendor = cartItems.map(item => ({
@@ -1868,6 +1937,10 @@ export default function App() {
                 onBack={handleBackToHome}
                 userProfile={userProfile}
                 setUserProfile={setUserProfile}
+                onAddAddress={(purpose) => {
+                    setLocationPickerPurpose(purpose);
+                    setShowLocationModal(true);
+                }}
             />;
         }
 
@@ -1905,9 +1978,19 @@ export default function App() {
                 onProfileClose={handleProfileClose}
                 onMyProfile={handleMyProfile}
                 onLogoClick={handleBackToHome}
+                userLocation={userLocation}
+                onLocationClick={() => {
+                    setLocationPickerPurpose('delivery');
+                    setShowLocationModal(true);
+                }}
+            />
+            <LocationSelector
+                isOpen={showLocationModal}
+                onClose={() => setShowLocationModal(false)}
+                onLocationSelect={handleLocationSelect}
             />
             {renderPage()}
-            {showCheckout && <CheckoutPage cartItems={cartItems} onBack={() => setShowCheckout(false)} address={address} setAddress={setAddress} setCartItems={setCartItems} onPayNow={handlePayNow} />}
+            {showCheckout && <CheckoutPage cartItems={cartItems} onBack={() => setShowCheckout(false)} address={address} setAddress={setAddress} setCartItems={setCartItems} onPayNow={handlePayNow} userLocation={userLocation} />}
 
             {/* Mobile Bottom Nav */}
             <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-2">

@@ -155,10 +155,17 @@ const OrderSuccess = () => {
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <button
               onClick={() => navigate("/")}
-              className="flex-1 flex items-center justify-center px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30 transform hover:-translate-y-1"
+              className="flex-1 flex items-center justify-center px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white font-bold rounded-xl transition-all duration-300 hover:bg-gray-200 dark:hover:bg-gray-600"
             >
               <Home className="w-5 h-5 mr-2" />
-              Back to Home
+              Home
+            </button>
+            <button
+              onClick={() => navigate(`/track/${order.orderId}`)}
+              className="flex-[2] flex items-center justify-center px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30 transform hover:-translate-y-1"
+            >
+              <MapPin className="w-5 h-5 mr-2" />
+              Track Your Order
             </button>
             <button
               onClick={() => window.print()}

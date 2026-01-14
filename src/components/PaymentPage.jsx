@@ -126,6 +126,14 @@ function PaymentPage() {
         paymentMethod: method,
         status: "Pending",
         orderDate: new Date().toISOString(),
+        // Format for Rider DB (GeoJSON: [longitude, latitude])
+        dropLocation: {
+          type: "Point",
+          coordinates: [customerInfo?.longitude, customerInfo?.latitude]
+        },
+        // Legacy fields for Google Sheets compatibility if needed
+        delivery_lat: customerInfo?.latitude,
+        delivery_lng: customerInfo?.longitude,
       };
 
       const scriptUrl = import.meta.env.VITE_APP_SCRIPT_URL;
@@ -136,12 +144,16 @@ function PaymentPage() {
         return;
       }
 
-      await fetch(scriptUrl, {
+      console.log("Submitting order to Apps Script:", orderData);
+
+      const response = await fetch(scriptUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
         mode: "no-cors",
       });
+
+      console.log("Apps Script request sent.");
 
       // Update user profile in localStorage (removed - now handled by backend)
       /* 
