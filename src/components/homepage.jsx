@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
-import { Wallet } from 'lucide-react';
+import { Wallet, Dices, Heart, UtensilsCrossed, Building2, X, MapPin } from 'lucide-react';
 import logo from './myezzlogopage0001removebgpreview2329-xmz0h-400w.png';
 import { useNavigate } from "react-router-dom";
 import { supabase } from '../supabaseClient'; // Make sure this path is correct
@@ -278,7 +278,7 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
                                        bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400/50
                                        hover:shadow-[0_10px_25px_rgba(249,115,22,0.4)] active:scale-95"
                         >
-                            <span className="text-xl group-hover:rotate-12 transition-transform duration-300">🎲</span>
+                            <Dices className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
                             <span className="uppercase tracking-wider">Surprise Me</span>
                         </button>
                     </section>
@@ -314,7 +314,7 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
                                 }`}
                         >
                             <span className="font-bold flex items-center gap-3">
-                                <span className={showFavorites ? 'animate-pulse' : ''}>❤️</span>
+                                <Heart className={`w-5 h-5 ${showFavorites ? 'fill-current animate-pulse' : ''}`} />
                                 Favourites
                             </span>
                             <div className={`w-10 h-5 rounded-full relative transition-colors duration-300 ${showFavorites ? 'bg-rose-500' : 'bg-slate-700'}`}>
@@ -645,9 +645,7 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
         active:scale-95
     `}
                         >
-                            <span className={`transition-transform duration-300 ${showFavorites ? 'scale-110' : 'group-hover:scale-120'}`}>
-                                ❤️
-                            </span>
+                            <Heart className={`w-5 h-5 transition-transform duration-300 ${showFavorites ? 'scale-110 fill-current' : 'group-hover:scale-120'}`} />
                             Favourites
                         </button>
 
@@ -661,7 +659,7 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                                 }}
                                 className="group flex-shrink-0 px-4 py-2 text-sm font-medium text-gray-500 hover:text-red-500 transition-all duration-200 whitespace-nowrap flex items-center gap-1"
                             >
-                                <span className="transition-transform group-hover:rotate-90 duration-300">✕</span>
+                                <X className="w-4 h-4 transition-transform group-hover:rotate-90 duration-300" />
                                 Clear All
                             </button>
                         )}
@@ -674,7 +672,7 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(249,115,22,0.4)] active:scale-95
                hidden md:flex"
                         >
-                            <span className="text-lg group-hover:rotate-12 transition-transform duration-300">🎲</span>
+                            <Dices className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
                             <span className="uppercase tracking-wider">Surprise Me</span>
                         </button>
                     </div>
@@ -683,9 +681,19 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
 
                 <div className="flex justify-between items-center mb-6 sm:mb-8">
                     <div className="flex items-center space-x-3">
-                        <p className="text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-200">
+                        {/* Restaurant Count - Hidden on Mobile */}
+                        <p className="hidden md:block text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-200">
                             {filteredRestaurants.length} restaurant{filteredRestaurants.length !== 1 ? 's' : ''} found
                         </p>
+
+                        {/* Mobile Only Surprise Me Button */}
+                        <button
+                            onClick={() => setShowSurpriseModal(true)}
+                            className="md:hidden flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-orange-500/20 transition-all active:scale-95"
+                        >
+                            <Dices className="w-5 h-5" />
+                            <span>Surprise Me</span>
+                        </button>
                     </div>
 
                     {/* Mobile Only Filter Button */}
@@ -702,7 +710,10 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                         {/* Top: Dish suggestions */}
                         <div className="bg-[hsl(var(--card))] p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800">
                             <h2 className="text-lg font-bold mb-3 flex items-center justify-between cursor-pointer hover:text-orange-500 transition-colors" onClick={() => setShowAllDishes(!showAllDishes)}>
-                                <span>🍽️ Explore Dishes</span>
+                                <span className="flex items-center gap-2">
+                                    <UtensilsCrossed className="w-5 h-5 text-orange-500" />
+                                    Explore Dishes
+                                </span>
                                 <span className="text-sm text-gray-500">{showAllDishes ? 'Show Less' : 'View All'}</span>
                             </h2>
                             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -727,7 +738,10 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                         {/* Bottom: Restaurant suggestions */}
                         <div className="bg-[hsl(var(--card))] p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800">
                             <h2 className="text-lg font-bold mb-3 flex items-center justify-between cursor-pointer hover:text-orange-500 transition-colors" onClick={() => setShowAllRestaurants(!showAllRestaurants)}>
-                                <span>🏙️ Explore Restaurants</span>
+                                <span className="flex items-center gap-2">
+                                    <Building2 className="w-5 h-5 text-orange-500" />
+                                    Explore Restaurants
+                                </span>
                                 <span className="text-sm text-gray-500">{showAllRestaurants ? 'Show Less' : 'View All'}</span>
                             </h2>
                             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -777,7 +791,7 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                         </div>
                     ) : (
                         <div className="text-center py-20 sm:py-24 bg-gradient-to-br from-white to-orange-50 dark:from-gray-800 dark:to-orange-900/10 rounded-3xl border-2 border-dashed border-orange-200 dark:border-orange-800 shadow-inner">
-                            <div className="text-7xl mb-5 animate-bounce">🍽️</div>
+                            <UtensilsCrossed className="w-16 h-16 mx-auto mb-5 text-orange-400 animate-bounce" />
                             <p className="text-gray-800 dark:text-gray-200 font-bold text-xl mb-2">No restaurants found</p>
                             <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">Try adjusting your search or filters</p>
                             {(selectedCuisines.length > 0 || showFavorites || searchQuery.trim() !== '') && (
@@ -1641,7 +1655,7 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
                         </div>
                         <div className="mt-6">
                             <h3 className="font-bold mb-4 text-gray-800 dark:text-gray-100 flex items-center gap-2">
-                                <span>📍</span> Delivery Information
+                                <MapPin className="w-5 h-5 text-orange-500" /> Delivery Information
                             </h3>
                             <div className="space-y-3">
                                 <input
