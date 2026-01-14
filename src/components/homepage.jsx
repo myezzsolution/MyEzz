@@ -858,6 +858,7 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState('All');
+    const [vegOnly, setVegOnly] = useState(false);
 
     // MODIFIED: This useEffect now fetches both menu items and all categories
     useEffect(() => {
@@ -947,9 +948,13 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
             return categoryInfo.keywords.some(keyword => lowerCaseName.includes(keyword));
         });
 
+    const vegFilteredItems = vegOnly
+        ? categoryFilteredItems.filter(item => item.is_veg === true)
+        : categoryFilteredItems;
+
     const filteredMenuItems = searchQuery.trim() === ''
-        ? categoryFilteredItems
-        : categoryFilteredItems.filter(item =>
+        ? vegFilteredItems
+        : vegFilteredItems.filter(item =>
             item.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
@@ -975,30 +980,62 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                 </div>
 
                 {/* --- CATEGORY FILTER UI --- */}
-                {availableCategories.length > 0 && searchQuery.trim() === '' && (
+                {searchQuery.trim() === '' && (
                     <div className="px-6 sm:px-8 py-6 border-t border-gray-100 dark:border-gray-800">
-                        <h3 className="text-xl sm:text-2xl font-bold mb-5 text-gray-800 dark:text-gray-100">Categories</h3>
-                        <div className="flex space-x-4 overflow-x-auto pb-4 -mb-4 scrollbar-hide">
-                            <button onClick={() => setSelectedCategory('All')} className={`flex-shrink-0 text-center p-3 rounded-xl transition-all duration-200 ${selectedCategory === 'All' ? 'bg-orange-50 dark:bg-orange-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
-                                <div className={`w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center rounded-full mx-auto mb-2.5 border-2 shadow-sm ${selectedCategory === 'All' ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/30 ring-2 ring-orange-200 dark:ring-orange-800' : 'border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800'}`}>
-                                    <div className="w-full h-full rounded-full flex items-center justify-center">
-                                        <span className="text-base sm:text-lg font-bold text-gray-700 dark:text-gray-200">All</span>
-                                    </div>
-                                </div>
-                                <span className={`text-xs sm:text-sm font-semibold ${selectedCategory === 'All' ? 'text-orange-600 dark:text-orange-400' : 'text-gray-600 dark:text-gray-300'}`}>All</span>
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100">Categories</h3>
+                            {/* Veg Only Toggle */}
+                            <button
+                                onClick={() => setVegOnly(!vegOnly)}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 transition-all duration-200 ${
+                                    vegOnly
+                                        ? 'bg-green-500 border-green-500 text-white'
+                                        : 'bg-transparent border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-green-500'
+                                }`}
+                            >
+                                <span className={`w-4 h-4 rounded border-2 flex items-center justify-center ${vegOnly ? 'border-white bg-white' : 'border-green-600'}`}>
+                                    <span className={`w-2 h-2 rounded-full ${vegOnly ? 'bg-green-500' : 'bg-green-600'}`}></span>
+                                </span>
+                                <span className="text-sm font-semibold">Veg Only</span>
                             </button>
-                            {availableCategories.map((cat) => (
-                                <button key={cat.name} onClick={() => setSelectedCategory(cat.name)} className={`flex-shrink-0 text-center p-3 rounded-xl transition-all duration-200 ${selectedCategory === cat.name ? 'bg-orange-50 dark:bg-orange-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
-                                    <div className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full mx-auto mb-2.5 border-2 shadow-sm overflow-hidden ${selectedCategory === cat.name ? 'border-orange-500 ring-2 ring-orange-200 dark:ring-orange-800' : 'border-gray-200 dark:border-gray-700'}`}>
-                                        {/* FIXED: The <img> tag now correctly uses 'cat.image_url' */}
-                                        <img src={cat.image_url} alt={cat.name} className="w-full h-full object-cover" />
-                                    </div>
-                                    <span className={`text-xs sm:text-sm font-semibold ${selectedCategory === cat.name ? 'text-orange-600 dark:text-orange-400' : 'text-gray-600 dark:text-gray-300'}`}>
-                                        {cat.name}
-                                    </span>
-                                </button>
-                            ))}
                         </div>
+                        {availableCategories.length > 0 && (
+                            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                                <button
+                                    onClick={() => setSelectedCategory('All')}
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${
+                                        selectedCategory === 'All'
+                                            ? 'bg-orange-500 text-white shadow-md'
+                                            : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
+                                    }`}
+                                >
+                                    <span className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+                                        selectedCategory === 'All' ? 'bg-white/20' : 'bg-gray-200 dark:bg-gray-700'
+                                    }`}>
+                                        All
+                                    </span>
+                                    <span>All</span>
+                                </button>
+                                {availableCategories.map((cat) => (
+                                    <button
+                                        key={cat.name}
+                                        onClick={() => setSelectedCategory(cat.name)}
+                                        className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${
+                                            selectedCategory === cat.name
+                                                ? 'bg-orange-500 text-white shadow-md'
+                                                : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
+                                        }`}
+                                    >
+                                        <img 
+                                            src={cat.image_url} 
+                                            alt={cat.name} 
+                                            className="w-8 h-8 rounded-full object-cover"
+                                        />
+                                        <span>{cat.name}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 )}
 
