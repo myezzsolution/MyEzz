@@ -185,8 +185,8 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
                     {/* My Profile */}
                     <button
                         onClick={onMyProfile}
-className="w-full flex items-center px-4 py-3 text-left hover:bg-orange-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-colors duration-200"
->
+                        className="w-full flex items-center px-4 py-3 text-left hover:bg-orange-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-colors duration-200"
+                    >
                         <UserIcon />
                         <span className="ml-3">My Profile</span>
                     </button>
@@ -208,8 +208,8 @@ className="w-full flex items-center px-4 py-3 text-left hover:bg-orange-50 dark:
 };
 
 
-const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showFavorites, setShowFavorites }) => {
-    
+const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showFavorites, setShowFavorites, onSurpriseMe }) => {
+
     const handleCuisineChange = (cuisine) => {
         setSelectedCuisines(prev =>
             prev.includes(cuisine) ? prev.filter(c => c !== cuisine) : [...prev, cuisine]
@@ -225,15 +225,14 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
         <>
             {/* 1. Backdrop */}
             <div
-                className={`fixed inset-0 bg-slate-950/40 backdrop-blur-md z-[60] md:hidden transition-opacity duration-300 ${
-                    isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                }`}
+                className={`fixed inset-0 bg-slate-950/40 backdrop-blur-md z-[60] md:hidden transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    }`}
                 onClick={onClose}
                 style={{ transitionProperty: 'opacity' }}
             />
 
             {/* 2. Sidebar Container */}
-            <aside 
+            <aside
                 className={`
                     fixed top-0 left-0 h-full
                     w-[85%] sm:w-80 md:w-96
@@ -244,9 +243,9 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
                     ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full invisible pointer-events-none'} 
                     flex flex-col
                 `}
-                style={{ 
+                style={{
                     visibility: isOpen ? 'visible' : 'hidden',
-                    willChange: 'transform' 
+                    willChange: 'transform'
                 }}
             >
                 {/* Header - White text in dark mode */}
@@ -255,8 +254,8 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
                         <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Filters</h2>
                         <div className="h-1 w-8 bg-orange-500 rounded-full mt-1" />
                     </div>
-                    <button 
-                        onClick={onClose} 
+                    <button
+                        onClick={onClose}
                         className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-orange-500 transition-colors"
                     >
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -268,6 +267,23 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
                 {/* Content */}
                 <div className="flex-1 overflow-y-auto p-6 space-y-8">
                     <section>
+                        <h3 className="text-xs font-bold text-slate-400 dark:text-slate-300 uppercase tracking-[0.2em] mb-4">Feeling Adventurous?</h3>
+                        <button
+                            onClick={() => {
+                                onSurpriseMe();
+                                onClose();
+                            }}
+                            className="w-full group px-6 py-4 text-sm font-black rounded-2xl border-2 whitespace-nowrap
+                                       flex items-center justify-center gap-3 transition-all duration-300 ease-out backdrop-blur-md
+                                       bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400/50
+                                       hover:shadow-[0_10px_25px_rgba(249,115,22,0.4)] active:scale-95"
+                        >
+                            <span className="text-xl group-hover:rotate-12 transition-transform duration-300">🎲</span>
+                            <span className="uppercase tracking-wider">Surprise Me</span>
+                        </button>
+                    </section>
+
+                    <section>
                         <h3 className="text-xs font-bold text-slate-400 dark:text-slate-300 uppercase tracking-[0.2em] mb-4">Cuisine</h3>
                         <div className="grid grid-cols-2 gap-3">
                             {["Jain", "Non-Jain", "Beverages", "Vegetarian"].map(cuisine => {
@@ -276,11 +292,10 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
                                     <button
                                         key={cuisine}
                                         onClick={() => handleCuisineChange(cuisine)}
-                                        className={`px-4 py-3 text-sm font-bold rounded-2xl border transition-all duration-200 active:scale-90 ${
-                                            isSelected
-                                                ? 'bg-orange-500 border-orange-400 text-white shadow-lg shadow-orange-500/20'
-                                                : 'bg-transparent border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-100 hover:border-orange-500/50'
-                                        }`}
+                                        className={`px-4 py-3 text-sm font-bold rounded-2xl border transition-all duration-200 active:scale-90 ${isSelected
+                                            ? 'bg-orange-500 border-orange-400 text-white shadow-lg shadow-orange-500/20'
+                                            : 'bg-transparent border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-100 hover:border-orange-500/50'
+                                            }`}
                                     >
                                         {cuisine}
                                     </button>
@@ -293,14 +308,13 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
                         <h3 className="text-xs font-bold text-slate-400 dark:text-slate-300 uppercase tracking-[0.2em] mb-4">Preferences</h3>
                         <button
                             onClick={() => setShowFavorites(!showFavorites)}
-                            className={`w-full p-4 rounded-2xl border flex items-center justify-between transition-all duration-300 ${
-                                showFavorites 
-                                    ? 'bg-rose-500/10 border-rose-500 text-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.1)]' 
-                                    : 'bg-transparent border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-100'
-                            }`}
+                            className={`w-full p-4 rounded-2xl border flex items-center justify-between transition-all duration-300 ${showFavorites
+                                ? 'bg-rose-500/10 border-rose-500 text-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
+                                : 'bg-transparent border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-100'
+                                }`}
                         >
                             <span className="font-bold flex items-center gap-3">
-                                <span className={showFavorites ? 'animate-pulse' : ''}>❤️</span> 
+                                <span className={showFavorites ? 'animate-pulse' : ''}>❤️</span>
                                 Favourites
                             </span>
                             <div className={`w-10 h-5 rounded-full relative transition-colors duration-300 ${showFavorites ? 'bg-rose-500' : 'bg-slate-700'}`}>
@@ -312,14 +326,14 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
 
                 {/* Footer - Updated with Clear Filter */}
                 <div className="p-6 bg-slate-50 dark:bg-slate-900/40 border-t border-slate-200 dark:border-slate-800 space-y-3">
-                    <button 
-                        onClick={onClose} 
+                    <button
+                        onClick={onClose}
                         className="w-full bg-orange-500 hover:bg-orange-600 text-white font-black py-4 rounded-2xl shadow-xl shadow-orange-500/20 active:scale-[0.98] transition-all"
                     >
                         Apply Filters
                     </button>
-                    
-                    <button 
+
+                    <button
                         onClick={clearFilters}
                         className="w-full bg-transparent border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-white font-bold py-3 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-sm"
                     >
@@ -342,94 +356,93 @@ const RestaurantCard = ({
     onClick,
     isFavorite,
     onToggleFavorite
-  }) => (
+}) => (
     <div
-      onClick={onClick}
-      className="group relative bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))]
+        onClick={onClick}
+        className="group relative bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))]
                  rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800
                  shadow-md hover:shadow-2xl transition-all duration-300
                  hover:-translate-y-1 cursor-pointer flex flex-col h-full"
     >
-      <div className="relative h-48 sm:h-52 overflow-hidden">
-        <img
-          src={image_url}
-          alt={name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src =
-              "https://placehold.co/600x400/cccccc/ffffff?text=Image+Missing";
-          }}
-        />
-  
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-  
-        <div className="absolute bottom-3 left-3 flex items-center gap-1
+        <div className="relative h-48 sm:h-52 overflow-hidden">
+            <img
+                src={image_url}
+                alt={name}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                        "https://placehold.co/600x400/cccccc/ffffff?text=Image+Missing";
+                }}
+            />
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+
+            <div className="absolute bottom-3 left-3 flex items-center gap-1
                         bg-green-600 text-white px-3 py-1 rounded-xl
                         text-sm font-semibold shadow-lg">
-          <StarIcon className="w-4 h-4" />
-          {rating}
-        </div>
-  
-        {/* FAVORITE */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleFavorite();
-          }}
-          className="absolute top-3 right-3 w-11 h-11 rounded-full
+                <StarIcon className="w-4 h-4" />
+                {rating}
+            </div>
+
+            {/* FAVORITE */}
+            <button
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleFavorite();
+                }}
+                className="absolute top-3 right-3 w-11 h-11 rounded-full
                      bg-white/90 dark:bg-gray-900/80 backdrop-blur-md
                      flex items-center justify-center shadow-lg
                      transition-all duration-200 hover:scale-110"
-        >
-          <span
-            className={`transition-colors ${
-              isFavorite
-                ? "text-red-500"
-                : "text-gray-600 hover:text-red-500"
-            }`}
-          >
-            <HeartIcon filled={isFavorite} />
-          </span>
-        </button>
-      </div>
-  
-      {/* CONTENT */}
-      <div className="p-5 flex flex-col flex-1">
-        <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100
+            >
+                <span
+                    className={`transition-colors ${isFavorite
+                        ? "text-red-500"
+                        : "text-gray-600 hover:text-red-500"
+                        }`}
+                >
+                    <HeartIcon filled={isFavorite} />
+                </span>
+            </button>
+        </div>
+
+        {/* CONTENT */}
+        <div className="p-5 flex flex-col flex-1">
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100
                        line-clamp-1 group-hover:text-orange-500 transition-colors">
-          {name}
-        </h3>
-  
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-1">
-          {cuisines ? cuisines.join(", ") : "Cuisine not available"}
-        </p>
-  
-        {/* META */}
-        <div className="mt-auto pt-4 flex justify-between items-center
+                {name}
+            </h3>
+
+            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-1">
+                {cuisines ? cuisines.join(", ") : "Cuisine not available"}
+            </p>
+
+            {/* META */}
+            <div className="mt-auto pt-4 flex justify-between items-center
                         text-sm text-gray-600 dark:text-gray-400
                         border-t border-gray-100 dark:border-gray-800">
-          <div className="flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span className="font-medium">{distance} km</span>
-          </div>
-  
-          <div className="flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span className="font-medium">{delivery_time} mins</span>
-          </div>
-        </div>
-  
-        <button
-  className="relative overflow-hidden w-full mt-5 py-3 rounded-2xl
+                <div className="flex items-center gap-1">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span className="font-medium">{distance} km</span>
+                </div>
+
+                <div className="flex items-center gap-1">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="font-medium">{delivery_time} mins</span>
+                </div>
+            </div>
+
+            <button
+                className="relative overflow-hidden w-full mt-5 py-3 rounded-2xl
              font-semibold text-white text-sm sm:text-base
              bg-gradient-to-br from-orange-500 to-orange-600
              shadow-[0_6px_18px_rgba(249,115,22,0.35)]
@@ -437,24 +450,24 @@ const RestaurantCard = ({
              hover:shadow-[0_10px_28px_rgba(249,115,22,0.55)]
              hover:scale-[1.02] active:scale-[0.97]
              group/button"
->
+            >
 
-  <span className="absolute inset-x-0 top-0 h-1/3
+                <span className="absolute inset-x-0 top-0 h-1/3
                    bg-gradient-to-b from-white/20 to-transparent" />
 
-  
-  <span className="absolute inset-0 -translate-x-full
+
+                <span className="absolute inset-0 -translate-x-full
                    bg-gradient-to-r from-transparent via-white/25 to-transparent
                    group-hover/button:translate-x-full
                    transition-transform duration-700" />
 
-  <span className="relative z-10">View Menu</span>
-</button>
+                <span className="relative z-10">View Menu</span>
+            </button>
 
-      </div>
+        </div>
     </div>
-  );
-  
+);
+
 
 
 const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItems, setCartItems, showToastMessage }) => {
@@ -565,7 +578,7 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
 
     if (loading) {
         return <FoodDeliveryLoader />;
-      }
+    }
 
     return (
         <div className="flex items-center space-x-4 pb-6 scrollbar-hide px-2">
@@ -577,100 +590,94 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                 onClose={() => setShowFilters(false)}
                 showFavorites={showFavorites}
                 setShowFavorites={setShowFavorites}
+                onSurpriseMe={() => setShowSurpriseModal(true)}
             />
-            <main className="flex-1 py-6 sm:py-8 w-full">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full">
                 {/* HORIZONTAL FILTERS - Moved from Sidebar to top of main */}
-                <div className="mb-6">
+                <div className="hidden md:block mb-6">
                     <div className="flex items-center justify-between mb-3">
-                        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200">What's on your mind?</h2>
-                        {/* Mobile Filter Button */}
-                        <button
-                            onClick={() => setShowFilters(!showFilters)}
-                            className="flex md:hidden items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-sm font-semibold text-gray-700 dark:text-gray-300 shadow-sm"
-                        >
-                            <FilterIcon />
-                            <span>Filters</span>
-                        </button>
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-200">What's on your mind?</h2>
                     </div>
 
-                    <div className="flex items-center space-x-4 overflow-x-auto pb-6 scrollbar-hide px-2">
-    {/* Cuisine Chips */}
-{["Jain", "Non-Jain", "Beverages", "Vegetarian"].map(cuisine => {
-    const isSelected = selectedCuisines.includes(cuisine);
-    return (
-        <button
-            key={cuisine}
-            onClick={() => {
-                setSelectedCuisines(prev =>
-                    prev.includes(cuisine)
-                        ? prev.filter(c => c !== cuisine)
-                        : [...prev, cuisine]
-                );
-            }}
-            className={`
+                    <div className="hidden md:flex items-center space-x-3 sm:space-x-4 overflow-x-auto pb-6 scrollbar-hide px-1 sm:px-2">
+                        {/* Cuisine Chips */}
+                        {["Jain", "Non-Jain", "Beverages", "Vegetarian"].map(cuisine => {
+                            const isSelected = selectedCuisines.includes(cuisine);
+                            return (
+                                <button
+                                    key={cuisine}
+                                    onClick={() => {
+                                        setSelectedCuisines(prev =>
+                                            prev.includes(cuisine)
+                                                ? prev.filter(c => c !== cuisine)
+                                                : [...prev, cuisine]
+                                        );
+                                    }}
+                                    className={`
                 group flex-shrink-0 px-6 py-3 text-sm font-medium rounded-xl border whitespace-nowrap
                 transition-all duration-300 ease-out backdrop-blur-md
                 hover:-translate-y-1 hover:shadow-lg
                 ${isSelected
-                    ? 'bg-orange-500 text-white border-orange-400 shadow-[0_8px_20px_rgba(249,115,22,0.4)] scale-105'
-                    /* Added border-gray-200 for Light Mode visibility */
-                    : 'bg-white/40 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-orange-400/50'
-                }
+                                            ? 'bg-orange-500 text-white border-orange-400 shadow-[0_8px_20px_rgba(249,115,22,0.4)] scale-105'
+                                            /* Added border-gray-200 for Light Mode visibility */
+                                            : 'bg-white/40 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-orange-400/50'
+                                        }
                 active:scale-95
             `}
-        >
-            {cuisine}
-        </button>
-    );
-})}
+                                >
+                                    {cuisine}
+                                </button>
+                            );
+                        })}
 
-{/* Favourites Filter */}
-<button
-    onClick={() => setShowFavorites(!showFavorites)}
-    className={`
+                        {/* Favourites Filter */}
+                        <button
+                            onClick={() => setShowFavorites(!showFavorites)}
+                            className={`
         group flex-shrink-0 px-6 py-3 text-sm font-medium rounded-xl border whitespace-nowrap
         flex items-center gap-2 transition-all duration-300 ease-out backdrop-blur-md
         hover:-translate-y-1 hover:shadow-lg
         ${showFavorites
-            ? 'bg-rose-500 text-white border-rose-400 shadow-[0_8px_20px_rgba(244,63,94,0.4)] scale-105'
-            /* Added border-gray-200 for Light Mode visibility */
-            : 'bg-white/40 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-rose-400/50'
-        }
+                                    ? 'bg-rose-500 text-white border-rose-400 shadow-[0_8px_20px_rgba(244,63,94,0.4)] scale-105'
+                                    /* Added border-gray-200 for Light Mode visibility */
+                                    : 'bg-white/40 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-rose-400/50'
+                                }
         active:scale-95
     `}
->
-    <span className={`transition-transform duration-300 ${showFavorites ? 'scale-110' : 'group-hover:scale-120'}`}>
-        ❤️
-    </span>
-    Favourites
-</button>
+                        >
+                            <span className={`transition-transform duration-300 ${showFavorites ? 'scale-110' : 'group-hover:scale-120'}`}>
+                                ❤️
+                            </span>
+                            Favourites
+                        </button>
 
 
-    {/* Clear All */}
-    {(selectedCuisines.length > 0 || showFavorites) && (
-        <button
-            onClick={() => {
-                setSelectedCuisines([]);
-                setShowFavorites(false);
-            }}
-            className="group flex-shrink-0 px-4 py-2 text-sm font-medium text-gray-500 hover:text-red-500 transition-all duration-200 whitespace-nowrap flex items-center gap-1"
-        >
-            <span className="transition-transform group-hover:rotate-90 duration-300">✕</span>
-            Clear All
-        </button>
-    )}
-    {/* Surprise Me Button */}
-    <button
-    onClick={() => setShowSurpriseModal(true)}
-    className="group flex-shrink-0 px-6 py-3 text-sm font-black rounded-2xl border-2 whitespace-nowrap
+                        {/* Clear All */}
+                        {(selectedCuisines.length > 0 || showFavorites) && (
+                            <button
+                                onClick={() => {
+                                    setSelectedCuisines([]);
+                                    setShowFavorites(false);
+                                }}
+                                className="group flex-shrink-0 px-4 py-2 text-sm font-medium text-gray-500 hover:text-red-500 transition-all duration-200 whitespace-nowrap flex items-center gap-1"
+                            >
+                                <span className="transition-transform group-hover:rotate-90 duration-300">✕</span>
+                                Clear All
+                            </button>
+                        )}
+                        {/* Surprise Me Button */}
+                        <button
+                            onClick={() => setShowSurpriseModal(true)}
+                            className="group flex-shrink-0 px-6 py-3 text-sm font-black rounded-2xl border-2 whitespace-nowrap
                flex items-center gap-2 transition-all duration-300 ease-out backdrop-blur-md
                bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400/50
-               hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(249,115,22,0.4)] active:scale-95"
->
-    <span className="text-lg group-hover:rotate-12 transition-transform duration-300">🎲</span>
-    <span className="uppercase tracking-wider">Surprise Me</span>
-</button>
-</div>
+               hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(249,115,22,0.4)] active:scale-95
+               hidden md:flex"
+                        >
+                            <span className="text-lg group-hover:rotate-12 transition-transform duration-300">🎲</span>
+                            <span className="uppercase tracking-wider">Surprise Me</span>
+                        </button>
+                    </div>
                 </div>
 
 
@@ -680,6 +687,15 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                             {filteredRestaurants.length} restaurant{filteredRestaurants.length !== 1 ? 's' : ''} found
                         </p>
                     </div>
+
+                    {/* Mobile Only Filter Button */}
+                    <button
+                        onClick={() => setShowFilters(!showFilters)}
+                        className="md:hidden flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm font-bold text-gray-700 dark:text-gray-300 shadow-sm transition-all active:scale-95"
+                    >
+                        <FilterIcon />
+                        <span>Filters</span>
+                    </button>
                 </div>
                 {searchQuery.trim() !== '' ? (
                     <div className="flex flex-col gap-8 mb-8">
@@ -781,10 +797,10 @@ const HomePage = ({ setSelectedRestaurant, searchQuery, setSearchQuery, cartItem
                 )}
             </main>
             {showSurpriseModal && (
-                <SurpriseMe 
-                    supabase={supabase} 
-                    addToCart={addToCart} 
-                    onClose={() => setShowSurpriseModal(false)} 
+                <SurpriseMe
+                    supabase={supabase}
+                    addToCart={addToCart}
+                    onClose={() => setShowSurpriseModal(false)}
                 />
             )}
         </div>
@@ -852,12 +868,12 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
         setCartItems(prevItems => {
             const existingItem = prevItems.find(i => i.id === item.id && i.vendor === restaurant.name);
             if (!existingItem) return prevItems;
-            
+
             if (existingItem.quantity === 1) {
                 showToastMessage(`${item.name} removed from cart!`);
                 return prevItems.filter(i => !(i.id === item.id && i.vendor === restaurant.name));
             }
-            
+
             showToastMessage(`${item.name} quantity decreased!`);
             return prevItems.map(i =>
                 i.id === item.id && i.vendor === restaurant.name
@@ -953,7 +969,7 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                                 // Find if this item is already in cart
                                 const cartItem = cartItems.find(i => i.id === item.id && i.vendor === restaurant.name);
                                 const quantity = cartItem?.quantity || 0;
-                                
+
                                 return (
                                     <div key={item.id} className="flex justify-between items-center p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
                                         <div>
@@ -962,8 +978,8 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                                         </div>
                                         {item.price && (
                                             quantity === 0 ? (
-                                                <button 
-                                                    onClick={() => addToCart(item)} 
+                                                <button
+                                                    onClick={() => addToCart(item)}
                                                     className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
                                                 >
                                                     ADD
@@ -1864,7 +1880,7 @@ export default function App() {
     };
 
     return (
-        <div className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] min-h-screen font-sans pb-16 md:pb-0 ">
+        <div className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] min-h-screen font-sans pb-16 md:pb-0">
             <Header
                 cartItems={cartItems}
                 onCartClick={() => setShowCheckout(true)}
