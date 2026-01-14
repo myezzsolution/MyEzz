@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import { X, Search, MapPin, Navigation } from 'lucide-react';
 
 // IMPORTANT: User's Mapbox Token
-const MAPBOX_TOKEN = 'pk.eyJ1IjoiYXJ5YW5zYW5nYW50aSIsImEiOiJjbWVmb2czYjIwYTYyMnZwb3N6YzVjMjR0In0.GjJodBanOGotXx3r2HUGIA';
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
 // Fix for default marker icons
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
