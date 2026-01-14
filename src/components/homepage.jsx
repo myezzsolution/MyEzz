@@ -54,14 +54,14 @@ const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange, isProfile
             <button onClick={onLogoClick} className="focus:outline-none"><img src={logo} alt="MyEzz Logo" className="h-10 sm:h-20" /></button>
             <button
                 onClick={onLocationClick}
-                className="hidden lg:flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-2xl transition-all group max-w-[200px]"
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-2xl transition-all group max-w-[120px] sm:max-w-[200px]"
             >
-                <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-full group-hover:bg-orange-500 group-hover:text-white transition-colors">
-                    <MapPin className="w-4 h-4 text-orange-600 dark:text-orange-400 group-hover:text-white" />
+                <div className="p-1.5 sm:p-2 bg-orange-100 dark:bg-orange-900/30 rounded-full group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                    <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-orange-600 dark:text-orange-400 group-hover:text-white" />
                 </div>
                 <div className="text-left overflow-hidden">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 leading-none mb-1">Deliver to</p>
-                    <p className="text-sm font-bold dark:text-gray-200 truncate">{userLocation?.address?.split(',')[0] || 'Select Location'}</p>
+                    <p className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest text-gray-400 leading-none mb-0.5 sm:mb-1">Deliver to</p>
+                    <p className="text-xs sm:text-sm font-bold dark:text-gray-200 truncate">{userLocation?.address?.split(',')[0] || 'Set Loc...'}</p>
                 </div>
             </button>
         </div>
@@ -987,11 +987,10 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                             {/* Veg Only Toggle */}
                             <button
                                 onClick={() => setVegOnly(!vegOnly)}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 transition-all duration-200 ${
-                                    vegOnly
+                                className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 transition-all duration-200 ${vegOnly
                                         ? 'bg-green-500 border-green-500 text-white'
                                         : 'bg-transparent border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-green-500'
-                                }`}
+                                    }`}
                             >
                                 <span className={`w-4 h-4 rounded border-2 flex items-center justify-center ${vegOnly ? 'border-white bg-white' : 'border-green-600'}`}>
                                     <span className={`w-2 h-2 rounded-full ${vegOnly ? 'bg-green-500' : 'bg-green-600'}`}></span>
@@ -1003,15 +1002,13 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                             <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                                 <button
                                     onClick={() => setSelectedCategory('All')}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${
-                                        selectedCategory === 'All'
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${selectedCategory === 'All'
                                             ? 'bg-orange-500 text-white shadow-md'
                                             : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
-                                    }`}
+                                        }`}
                                 >
-                                    <span className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                                        selectedCategory === 'All' ? 'bg-white/20' : 'bg-gray-200 dark:bg-gray-700'
-                                    }`}>
+                                    <span className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${selectedCategory === 'All' ? 'bg-white/20' : 'bg-gray-200 dark:bg-gray-700'
+                                        }`}>
                                         All
                                     </span>
                                     <span>All</span>
@@ -1020,15 +1017,14 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                                     <button
                                         key={cat.name}
                                         onClick={() => setSelectedCategory(cat.name)}
-                                        className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${
-                                            selectedCategory === cat.name
+                                        className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${selectedCategory === cat.name
                                                 ? 'bg-orange-500 text-white shadow-md'
                                                 : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
-                                        }`}
+                                            }`}
                                     >
-                                        <img 
-                                            src={cat.image_url} 
-                                            alt={cat.name} 
+                                        <img
+                                            src={cat.image_url}
+                                            alt={cat.name}
                                             className="w-8 h-8 rounded-full object-cover"
                                         />
                                         <span>{cat.name}</span>

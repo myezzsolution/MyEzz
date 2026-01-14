@@ -125,13 +125,13 @@ const LocationSelector = ({ isOpen, onClose, onLocationSelect }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            <div className="bg-white dark:bg-gray-900 w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row h-[90vh] md:h-[600px]">
+        <div className="fixed inset-0 z-[2000] flex items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm">
+            <div className="bg-white dark:bg-gray-900 w-full max-w-4xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row h-full sm:h-[600px]">
 
                 {/* Search Side */}
-                <div className="w-full md:w-1/2 p-6 flex flex-col border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-800">
-                    <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-2xl font-black dark:text-white tracking-tight">Set Location</h2>
+                <div className="w-full md:w-1/2 p-4 sm:p-6 flex flex-col border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-800 z-10 bg-white dark:bg-gray-900">
+                    <div className="flex justify-between items-center mb-4 sm:mb-6">
+                        <h2 className="text-xl sm:text-2xl font-black dark:text-white tracking-tight">Set Location</h2>
                         <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
                             <X className="w-6 h-6 dark:text-gray-400" />
                         </button>
@@ -144,17 +144,17 @@ const LocationSelector = ({ isOpen, onClose, onLocationSelect }) => {
                             placeholder="Search area, landmark or street"
                             value={searchQuery}
                             onChange={(e) => handleSearch(e.target.value)}
-                            className="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-orange-500 text-sm dark:text-white shadow-inner"
+                            className="w-full pl-12 pr-4 py-3 sm:py-4 bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-orange-500 text-sm dark:text-white shadow-inner"
                         />
                     </div>
 
-                    <div className="flex-1 overflow-y-auto space-y-2 mb-4 scrollbar-hide">
+                    <div className="flex-1 overflow-y-auto space-y-2 mb-4 scrollbar-hide max-h-[40vh] md:max-h-full">
                         {suggestions.length > 0 ? (
                             suggestions.map((s, i) => (
                                 <button
                                     key={i}
                                     onClick={() => selectSuggestion(s)}
-                                    className="w-full flex items-start gap-3 p-4 hover:bg-orange-50 dark:hover:bg-orange-900/10 rounded-2xl transition-all text-left group"
+                                    className="w-full flex items-start gap-3 p-3 sm:p-4 hover:bg-orange-50 dark:hover:bg-orange-900/10 rounded-2xl transition-all text-left group"
                                 >
                                     <MapPin className="w-5 h-5 text-gray-400 group-hover:text-orange-500 shrink-0 mt-0.5" />
                                     <div>
@@ -164,44 +164,45 @@ const LocationSelector = ({ isOpen, onClose, onLocationSelect }) => {
                                 </button>
                             ))
                         ) : (
-                            <div className="py-4 text-center">
+                            <div className="py-2 text-center">
                                 <button
                                     onClick={detectMyLocation}
-                                    className="flex items-center gap-2 mx-auto px-6 py-3 bg-orange-50 dark:bg-orange-900/10 text-orange-600 dark:text-orange-400 font-bold rounded-2xl hover:bg-orange-100 transition-all active:scale-95"
+                                    className="flex items-center gap-2 mx-auto px-6 py-2.5 bg-orange-50 dark:bg-orange-900/10 text-orange-600 dark:text-orange-400 font-bold rounded-2xl hover:bg-orange-100 transition-all active:scale-95"
                                 >
                                     <Navigation className="w-5 h-5" />
                                     Use current location
                                 </button>
                                 {geoError && (
-                                    <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/10 text-red-600 dark:text-red-400 text-xs rounded-xl border border-red-100 dark:border-red-900/20">
+                                    <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/10 text-red-600 dark:text-red-400 text-[10px] sm:text-xs rounded-xl border border-red-100 dark:border-red-900/20">
                                         <p className="font-bold mb-1">Location Error</p>
                                         <p>{geoError}</p>
-                                        <p className="mt-2 text-[10px] opacity-70 italic">Tip: Check if location permission is blocked in your browser's address bar.</p>
                                     </div>
                                 )}
                             </div>
                         )}
                     </div>
 
-                    <button
-                        onClick={() => {
-                            if (selectedAddress) {
-                                onLocationSelect(selectedAddress);
-                                onClose();
-                            }
-                        }}
-                        disabled={!selectedAddress || loading}
-                        className={`w-full py-4 rounded-2xl font-black uppercase tracking-wider transition-all
-                            ${!selectedAddress || loading
-                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                : 'bg-orange-500 text-white shadow-xl shadow-orange-500/30 hover:bg-orange-600 active:scale-95'}`}
-                    >
-                        {loading ? 'Fetching Address...' : 'Confirm Delivery Location'}
-                    </button>
+                    <div className="mt-auto pt-2 pb-2 md:pb-0">
+                        <button
+                            onClick={() => {
+                                if (selectedAddress) {
+                                    onLocationSelect(selectedAddress);
+                                    onClose();
+                                }
+                            }}
+                            disabled={!selectedAddress || loading}
+                            className={`w-full py-3 sm:py-4 rounded-2xl font-black uppercase tracking-wider transition-all
+                                ${!selectedAddress || loading
+                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                    : 'bg-orange-500 text-white shadow-xl shadow-orange-500/30 hover:bg-orange-600 active:scale-95'}`}
+                        >
+                            {loading ? 'Fetching Address...' : 'Confirm Location'}
+                        </button>
+                    </div>
                 </div>
 
                 {/* Map Side */}
-                <div className="flex-1 relative">
+                <div className="flex-1 relative min-h-[30vh] md:min-h-full">
                     <MapContainer
                         center={mapCenter}
                         zoom={16}
@@ -217,8 +218,8 @@ const LocationSelector = ({ isOpen, onClose, onLocationSelect }) => {
                         <MapEvents />
                         <MapUpdater center={mapCenter} />
                     </MapContainer>
-                    <div className="absolute top-4 left-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm dark:text-white border border-gray-100 dark:border-gray-700 pointer-events-none">
-                        Click on map to pick location
+                    <div className="absolute bottom-4 left-4 right-4 md:top-4 md:bottom-auto md:left-4 md:right-auto bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm dark:text-white border border-gray-100 dark:border-gray-700 pointer-events-none text-center md:text-left">
+                        Tap map to pick location
                     </div>
                 </div>
             </div>
