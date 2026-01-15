@@ -15,7 +15,7 @@ const RestaurantCard = ({
 }) => (
     <div
         onClick={onClick}
-        className="group relative bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))]
+        className="hologram-card group relative bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))]
                  rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800
                  shadow-md hover:shadow-2xl transition-all duration-300
                  hover:-translate-y-1 cursor-pointer flex flex-col h-full"
@@ -47,19 +47,24 @@ const RestaurantCard = ({
                     e.stopPropagation();
                     onToggleFavorite();
                 }}
-                className="absolute top-3 right-3 w-11 h-11 rounded-full
+                className={`absolute top-3 right-3 w-11 h-11 rounded-full
                      bg-white/90 dark:bg-gray-900/80 backdrop-blur-md
                      flex items-center justify-center shadow-lg
-                     transition-all duration-200 hover:scale-110"
+                     transition-all duration-300 
+                     hover:scale-110 active:scale-90
+                     ${isFavorite ? 'animate-favorite-pop' : ''}`}
             >
                 <span
-                    className={`transition-colors ${isFavorite
-                        ? "text-red-500"
-                        : "text-gray-600 hover:text-red-500"
+                    className={`transition-all duration-300 transform ${isFavorite
+                        ? "text-red-500 scale-110"
+                        : "text-gray-400 hover:text-red-400 scale-100"
                         }`}
                 >
                     <HeartIcon filled={isFavorite} />
                 </span>
+                {isFavorite && (
+                    <span className="absolute inset-0 rounded-full animate-ping-once bg-red-400/30"></span>
+                )}
             </button>
         </div>
 

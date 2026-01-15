@@ -159,15 +159,14 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                             <h3 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100">Categories</h3>
                             <button
                                 onClick={() => setVegOnly(!vegOnly)}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 transition-all duration-200 ${vegOnly
-                                    ? 'bg-green-500 border-green-500 text-white'
-                                    : 'bg-transparent border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-green-500'
-                                    }`}
+                                className="flex items-center gap-3 px-4 py-2 rounded-full transition-all duration-200"
                             >
-                                <span className={`w-4 h-4 rounded border-2 flex items-center justify-center ${vegOnly ? 'border-white bg-white' : 'border-green-600'}`}>
-                                    <span className={`w-2 h-2 rounded-full ${vegOnly ? 'bg-green-500' : 'bg-green-600'}`}></span>
-                                </span>
-                                <span className="text-sm font-semibold">Veg Only</span>
+                                <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">Veg Only</span>
+                                <div className={`relative w-12 h-6 rounded-full transition-all duration-300 ${vegOnly ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}>
+                                    <div className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow-md transition-all duration-300 ${vegOnly ? 'left-7' : 'left-1'}`}>
+                                        <span className={`absolute inset-0.5 rounded-full ${vegOnly ? 'bg-green-600' : 'bg-gray-400'}`}></span>
+                                    </div>
+                                </div>
                             </button>
                         </div>
                         {availableCategories.length > 0 && (
@@ -229,7 +228,7 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                                             quantity === 0 ? (
                                                 <button
                                                     onClick={() => addToCart(item)}
-                                                    className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
+                                                    className="bg-gradient-to-b from-[#ff7a1a] to-[#ff5c00] hover:from-[#ff8a2a] hover:to-[#ff6a10] text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200 shadow-[0_4px_12px_rgba(255,106,0,0.3)] hover:shadow-[0_6px_16px_rgba(255,106,0,0.4)] hover:scale-[1.02] active:scale-[0.98]"
                                                 >
                                                     ADD
                                                 </button>
