@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useAuth } from '../auth/AuthContext';
 
+import { supabase } from '../supabaseClient';
+
 // Components
 import Header from './Header';
 import Footer from './Footer';
@@ -12,13 +14,13 @@ import HomePageContent from './HomePageContent';
 import RestaurantMenuPage from './RestaurantMenuPage';
 import MyProfilePage from './MyProfilePage';
 import CheckoutPage from './CheckoutPage';
+import SurpriseMe from './SurpriseMe';
 
 // Icons for bottom nav
 import { HomeIcon, CartIcon } from './Icons';
 
 export default function App() {
     const [cartItems, setCartItems] = useState([]);
-    const [showCheckout, setShowCheckout] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [showToast, setShowToast] = useState(false);
@@ -173,7 +175,6 @@ export default function App() {
             restaurantName: item.restaurantName || "Unknown Restaurant"
         }));
 
-        setShowCheckout(false);
         navigate("/payment", { state: { customerInfo, cart: cartWithVendor } });
     };
 
@@ -181,7 +182,7 @@ export default function App() {
         <div className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] min-h-screen font-sans pb-16 md:pb-0">
             <Header
                 cartItems={cartItems}
-                onCartClick={() => setShowCheckout(true)}
+                onCartClick={() => navigate('/checkout')}
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
                 isProfileOpen={isProfileOpen}
@@ -207,6 +208,7 @@ export default function App() {
                         cartItems={cartItems}
                         setCartItems={setCartItems}
                         showToastMessage={showToastMessage}
+                        onSurpriseMe={() => navigate('/surprise')}
                     />
                 } />
                 <Route path="/profile" element={
@@ -229,19 +231,29 @@ export default function App() {
                         showToastMessage={showToastMessage}
                     />
                 } />
+                <Route path="/surprise" element={
+                    <SurpriseMe
+                        supabase={supabase}
+                        addToCart={(item) => {
+                            setCartItems(prev => [...prev, { ...item, quantity: 1, vendor: item.restaurants?.name || 'Unknown', restaurantName: item.restaurants?.name || 'Unknown' }]);
+                            showToastMessage(`${item.name} added to cart!`);
+                        }}
+                        onClose={() => navigate(-1)}
+                    />
+                } />
+                <Route path="/checkout" element={
+                    <CheckoutPage
+                        cartItems={cartItems}
+                        onBack={() => navigate(-1)}
+                        address={address}
+                        setAddress={setAddress}
+                        setCartItems={setCartItems}
+                        onPayNow={handlePayNow}
+                        userLocation={userLocation}
+                    />
+                } />
             </Routes>
 
-            {showCheckout && (
-                <CheckoutPage
-                    cartItems={cartItems}
-                    onBack={() => setShowCheckout(false)}
-                    address={address}
-                    setAddress={setAddress}
-                    setCartItems={setCartItems}
-                    onPayNow={handlePayNow}
-                    userLocation={userLocation}
-                />
-            )}
 
             {/* Mobile Bottom Nav */}
             <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-2">
@@ -249,7 +261,7 @@ export default function App() {
                     <HomeIcon className="h-6 w-6" />
                     <span>Home</span>
                 </button>
-                <button onClick={() => setShowCheckout(true)} className={`flex flex-col items-center text-xs relative ${cartItems.length > 0 ? 'text-orange-500' : 'text-gray-500'}`}>
+                <button onClick={() => navigate('/checkout')} className={`flex flex-col items-center text-xs relative ${cartItems.length > 0 ? 'text-orange-500' : 'text-gray-500'}`}>
                     <CartIcon className="h-6 w-6" />
                     {cartItems.length > 0 && <span className="absolute -top-1 right-1 bg-orange-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">{cartItems.reduce((acc, item) => acc + item.quantity, 0)}</span>}
                     <span>Cart</span>
