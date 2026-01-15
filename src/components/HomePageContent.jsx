@@ -36,13 +36,23 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
     };
 
     const toggleFavorite = (restaurantId) => {
+        const isCurrentlyFavorite = favorites.includes(restaurantId);
+        const restaurant = restaurants.find(r => r.id === restaurantId);
+        
         setFavorites(prev => {
-            const newFavorites = prev.includes(restaurantId)
+            const newFavorites = isCurrentlyFavorite
                 ? prev.filter(id => id !== restaurantId)
                 : [...prev, restaurantId];
             localStorage.setItem('favorites', JSON.stringify(newFavorites));
             return newFavorites;
         });
+        
+        // Show toast notification
+        if (isCurrentlyFavorite) {
+            showToastMessage(`${restaurant?.name || 'Restaurant'} removed from favourites`);
+        } else {
+            showToastMessage(`${restaurant?.name || 'Restaurant'} added to favourites ❤️`);
+        }
     };
 
     const addToCart = (dish) => {
