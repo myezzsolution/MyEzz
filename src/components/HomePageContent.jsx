@@ -9,9 +9,8 @@ import SurpriseMe from './SurpriseMe';
 import LocationSelector from './LocationSelector';
 import { FilterIcon } from './Icons';
 
-const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems, showToastMessage }) => {
+const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems, showToastMessage, onSurpriseMe }) => {
     const navigate = useNavigate();
-    const [showSurpriseModal, setShowSurpriseModal] = useState(false);
     const [restaurants, setRestaurants] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCuisines, setSelectedCuisines] = useState([]);
@@ -156,7 +155,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                 onClose={() => setShowFilters(false)}
                 showFavorites={showFavorites}
                 setShowFavorites={setShowFavorites}
-                onSurpriseMe={() => setShowSurpriseModal(true)}
+                onSurpriseMe={onSurpriseMe}
             />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full">
                 <div className="hidden md:block mb-6">
@@ -223,7 +222,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                             </button>
                         )}
                         <button
-                            onClick={() => setShowSurpriseModal(true)}
+                            onClick={onSurpriseMe}
                             className="group flex-shrink-0 px-6 py-3 text-sm font-black rounded-2xl border-2 whitespace-nowrap
                                 flex items-center gap-2 transition-all duration-300 ease-out backdrop-blur-md
                                 bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400/50
@@ -242,7 +241,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                             {filteredRestaurants.length} restaurant{filteredRestaurants.length !== 1 ? 's' : ''} found
                         </p>
                         <button
-                            onClick={() => setShowSurpriseModal(true)}
+                            onClick={onSurpriseMe}
                             className="md:hidden flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-orange-500/20 transition-all active:scale-95"
                         >
                             <Dices className="w-5 h-5" />
@@ -359,13 +358,6 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                     )
                 )}
             </main>
-            {showSurpriseModal && (
-                <SurpriseMe
-                    supabase={supabase}
-                    addToCart={addToCart}
-                    onClose={() => setShowSurpriseModal(false)}
-                />
-            )}
         </div>
     );
 };
