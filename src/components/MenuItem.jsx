@@ -72,7 +72,7 @@ function MenuItem({ item, vendor, addToCart, cart, removeFromCart }) {
         {quantity === 0 ? (
           <button
             onClick={handleAdd}
-            className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
+            className="bg-gradient-to-b from-[#ff7a1a] to-[#ff5c00] hover:from-[#ff8a2a] hover:to-[#ff6a10] text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200 shadow-[0_4px_12px_rgba(255,106,0,0.3)] hover:shadow-[0_6px_16px_rgba(255,106,0,0.4)] hover:scale-[1.02] active:scale-[0.98]"
           >
             ADD
           </button>
@@ -80,16 +80,16 @@ function MenuItem({ item, vendor, addToCart, cart, removeFromCart }) {
           <div className="flex items-center gap-1">
             <button
               onClick={handleDecrement}
-              className="border-2 border-sky-600 text-sky-600 hover:text-white hover:bg-sky-600 w-8 h-8 rounded-md transition-all duration-200 font-bold text-xl flex items-center justify-center active:scale-90"
+              className="border-2 border-orange-500 text-orange-600 hover:text-white hover:bg-orange-500 w-8 h-8 rounded-md transition-all duration-200 font-bold text-xl flex items-center justify-center active:scale-90"
             >
               −
             </button>
-            <span className="text-sky-700 font-bold px-3 min-w-[2.5rem] text-center">
+            <span className="text-orange-600 font-bold px-3 min-w-[2.5rem] text-center">
               {quantity}
             </span>
             <button
               onClick={handleIncrement}
-              className="border-2 border-sky-600 text-sky-600 hover:text-white hover:bg-sky-600 w-8 h-8 rounded-md transition-all duration-200 font-bold text-xl flex items-center justify-center active:scale-90"
+              className="border-2 border-orange-500 text-orange-600 hover:text-white hover:bg-orange-500 w-8 h-8 rounded-md transition-all duration-200 font-bold text-xl flex items-center justify-center active:scale-90"
             >
               +
             </button>

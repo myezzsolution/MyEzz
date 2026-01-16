@@ -10,4 +10,9 @@ export default defineConfig({
       config: './tailwind.config.js'
     })
   ],
+  server: {
+    hmr: {
+      host: 'localhost',
+    },
+  },
 })
