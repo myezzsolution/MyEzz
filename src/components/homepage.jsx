@@ -344,12 +344,13 @@ const RestaurantCard = ({
     onToggleFavorite
   }) => (
     <div
-      onClick={onClick}
-      className="group relative bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))]
-                 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800
-                 shadow-md hover:shadow-2xl transition-all duration-300
-                 hover:-translate-y-1 cursor-pointer flex flex-col h-full"
-    >
+    onClick={onClick}
+    className="group relative bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))]
+               rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800
+               shadow-md hover:shadow-2xl transition-all duration-300
+               hover:-translate-y-1 cursor-pointer flex flex-col h-full
+               max-w-md mx-auto w-full"  // ← Yeh add karein
+  > 
       <div className="relative h-48 sm:h-52 overflow-hidden">
         <img
           src={image_url}
