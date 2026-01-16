@@ -8,6 +8,7 @@ import RestaurantCard from './RestaurantCard';
 import SurpriseMe from './SurpriseMe';
 import LocationSelector from './LocationSelector';
 import { FilterIcon } from './Icons';
+import { useDebounce } from '../hooks/useDebounce'; // Add this import
 
 const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems, showToastMessage }) => {
     const navigate = useNavigate();
@@ -30,6 +31,9 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
         return saved ? JSON.parse(saved) : null;
     });
 
+    // Add debounced search query - only triggers after 500ms of no typing
+    const debouncedSearchQuery = useDebounce(searchQuery, 500);
+
     const handleLocationSelect = (location) => {
         setUserLocation(location);
         localStorage.setItem('userLocation', JSON.stringify(location));
@@ -47,7 +51,6 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
             return newFavorites;
         });
         
-        // Show toast notification
         if (isCurrentlyFavorite) {
             showToastMessage(`${restaurant?.name || 'Restaurant'} removed from favourites`);
         } else {
@@ -72,19 +75,19 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
         });
     };
 
+    // Changed from searchQuery to debouncedSearchQuery
     useEffect(() => {
         async function getRestaurants() {
             setLoading(true);
             let query;
-            if (searchQuery.trim() !== '') {
-                // If search query looks like a numeric ID, try to find that specific restaurant first
-                if (/^\d+$/.test(searchQuery.trim())) {
+            if (debouncedSearchQuery.trim() !== '') {
+                if (/^\d+$/.test(debouncedSearchQuery.trim())) {
                     query = supabase.from('restaurants')
                         .select(`*, tags(name), cuisines(name)`)
-                        .eq('id', parseInt(searchQuery.trim()));
+                        .eq('id', parseInt(debouncedSearchQuery.trim()));
                 } else {
                     query = supabase.rpc('search_restaurants', {
-                        search_term: searchQuery
+                        search_term: debouncedSearchQuery
                     });
                 }
             } else {
@@ -109,18 +112,19 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
             setLoading(false);
         }
         getRestaurants();
-    }, [searchQuery]);
+    }, [debouncedSearchQuery]); // Changed dependency
 
+    // Changed from searchQuery to debouncedSearchQuery
     useEffect(() => {
         async function fetchDishes() {
-            if (searchQuery.trim() === '') {
+            if (debouncedSearchQuery.trim() === '') {
                 setDishes([]);
                 return;
             }
             const { data, error } = await supabase
                 .from('menu_items')
                 .select('id, name, price, restaurant_id, restaurants(name)')
-                .ilike('name', `%${searchQuery}%`);
+                .ilike('name', `%${debouncedSearchQuery}%`);
             if (error) {
                 console.error('Error fetching dishes:', error);
                 setDishes([]);
@@ -129,7 +133,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
             }
         }
         fetchDishes();
-    }, [searchQuery]);
+    }, [debouncedSearchQuery]); // Changed dependency
 
     const filteredRestaurants = restaurants.filter(restaurant => {
         const matchesCuisine = selectedCuisines.length === 0 || selectedCuisines.some(c => restaurant.cuisines.includes(c));

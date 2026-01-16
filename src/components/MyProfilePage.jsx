@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Wallet, Heart, Building2, X } from 'lucide-react';
+import { MapPin, Wallet, Heart, Building2, X, Camera, Package, MapPinned, Trash2 } from 'lucide-react';
 import { UserIcon, LogoutIcon, OrdersIcon, SettingsIcon } from './Icons';
 import Toast from './Toast';
 
@@ -138,8 +138,8 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                             )}
                         </div>
                         {isEditing && (
-                            <label className="absolute bottom-0 right-0 bg-orange-500 text-white px-3 py-1 rounded-full cursor-pointer hover:bg-orange-600 text-sm">
-                                📷
+                            <label className="absolute bottom-0 right-0 bg-orange-500 text-white p-2 rounded-full cursor-pointer hover:bg-orange-600">
+                                <Camera className="w-4 h-4" />
                                 <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
                             </label>
                         )}
@@ -193,13 +193,16 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                             <h3 className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Orders Placed</h3>
                             <p className="text-3xl font-bold text-orange-600">{onlineOrders ? onlineOrders.length : 0}</p>
                         </div>
-                        <span className="text-4xl text-4xl">📦</span>
+                        <Package className="w-12 h-12 text-orange-500" />
                     </div>
                 </div>
 
                 {displayProfile.currentOrder && (
                     <div className="bg-blue-50 dark:bg-blue-700 p-6 rounded-lg mb-6 border border-blue-200 dark:border-blue-600">
-                        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">📦 Current Order</h2>
+                        <div className="flex items-center mb-4">
+                            <Package className="w-5 h-5 text-blue-600 dark:text-blue-200 mr-2" />
+                            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Current Order</h2>
+                        </div>
                         <div className="space-y-2">
                             <div className="flex justify-between">
                                 <span className="text-gray-600 dark:text-gray-300">Order ID:</span>
@@ -253,7 +256,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                         </div>
                     ) : (
                         <div className="text-center py-8 bg-gray-100 dark:bg-gray-800 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600">
-                            <span className="text-4xl mb-2 block">📦</span>
+                            <Package className="w-12 h-12 text-gray-400 mx-auto mb-2" />
                             <p className="text-gray-500 dark:text-gray-400">No previous orders yet</p>
                         </div>
                     )}
@@ -275,7 +278,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                                     <div className="flex justify-between items-start">
                                         <div className="flex-1">
                                             <div className="flex items-center mb-2">
-                                                <span className="text-xl mr-2">📍</span>
+                                                <MapPinned className="w-5 h-5 text-orange-500 mr-2" />
                                                 <span className="font-semibold text-gray-800 dark:text-gray-100">{addr.label}</span>
                                                 {addr.isDefault && <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded">Default</span>}
                                             </div>
@@ -284,7 +287,9 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                                         {isEditing && (
                                             <div className="flex flex-col space-y-2 ml-2">
                                                 {!addr.isDefault && <button onClick={() => handleSetDefaultAddress(addr.id)} className="text-orange-500 hover:text-orange-600 text-xs">Set Default</button>}
-                                                <button onClick={() => handleDeleteAddress(addr.id)} className="text-red-500 hover:text-red-600 text-xs">🗑 Delete</button>
+                                                <button onClick={() => handleDeleteAddress(addr.id)} className="text-red-500 hover:text-red-600 text-xs flex items-center gap-1">
+                                                    <Trash2 className="w-3 h-3" /> Delete
+                                                </button>
                                             </div>
                                         )}
                                     </div>
@@ -292,7 +297,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                             ))
                         ) : (
                             <div className="text-center py-8 bg-gray-100 dark:bg-gray-800 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600">
-                                <span className="text-4xl mb-2 block">📍</span>
+                                <MapPinned className="w-12 h-12 text-gray-400 mx-auto mb-2" />
                                 <p className="text-gray-500 dark:text-gray-400">No saved addresses yet</p>
                             </div>
                         )}
