@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Wallet, Heart, Building2, X, Camera, Package, MapPinned, Trash2 } from 'lucide-react';
-import { UserIcon, LogoutIcon, OrdersIcon, SettingsIcon } from './Icons';
+import { MapPin, Camera, Package, MapPinned, Trash2, Mail, Phone, User, ChevronLeft } from 'lucide-react';
 import Toast from './Toast';
 
 const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) => {
@@ -9,7 +8,6 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
     const [onlineOrders, setOnlineOrders] = useState([]);
     const [loadingOrders, setLoadingOrders] = useState(false);
     const [toast, setToast] = useState({ isVisible: false, message: '', type: 'success' });
-    const [showAddressForm, setShowAddressForm] = useState(false);
     const [newAddress, setNewAddress] = useState({ label: '', address: '' });
 
     useEffect(() => {
@@ -55,7 +53,6 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
     const handleCancel = () => {
         setEditedProfile(userProfile);
         setIsEditing(false);
-        setShowAddressForm(false);
         setNewAddress({ label: '', address: '' });
     };
 
@@ -107,146 +104,192 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
     }, [displayProfile?.currentOrder?.status]);
 
     return (
-        <div className="max-w-4xl mx-auto p-6 min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <Toast
                 message={toast.message}
                 type={toast.type}
                 isVisible={toast.isVisible}
                 onClose={() => setToast(prev => ({ ...prev, isVisible: false }))}
             />
-            <div className="bg-[hsl(var(--card))] dark:bg-gray-800 text-[hsl(var(--card-foreground))] rounded-lg shadow-lg p-6 mb-6">
-                <div className="flex items-center justify-between mb-6">
+
+            {/* Simple Header */}
+            <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
+                <div className="max-w-5xl mx-auto px-4 py-4">
                     <button
                         onClick={onBack}
-                        className="text-orange-500 hover:text-white font-semibold px-4 py-2 border-2 border-orange-500 rounded-lg hover:bg-orange-500 transition-all duration-200"
+                        className="flex items-center gap-2 px-5 py-2.5 border-2 border-orange-500 rounded-lg text-orange-500 hover:bg-orange-500 hover:text-white transition-all duration-200 font-semibold"
                     >
-                        ← Back
+                        <ChevronLeft className="w-5 h-5" />
+                        <span>Back</span>
                     </button>
-                    <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-                        My Profile
-                    </h1>
-                    <div className="w-16" />
                 </div>
+            </div>
 
-                <div className="flex justify-center mb-6">
-                    <div className="relative">
-                        <div className="w-32 h-32 rounded-full bg-orange-500 dark:bg-orange-600 flex items-center justify-center overflow-hidden">
-                            {displayProfile.profilePhoto ? (
-                                <img src={displayProfile.profilePhoto} alt="Profile" className="w-full h-full object-cover" />
-                            ) : (
-                                <span className="text-4xl text-white font-bold">{displayProfile.fullName?.charAt(0) || "U"}</span>
+            <div className="max-w-5xl mx-auto p-4 space-y-6">
+                
+                {/* Profile Section */}
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                        {/* Profile Photo */}
+                        <div className="relative shrink-0">
+                            <div className="w-24 h-24 rounded-full bg-orange-100 dark:bg-orange-900 flex items-center justify-center overflow-hidden">
+                                {displayProfile.profilePhoto ? (
+                                    <img src={displayProfile.profilePhoto} alt="Profile" className="w-full h-full object-cover" />
+                                ) : (
+                                    <span className="text-3xl text-orange-600 dark:text-orange-400 font-bold">
+                                        {displayProfile.fullName?.charAt(0) || "U"}
+                                    </span>
+                                )}
+                            </div>
+                            {isEditing && (
+                                <label className="absolute -bottom-1 -right-1 bg-orange-500 text-white p-2 rounded-full cursor-pointer hover:bg-orange-600 shadow-lg">
+                                    <Camera className="w-4 h-4" />
+                                    <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
+                                </label>
                             )}
                         </div>
-                        {isEditing && (
-                            <label className="absolute bottom-0 right-0 bg-orange-500 text-white p-2 rounded-full cursor-pointer hover:bg-orange-600">
-                                <Camera className="w-4 h-4" />
-                                <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
-                            </label>
+
+                        {/* Profile Info */}
+                        <div className="flex-1 text-center sm:text-left">
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                                {displayProfile.fullName || "User"}
+                            </h2>
+                            <p className="text-gray-500 dark:text-gray-400 mb-4">{displayProfile.email}</p>
+                            <div className="inline-flex items-center gap-2 bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 px-4 py-2 rounded-full text-sm font-medium">
+                                <Package className="w-4 h-4" />
+                                {onlineOrders ? onlineOrders.length : 0} Orders Placed
+                            </div>
+                        </div>
+
+                        {/* Edit Button */}
+                        {!isEditing && (
+                            <button
+                                onClick={() => setIsEditing(true)}
+                                className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors"
+                            >
+                                Edit Profile
+                            </button>
                         )}
                     </div>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg mb-6">
-                    <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Personal Information</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Personal Details */}
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Personal Details</h3>
+                    <div className="space-y-4">
                         {[
-                            { label: "Full Name", key: "fullName", type: "text" },
-                            { label: "Email Address", key: "email", type: "email" },
-                            { label: "Phone Number", key: "phoneNumber", type: "tel" },
-                            { label: "Location", key: "location", type: "text" },
-                        ].map((field) => (
-                            <div key={field.key}>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">{field.label}</label>
-                                {isEditing ? (
-                                    field.key === 'location' ? (
-                                        <div className="relative group cursor-pointer" onClick={() => onAddAddress('profile-main')}>
-                                            <input
-                                                type="text"
-                                                readOnly
-                                                value={editedProfile[field.key] || ""}
-                                                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 cursor-pointer pr-10"
-                                                placeholder="Click to pick on map"
-                                            />
-                                            <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-500 group-hover:scale-110 transition-transform" />
-                                        </div>
+                            { label: "Full Name", key: "fullName", type: "text", icon: User },
+                            { label: "Email", key: "email", type: "email", icon: Mail },
+                            { label: "Phone", key: "phoneNumber", type: "tel", icon: Phone },
+                            { label: "Address", key: "location", type: "text", icon: MapPin },
+                        ].map((field) => {
+                            const Icon = field.icon;
+                            return (
+                                <div key={field.key}>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                                        {field.label}
+                                    </label>
+                                    {isEditing ? (
+                                        field.key === 'location' ? (
+                                            <div 
+                                                className="relative cursor-pointer" 
+                                                onClick={() => onAddAddress('profile-main')}
+                                            >
+                                                <input
+                                                    type="text"
+                                                    readOnly
+                                                    value={editedProfile[field.key] || ""}
+                                                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 cursor-pointer"
+                                                    placeholder="Click to select location"
+                                                />
+                                                <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                            </div>
+                                        ) : (
+                                            <div className="relative">
+                                                <input
+                                                    type={field.type}
+                                                    value={editedProfile[field.key] || ""}
+                                                    onChange={(e) => setEditedProfile({ ...editedProfile, [field.key]: e.target.value })}
+                                                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                                                />
+                                                <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                            </div>
+                                        )
                                     ) : (
-                                        <input
-                                            type={field.type}
-                                            value={editedProfile[field.key] || ""}
-                                            onChange={(e) => setEditedProfile({ ...editedProfile, [field.key]: e.target.value })}
-                                            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-                                        />
-                                    )
-                                ) : (
-                                    <p className="p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100">
-                                        {displayProfile[field.key] || "Not provided"}
-                                    </p>
-                                )}
-                            </div>
-                        ))}
+                                        <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                            <Icon className="w-5 h-5 text-gray-400" />
+                                            <span className="text-gray-900 dark:text-gray-100">
+                                                {displayProfile[field.key] || "Not provided"}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg mb-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h3 className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Orders Placed</h3>
-                            <p className="text-3xl font-bold text-orange-600">{onlineOrders ? onlineOrders.length : 0}</p>
-                        </div>
-                        <Package className="w-12 h-12 text-orange-500" />
-                    </div>
-                </div>
-
+                {/* Current Order */}
                 {displayProfile.currentOrder && (
-                    <div className="bg-blue-50 dark:bg-blue-700 p-6 rounded-lg mb-6 border border-blue-200 dark:border-blue-600">
-                        <div className="flex items-center mb-4">
-                            <Package className="w-5 h-5 text-blue-600 dark:text-blue-200 mr-2" />
-                            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Current Order</h2>
+                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+                        <div className="flex items-center gap-2 mb-4">
+                            <Package className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Current Order</h3>
                         </div>
-                        <div className="space-y-2">
-                            <div className="flex justify-between">
-                                <span className="text-gray-600 dark:text-gray-300">Order ID:</span>
-                                <span className="font-semibold">{displayProfile.currentOrder.orderId}</span>
+                        <div className="space-y-2 mb-4">
+                            <div className="flex justify-between text-sm">
+                                <span className="text-gray-600 dark:text-gray-400">Order ID:</span>
+                                <span className="font-medium text-gray-900 dark:text-white">{displayProfile.currentOrder.orderId}</span>
                             </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-600 dark:text-gray-300">Status:</span>
-                                <span className="font-semibold">{displayProfile.currentOrder.status}</span>
+                            <div className="flex justify-between text-sm">
+                                <span className="text-gray-600 dark:text-gray-400">Status:</span>
+                                <span className="font-medium text-gray-900 dark:text-white">{displayProfile.currentOrder.status}</span>
                             </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-600 dark:text-gray-300">Order date:</span>
-                                <span className="font-semibold">{displayProfile.currentOrder.orderDate}</span>
+                            <div className="flex justify-between text-sm">
+                                <span className="text-gray-600 dark:text-gray-400">Date:</span>
+                                <span className="font-medium text-gray-900 dark:text-white">{displayProfile.currentOrder.orderDate}</span>
                             </div>
                         </div>
-                        <button onClick={handleTrackOrder} className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">Track Order →</button>
+                        <button 
+                            onClick={handleTrackOrder}
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-medium"
+                        >
+                            Track Order
+                        </button>
                     </div>
                 )}
 
-                <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg mb-6">
-                    <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Previous Orders</h2>
+                {/* Order History */}
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Order History</h3>
                     {loadingOrders ? (
-                        <div className="text-center py-4">
-                            <div className="inline-block animate-spin rounded-full h-6 w-6 border-2 border-orange-500 border-t-transparent"></div>
-                            <p className="text-sm text-gray-500 mt-2">Loading orders...</p>
+                        <div className="flex justify-center py-8">
+                            <div className="animate-spin rounded-full h-8 w-8 border-2 border-orange-500 border-t-transparent"></div>
                         </div>
                     ) : onlineOrders && onlineOrders.length > 0 ? (
                         <div className="space-y-3">
                             {onlineOrders.map((order) => (
-                                <div key={order.orderId} className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-md transition-shadow">
+                                <div key={order.orderId} className="border dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50">
                                     <div className="flex justify-between items-start mb-2">
                                         <div>
-                                            <p className="font-semibold text-gray-800 dark:text-gray-100">#{order.orderId}</p>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">{new Date(order.orderDate).toLocaleDateString()}</p>
+                                            <p className="font-semibold text-gray-900 dark:text-white">Order #{order.orderId}</p>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">{new Date(order.orderDate).toLocaleDateString()}</p>
                                         </div>
-                                        <span className={`text-xs px-2 py-1 rounded ${order.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' : order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>{order.status}</span>
+                                        <div className="text-right">
+                                            <p className="font-bold text-gray-900 dark:text-white">₹{order.total}</p>
+                                            <span className={`inline-block text-xs px-2 py-0.5 rounded mt-1 ${
+                                                order.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' : 
+                                                order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 
+                                                'bg-gray-100 text-gray-800'
+                                            }`}>
+                                                {order.status}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className="flex justify-between text-sm mb-2">
-                                        <span className="text-gray-600 dark:text-gray-300">{order.items.length} items</span>
-                                        <span className="font-semibold text-gray-800 dark:text-gray-100">₹{order.total}</span>
-                                    </div>
-                                    <div className="border-t border-gray-100 dark:border-gray-700 pt-2 mt-2 space-y-1">
+                                    <div className="border-t dark:border-gray-700 pt-2 mt-2">
                                         {order.items.map((item, idx) => (
-                                            <div key={idx} className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-                                                <span>{item.quantity} x {item.name}{item.portion && item.portion !== 'Regular' && <span className="text-gray-400"> ({item.portion})</span>}</span>
+                                            <div key={idx} className="flex justify-between text-xs text-gray-600 dark:text-gray-400 py-1">
+                                                <span>{item.quantity}x {item.name}</span>
                                                 <span>₹{item.price * item.quantity}</span>
                                             </div>
                                         ))}
@@ -255,65 +298,90 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-8 bg-gray-100 dark:bg-gray-800 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600">
-                            <Package className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                            <p className="text-gray-500 dark:text-gray-400">No previous orders yet</p>
+                        <div className="text-center py-12 text-gray-400">
+                            <Package className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                            <p>No orders yet</p>
                         </div>
                     )}
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg mb-6">
+                {/* Saved Addresses */}
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Saved Addresses</h2>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Saved Addresses</h3>
                         {isEditing && (
-                            <button onClick={() => onAddAddress('profile-saved')} className="text-orange-500 hover:text-orange-600 font-semibold flex items-center gap-1">
-                                <MapPin className="w-4 h-4" /> Pick on Map
+                            <button 
+                                onClick={() => onAddAddress('profile-saved')}
+                                className="text-orange-500 hover:text-orange-600 text-sm font-medium flex items-center gap-1"
+                            >
+                                <MapPin className="w-4 h-4" /> Add
                             </button>
                         )}
                     </div>
-                    <div className="space-y-3">
-                        {displayProfile.savedAddresses && displayProfile.savedAddresses.length > 0 ? (
-                            displayProfile.savedAddresses.map((addr) => (
-                                <div key={addr.id} className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
-                                    <div className="flex justify-between items-start">
+                    {displayProfile.savedAddresses && displayProfile.savedAddresses.length > 0 ? (
+                        <div className="space-y-3">
+                            {displayProfile.savedAddresses.map((addr) => (
+                                <div key={addr.id} className="border dark:border-gray-700 rounded-lg p-4">
+                                    <div className="flex justify-between items-start gap-3">
                                         <div className="flex-1">
-                                            <div className="flex items-center mb-2">
-                                                <MapPinned className="w-5 h-5 text-orange-500 mr-2" />
-                                                <span className="font-semibold text-gray-800 dark:text-gray-100">{addr.label}</span>
-                                                {addr.isDefault && <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded">Default</span>}
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <MapPinned className="w-4 h-4 text-orange-500" />
+                                                <span className="font-semibold text-gray-900 dark:text-white">{addr.label}</span>
+                                                {addr.isDefault && (
+                                                    <span className="text-xs bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded">
+                                                        Default
+                                                    </span>
+                                                )}
                                             </div>
-                                            <p className="text-sm text-gray-600 dark:text-gray-300 ml-7">{addr.address}</p>
+                                            <p className="text-sm text-gray-600 dark:text-gray-400">{addr.address}</p>
                                         </div>
                                         {isEditing && (
-                                            <div className="flex flex-col space-y-2 ml-2">
-                                                {!addr.isDefault && <button onClick={() => handleSetDefaultAddress(addr.id)} className="text-orange-500 hover:text-orange-600 text-xs">Set Default</button>}
-                                                <button onClick={() => handleDeleteAddress(addr.id)} className="text-red-500 hover:text-red-600 text-xs flex items-center gap-1">
+                                            <div className="flex flex-col gap-1">
+                                                {!addr.isDefault && (
+                                                    <button 
+                                                        onClick={() => handleSetDefaultAddress(addr.id)}
+                                                        className="text-xs text-orange-500 hover:text-orange-600"
+                                                    >
+                                                        Set Default
+                                                    </button>
+                                                )}
+                                                <button 
+                                                    onClick={() => handleDeleteAddress(addr.id)}
+                                                    className="text-xs text-red-500 hover:text-red-600 flex items-center gap-1"
+                                                >
                                                     <Trash2 className="w-3 h-3" /> Delete
                                                 </button>
                                             </div>
                                         )}
                                     </div>
                                 </div>
-                            ))
-                        ) : (
-                            <div className="text-center py-8 bg-gray-100 dark:bg-gray-800 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600">
-                                <MapPinned className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                                <p className="text-gray-500 dark:text-gray-400">No saved addresses yet</p>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                <div className="flex justify-end space-x-4">
-                    {isEditing ? (
-                        <>
-                            <button onClick={handleCancel} className="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">Cancel</button>
-                            <button onClick={handleSave} className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">Save Changes</button>
-                        </>
+                            ))}
+                        </div>
                     ) : (
-                        <button onClick={() => setIsEditing(true)} className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all duration-300 hover:shadow-lg hover:scale-[1.05] transform">Edit Profile</button>
+                        <div className="text-center py-12 text-gray-400">
+                            <MapPinned className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                            <p>No saved addresses</p>
+                        </div>
                     )}
                 </div>
+
+                {/* Action Buttons */}
+                {isEditing && (
+                    <div className="flex gap-3 sticky bottom-4">
+                        <button 
+                            onClick={handleCancel}
+                            className="flex-1 px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 font-medium"
+                        >
+                            Cancel
+                        </button>
+                        <button 
+                            onClick={handleSave}
+                            className="flex-1 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium"
+                        >
+                            Save Changes
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
