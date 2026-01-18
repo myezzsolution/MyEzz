@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { CreditCard, Wallet, CheckCircle2, ShieldCheck, Lock, Check } from "lucide-react"; // icons
-import { createOrder } from "../api/client";
+import { submitOrderToRider } from "../api/riderService";
 
 const FoodBackground = () => {
   const [particles, setParticles] = useState([]);
@@ -137,7 +137,7 @@ function PaymentPage() {
         },
       };
 
-      const createdOrder = await createOrder(backendOrderPayload);
+      const createdOrder = await submitOrderToRider(backendOrderPayload);
 
       setShowSuccess(true);
       setTimeout(() => {

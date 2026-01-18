@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CheckCircle, Home, Printer, MapPin, Phone, Mail, User, ShoppingBag, Calendar } from "lucide-react";
-import { getOrderById } from "../api/client";
+import { getOrderStatus } from "../api/riderService";
 
 const OrderSuccess = () => {
   const { state } = useLocation();
@@ -23,7 +23,7 @@ const OrderSuccess = () => {
         return;
       }
       try {
-        const data = await getOrderById(orderId);
+        const data = await getOrderStatus(orderId);
         setOrder(data);
       } catch (err) {
         setError("Unable to load your order from the server.");

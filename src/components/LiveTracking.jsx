@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getOrderById } from "../api/client";
+import { getOrderStatus } from "../api/riderService";
 import { ChevronLeft, MapPin, Navigation, Phone, MessageSquare } from 'lucide-react';
 
 // IMPORTANT: User's Mapbox Token
@@ -68,7 +68,7 @@ const LiveTracking = () => {
 
         const fetchOrder = async () => {
             try {
-                const data = await getOrderById(orderId);
+                const data = await getOrderStatus(orderId);
                 if (!isMounted) return;
                 setOrder(data);
                 setStatus(data.status);
