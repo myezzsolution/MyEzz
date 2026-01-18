@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, X, Leaf, GlassWater, UtensilsCrossed, Dices, ShoppingCart, RotateCcw, AlertCircle } from 'lucide-react';
+import { Sparkles, X, Leaf, GlassWater, UtensilsCrossed, Dices, ShoppingCart, RotateCcw, AlertCircle, Check } from 'lucide-react';
 
 const SurpriseMe = ({ supabase, addToCart, onClose }) => {
     const [budget, setBudget] = useState(300);
@@ -7,6 +7,7 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
     const [rolling, setRolling] = useState(false);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
+    const [selectedItems, setSelectedItems] = useState([]);
 
     const toggleType = (type) => {
         setSelectedTypes(prev => {
@@ -43,7 +44,7 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
                     .select('id, name, price, is_veg, category_id, restaurant_id, restaurants(name)')
                     .lte('price', budget)
                     .or('category_id.eq.5,name.ilike.%Shake%,name.ilike.%Juice%,name.ilike.%Tea%,name.ilike.%Coffee%,name.ilike.%Cold Drink%,name.ilike.%Lassi%,name.ilike.%Mojito%');
-                
+
                 if (beverageData) allItems = [...allItems, ...beverageData];
             }
 
@@ -92,11 +93,93 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
                 return;
             }
 
-            const randomIndex = Math.floor(Math.random() * uniqueItems.length);
-            const randomDish = uniqueItems[randomIndex];
+            // Group items by restaurant
+            const itemsByRestaurant = {};
+            uniqueItems.forEach(item => {
+                if (!itemsByRestaurant[item.restaurant_id]) {
+                    itemsByRestaurant[item.restaurant_id] = [];
+                }
+                itemsByRestaurant[item.restaurant_id].push(item);
+            });
+
+            // Generate all valid combinations (1 or more items from single vendor)
+            const allCombinations = [];
+            const targetMin = budget - 20; // Ideally within 20 rupees of budget
+
+            Object.values(itemsByRestaurant).forEach(restaurant => {
+                // Add all single items as combinations
+                restaurant.forEach(item => {
+                    allCombinations.push({
+                        items: [item],
+                        total: item.price,
+                        closeness: budget - item.price, // Lower is closer to budget
+                    });
+                });
+
+                // Generate multi-item combinations using greedy approach
+                // Sort items by price descending for greedy algorithm
+                const sortedItems = [...restaurant].sort((a, b) => b.price - a.price);
+
+                // Try to build combinations starting from each item
+                for (let i = 0; i < sortedItems.length; i++) {
+                    let combo = [sortedItems[i]];
+                    let total = sortedItems[i].price;
+
+                    // Add more items greedily
+                    for (let j = i + 1; j < sortedItems.length; j++) {
+                        if (total + sortedItems[j].price <= budget) {
+                            combo.push(sortedItems[j]);
+                            total += sortedItems[j].price;
+                        }
+                    }
+
+                    // Only add if it's a multi-item combination
+                    if (combo.length > 1) {
+                        allCombinations.push({
+                            items: combo,
+                            total: total,
+                            closeness: budget - total,
+                        });
+                    }
+                }
+            });
+
+            if (allCombinations.length === 0) {
+                setError('Oops! No items found. Try increasing budget or changing options!');
+                setRolling(false);
+                setTimeout(() => setError(null), 3000);
+                return;
+            }
+
+            // Add diversity scoring to prevent beverage-only results
+            allCombinations.forEach(combo => {
+                // Check if combo contains non-beverage items
+                const hasNonBeverage = combo.items.some(item =>
+                    item.category_id !== 5 &&
+                    !['Shake', 'Juice', 'Tea', 'Coffee', 'Cold Drink', 'Lassi', 'Mojito'].some(
+                        term => item.name.toLowerCase().includes(term.toLowerCase())
+                    )
+                );
+
+                // Boost score for combinations with food items (not just beverages)
+                combo.diversityScore = hasNonBeverage ? 1 : 0;
+            });
+
+            // Sort by diversity first (food items preferred), then by closeness to budget
+            allCombinations.sort((a, b) => {
+                if (a.diversityScore !== b.diversityScore) {
+                    return b.diversityScore - a.diversityScore; // Higher diversity first
+                }
+                return a.closeness - b.closeness; // Then closer to budget
+            });
+
+            // Select from top 40% of combinations to maintain variety
+            const topCombos = allCombinations.slice(0, Math.ceil(allCombinations.length * 0.4));
+            const randomCombo = topCombos[Math.floor(Math.random() * topCombos.length)];
 
             setTimeout(() => {
-                setResult(randomDish);
+                setResult(randomCombo);
+                setSelectedItems(randomCombo.items.map(item => item.id)); // Select all items by default
                 setRolling(false);
             }, 1500);
         } catch (error) {
@@ -148,9 +231,9 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
                                 </div>
                                 <div className="relative pt-2 pb-6">
                                     <input
-                                        type="range" 
-                                        min="40" 
-                                        max="1000" 
+                                        type="range"
+                                        min="40"
+                                        max="1000"
                                         step="10"
                                         value={budget}
                                         onChange={(e) => setBudget(e.target.value)}
@@ -180,11 +263,10 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
                                         <button
                                             key={item.id}
                                             onClick={() => toggleType(item.id)}
-                                            className={`relative py-4 rounded-[1.5rem] border-2 transition-all duration-300 flex flex-col items-center gap-1 overflow-hidden ${
-                                                selectedTypes.includes(item.id)
-                                                    ? 'border-orange-500 bg-orange-50 dark:bg-orange-500/10 text-orange-600 shadow-lg shadow-orange-500/20'
-                                                    : 'border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 text-gray-400 hover:border-orange-300 hover:bg-orange-50/50'
-                                            }`}
+                                            className={`relative py-4 rounded-[1.5rem] border-2 transition-all duration-300 flex flex-col items-center gap-1 overflow-hidden ${selectedTypes.includes(item.id)
+                                                ? 'border-orange-500 bg-orange-50 dark:bg-orange-500/10 text-orange-600 shadow-lg shadow-orange-500/20'
+                                                : 'border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 text-gray-400 hover:border-orange-300 hover:bg-orange-50/50'
+                                                }`}
                                         >
                                             {selectedTypes.includes(item.id) && (
                                                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent"></div>
@@ -229,25 +311,87 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
                             <div className="inline-block p-5 rounded-full bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-500/20 dark:to-orange-600/20 text-orange-500 mb-6 ring-8 ring-orange-50 dark:ring-orange-500/5 animate-pulse">
                                 <UtensilsCrossed className="w-10 h-10" />
                             </div>
-                            <h3 className="text-2xl font-black text-gray-800 dark:text-white leading-tight mb-2 uppercase">
-                                {result.name}
-                            </h3>
-                            <p className="text-orange-500 font-bold text-sm mb-6 flex items-center justify-center gap-1">
-                                <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
-                                {result.restaurants?.name}
-                            </p>
 
-                            <div className="text-5xl font-black bg-gradient-to-br from-orange-500 to-orange-600 bg-clip-text text-transparent mb-8">
-                                ₹{result.price}
-                            </div>
+                            {result.items.length === 1 ? (
+                                /* Single Item Display */
+                                <>
+                                    <h3 className="text-2xl font-black text-gray-800 dark:text-white leading-tight mb-2 uppercase">
+                                        {result.items[0].name}
+                                    </h3>
+                                    <p className="text-orange-500 font-bold text-sm mb-6 flex items-center justify-center gap-1">
+                                        <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                                        {result.items[0].restaurants?.name}
+                                    </p>
+
+                                    <div className="text-5xl font-black bg-gradient-to-br from-orange-500 to-orange-600 bg-clip-text text-transparent mb-8">
+                                        ₹{result.items[0].price}
+                                    </div>
+                                </>
+                            ) : (
+                                /* Multiple Items Display */
+                                <>
+                                    <h3 className="text-xl font-black text-gray-800 dark:text-white leading-tight mb-2 uppercase">
+                                        Your Combo Deal!
+                                    </h3>
+                                    <p className="text-orange-500 font-bold text-sm mb-4 flex items-center justify-center gap-1">
+                                        <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                                        {result.items[0].restaurants?.name}
+                                    </p>
+
+                                    <div className="bg-orange-50 dark:bg-orange-500/5 rounded-2xl p-4 mb-4 max-h-[200px] overflow-y-auto space-y-2">
+                                        {result.items.map((item, index) => {
+                                            const isSelected = selectedItems.includes(item.id);
+                                            return (
+                                                <div
+                                                    key={item.id}
+                                                    onClick={() => {
+                                                        setSelectedItems(prev =>
+                                                            prev.includes(item.id)
+                                                                ? prev.filter(id => id !== item.id)
+                                                                : [...prev, item.id]
+                                                        );
+                                                    }}
+                                                    className={`flex justify-between items-center py-2 px-3 rounded-xl cursor-pointer transition-all ${isSelected
+                                                        ? 'bg-white dark:bg-gray-900 ring-2 ring-orange-500'
+                                                        : 'bg-white/50 dark:bg-gray-900/50 opacity-50 hover:opacity-75'
+                                                        }`}
+                                                >
+                                                    <span className="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                                                        <span className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${isSelected
+                                                            ? 'bg-orange-500 text-white'
+                                                            : 'bg-gray-200 dark:bg-gray-700 text-gray-500'
+                                                            }`}>
+                                                            {isSelected ? <Check className="w-4 h-4" /> : index + 1}
+                                                        </span>
+                                                        {item.name}
+                                                    </span>
+                                                    <span className="text-sm font-black text-orange-600">₹{item.price}</span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+
+                                    <div className="text-4xl font-black bg-gradient-to-br from-orange-500 to-orange-600 bg-clip-text text-transparent mb-2">
+                                        ₹{result.items.filter(item => selectedItems.includes(item.id)).reduce((sum, item) => sum + item.price, 0)}
+                                    </div>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 font-bold mb-6">
+                                        Total for {selectedItems.length} selected item{selectedItems.length !== 1 ? 's' : ''}
+                                    </p>
+                                </>
+                            )}
 
                             <div className="space-y-3">
                                 <button
-                                    onClick={() => { addToCart(result); onClose(); }}
-                                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 dark:from-orange-500 dark:to-orange-600 text-white py-5 rounded-2xl font-black text-lg hover:shadow-2xl transition-all hover:scale-105 flex items-center justify-center gap-3"
+                                    onClick={() => {
+                                        const itemsToAdd = result.items.filter(item => selectedItems.includes(item.id));
+                                        itemsToAdd.forEach(item => addToCart(item));
+                                        onClose();
+                                    }}
+                                    disabled={selectedItems.length === 0}
+                                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 dark:from-orange-500 dark:to-orange-600 text-white py-5 rounded-2xl font-black text-lg hover:shadow-2xl transition-all hover:scale-105 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                                 >
                                     <ShoppingCart className="w-5 h-5" />
-                                    ADD TO CART
+                                    ADD {result.items.length > 1 ? (selectedItems.length > 0 ? `SELECTED (${selectedItems.length})` : 'SELECTED') : ''} TO CART
                                 </button>
                                 <button
                                     onClick={() => setResult(null)}
