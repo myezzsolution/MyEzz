@@ -157,6 +157,15 @@ export default function App() {
         setShowToast(true);
     };
 
+    const addToCart = (item, quantity = 1) => {
+        setCartItems(prev => [...prev, {
+            ...item,
+            quantity,
+            vendor: item.restaurants?.name || item.vendor || 'Unknown',
+            restaurantName: item.restaurants?.name || item.restaurantName || 'Unknown'
+        }]);
+    };
+
     const handlePayNow = (addressData) => {
         if (!addressData.fullName.trim() || !addressData.emailId.trim() || !addressData.phoneNumber.trim() || !addressData.fullAddress.trim()) {
             alert("Please fill in all delivery information fields.");
@@ -220,6 +229,8 @@ export default function App() {
                             setLocationPickerPurpose(purpose);
                             setShowLocationModal(true);
                         }}
+                        addToCart={addToCart}
+                        showToastMessage={showToastMessage}
                     />
                 } />
                 <Route path="/restaurant/:restaurantId" element={
@@ -235,7 +246,7 @@ export default function App() {
                     <SurpriseMe
                         supabase={supabase}
                         addToCart={(item) => {
-                            setCartItems(prev => [...prev, { ...item, quantity: 1, vendor: item.restaurants?.name || 'Unknown', restaurantName: item.restaurants?.name || 'Unknown' }]);
+                            addToCart(item, 1);
                             showToastMessage(`${item.name} added to cart!`);
                         }}
                         onClose={() => navigate(-1)}

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Camera, Package, MapPinned, Trash2, Mail, Phone, User, ChevronLeft } from 'lucide-react';
+import { MapPin, Camera, Package, MapPinned, Trash2, Mail, Phone, User, ChevronLeft, RotateCw } from 'lucide-react';
 import Toast from './Toast';
+import { supabase } from '../supabaseClient';
 
-const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) => {
+const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress, addToCart, showToastMessage }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedProfile, setEditedProfile] = useState(userProfile);
     const [onlineOrders, setOnlineOrders] = useState([]);
     const [loadingOrders, setLoadingOrders] = useState(false);
     const [toast, setToast] = useState({ isVisible: false, message: '', type: 'success' });
     const [newAddress, setNewAddress] = useState({ label: '', address: '' });
+    const [processingOrderId, setProcessingOrderId] = useState(null);
 
     useEffect(() => {
         if (!userProfile.email) return;
@@ -88,6 +90,57 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
         alert('Order tracking feature coming soon!');
     };
 
+    const handleOrderAgain = async (order) => {
+        if (!addToCart || !showToastMessage) {
+            console.error('addToCart or showToastMessage function not provided');
+            return;
+        }
+
+        setProcessingOrderId(order.orderId);
+
+        try {
+            let addedCount = 0;
+            let unavailableCount = 0;
+            const unavailableItems = [];
+
+            for (const orderItem of order.items) {
+                // Fetch current item data from Supabase
+                const { data: currentItem, error } = await supabase
+                    .from('menu_items')
+                    .select('*, restaurants(name)')
+                    .eq('name', orderItem.name)
+                    .single();
+
+                if (error || !currentItem) {
+                    unavailableCount++;
+                    unavailableItems.push(orderItem.name);
+                    continue;
+                }
+
+                // Add item to cart with original quantity
+                for (let i = 0; i < orderItem.quantity; i++) {
+                    addToCart(currentItem, 1);
+                }
+                addedCount += orderItem.quantity;
+            }
+
+            // Show result notification
+            if (addedCount > 0 && unavailableCount === 0) {
+                showToastMessage(`All ${addedCount} item${addedCount !== 1 ? 's' : ''} added to cart!`);
+            } else if (addedCount > 0 && unavailableCount > 0) {
+                showToastMessage(`${addedCount} item${addedCount !== 1 ? 's' : ''} added to cart. ${unavailableCount} item${unavailableCount !== 1 ? 's were' : ' was'} unavailable.`);
+            } else {
+                showToastMessage('No items could be added. All items are unavailable.');
+            }
+
+        } catch (error) {
+            console.error('Error processing Order Again:', error);
+            showToastMessage('Failed to process order. Please try again.');
+        } finally {
+            setProcessingOrderId(null);
+        }
+    };
+
     const displayProfile = isEditing ? editedProfile : userProfile;
 
     useEffect(() => {
@@ -126,7 +179,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
             </div>
 
             <div className="max-w-5xl mx-auto p-4 space-y-6">
-                
+
                 {/* Profile Section */}
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
@@ -191,8 +244,8 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                                     </label>
                                     {isEditing ? (
                                         field.key === 'location' ? (
-                                            <div 
-                                                className="relative cursor-pointer" 
+                                            <div
+                                                className="relative cursor-pointer"
                                                 onClick={() => onAddAddress('profile-main')}
                                             >
                                                 <input
@@ -250,7 +303,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                                 <span className="font-medium text-gray-900 dark:text-white">{displayProfile.currentOrder.orderDate}</span>
                             </div>
                         </div>
-                        <button 
+                        <button
                             onClick={handleTrackOrder}
                             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-medium"
                         >
@@ -277,11 +330,10 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                                         </div>
                                         <div className="text-right">
                                             <p className="font-bold text-gray-900 dark:text-white">₹{order.total}</p>
-                                            <span className={`inline-block text-xs px-2 py-0.5 rounded mt-1 ${
-                                                order.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' : 
-                                                order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 
-                                                'bg-gray-100 text-gray-800'
-                                            }`}>
+                                            <span className={`inline-block text-xs px-2 py-0.5 rounded mt-1 ${order.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                                                order.status === 'Delivered' ? 'bg-green-100 text-green-800' :
+                                                    'bg-gray-100 text-gray-800'
+                                                }`}>
                                                 {order.status}
                                             </span>
                                         </div>
@@ -294,6 +346,14 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                                             </div>
                                         ))}
                                     </div>
+                                    <button
+                                        onClick={() => handleOrderAgain(order)}
+                                        disabled={processingOrderId === order.orderId}
+                                        className="w-full mt-3 flex items-center justify-center gap-2 px-4 py-2.5 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white rounded-lg font-medium transition-colors disabled:cursor-not-allowed"
+                                    >
+                                        <RotateCw className={`w-4 h-4 ${processingOrderId === order.orderId ? 'animate-spin' : ''}`} />
+                                        {processingOrderId === order.orderId ? 'Adding to Cart...' : 'Order Again'}
+                                    </button>
                                 </div>
                             ))}
                         </div>
@@ -310,7 +370,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Saved Addresses</h3>
                         {isEditing && (
-                            <button 
+                            <button
                                 onClick={() => onAddAddress('profile-saved')}
                                 className="text-orange-500 hover:text-orange-600 text-sm font-medium flex items-center gap-1"
                             >
@@ -338,14 +398,14 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                                         {isEditing && (
                                             <div className="flex flex-col gap-1">
                                                 {!addr.isDefault && (
-                                                    <button 
+                                                    <button
                                                         onClick={() => handleSetDefaultAddress(addr.id)}
                                                         className="text-xs text-orange-500 hover:text-orange-600"
                                                     >
                                                         Set Default
                                                     </button>
                                                 )}
-                                                <button 
+                                                <button
                                                     onClick={() => handleDeleteAddress(addr.id)}
                                                     className="text-xs text-red-500 hover:text-red-600 flex items-center gap-1"
                                                 >
@@ -368,13 +428,13 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress }) =>
                 {/* Action Buttons */}
                 {isEditing && (
                     <div className="flex gap-3 sticky bottom-4">
-                        <button 
+                        <button
                             onClick={handleCancel}
                             className="flex-1 px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 font-medium"
                         >
                             Cancel
                         </button>
-                        <button 
+                        <button
                             onClick={handleSave}
                             className="flex-1 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium"
                         >
