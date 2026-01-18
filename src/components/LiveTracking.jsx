@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useParams, useNavigate } from 'react-router-dom';
+import { getOrderById } from "../api/client";
 import { ChevronLeft, MapPin, Navigation, Phone, MessageSquare } from 'lucide-react';
 
 // IMPORTANT: User's Mapbox Token
@@ -55,22 +56,44 @@ const LiveTracking = () => {
     const { orderId } = useParams();
     const navigate = useNavigate();
 
-    // Mock positions [lat, lng]
-    const [riderPos, setRiderPos] = useState([19.0760, 72.8777]); // Mumbai center
-    const restaurantPos = [19.0800, 72.8800];
-    const userPos = [19.0700, 72.8700];
-    const [status] = useState("Out for Delivery");
+    const [order, setOrder] = useState(null);
+    const [status, setStatus] = useState(null);
+    const [center, setCenter] = useState([19.0760, 72.8777]); // default center
 
-    // Simulate rider movement for demo
+    // Fetch order and keep status in sync with backend
     useEffect(() => {
-        const interval = setInterval(() => {
-            setRiderPos(prev => [
-                prev[0] + (Math.random() - 0.5) * 0.001,
-                prev[1] + (Math.random() - 0.5) * 0.001
-            ]);
-        }, 3000);
-        return () => clearInterval(interval);
-    }, []);
+        if (!orderId) return;
+
+        let isMounted = true;
+
+        const fetchOrder = async () => {
+            try {
+                const data = await getOrderById(orderId);
+                if (!isMounted) return;
+                setOrder(data);
+                setStatus(data.status);
+
+                if (data.dropLocation?.coordinates?.length === 2) {
+                    const [lng, lat] = data.dropLocation.coordinates;
+                    setCenter([lat, lng]);
+                } else if (data.pickupLocation?.coordinates?.length === 2) {
+                    const [lng, lat] = data.pickupLocation.coordinates;
+                    setCenter([lat, lng]);
+                }
+            } catch (err) {
+                // eslint-disable-next-line no-console
+                console.error("Failed to fetch order for live tracking:", err);
+            }
+        };
+
+        fetchOrder();
+
+        const interval = setInterval(fetchOrder, 5000);
+        return () => {
+            isMounted = false;
+            clearInterval(interval);
+        };
+    }, [orderId]);
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
@@ -83,15 +106,17 @@ const LiveTracking = () => {
                     <ChevronLeft className="w-6 h-6 dark:text-gray-200" />
                 </button>
                 <div>
-                    <h1 className="text-lg font-bold dark:text-white">Track Order #{orderId || 'ORD-9821'}</h1>
-                    <p className="text-xs text-orange-500 font-semibold uppercase tracking-tight">{status}</p>
+                    <h1 className="text-lg font-bold dark:text-white">Track Order #{orderId}</h1>
+                    <p className="text-xs text-orange-500 font-semibold uppercase tracking-tight">
+                        {status || "Fetching latest status..."}
+                    </p>
                 </div>
             </div>
 
             {/* Map Container */}
             <div className="flex-1 relative z-0 min-h-[500px]">
                 <MapContainer
-                    center={riderPos}
+                    center={center}
                     zoom={15}
                     style={{ height: 'calc(100vh - 80px)', width: '100%' }}
                     zoomControl={false}
@@ -105,19 +130,31 @@ const LiveTracking = () => {
                         zoomOffset={-1}
                     />
 
-                    <Marker position={restaurantPos} icon={restaurantIcon}>
-                        <Popup>Restaurant: Pizza Cloud</Popup>
-                    </Marker>
+                    {order?.pickupLocation?.coordinates?.length === 2 && (
+                        <Marker
+                            position={[
+                                order.pickupLocation.coordinates[1],
+                                order.pickupLocation.coordinates[0],
+                            ]}
+                            icon={restaurantIcon}
+                        >
+                            <Popup>Pickup: {order.pickupAddress}</Popup>
+                        </Marker>
+                    )}
 
-                    <Marker position={userPos} icon={userIcon}>
-                        <Popup>Your Delivery Location</Popup>
-                    </Marker>
+                    {order?.dropLocation?.coordinates?.length === 2 && (
+                        <Marker
+                            position={[
+                                order.dropLocation.coordinates[1],
+                                order.dropLocation.coordinates[0],
+                            ]}
+                            icon={userIcon}
+                        >
+                            <Popup>Drop: {order.dropAddress}</Popup>
+                        </Marker>
+                    )}
 
-                    <Marker position={riderPos} icon={riderIcon}>
-                        <Popup>Rider is here</Popup>
-                    </Marker>
-
-                    <ChangeView center={riderPos} />
+                    <ChangeView center={center} />
                 </MapContainer>
 
                 {/* Status Overlay */}

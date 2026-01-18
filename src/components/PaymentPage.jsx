@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { CreditCard, Wallet, CheckCircle2, ShieldCheck, Lock, Check } from "lucide-react"; // icons
+import { createOrder } from "../api/client";
 
 const FoodBackground = () => {
   const [particles, setParticles] = useState([]);
@@ -110,75 +111,39 @@ function PaymentPage() {
     try {
       const orderItems = cart.map((item) => ({
         name: item.name,
+        qty: item.quantity,
         price: item.price,
-        quantity: item.quantity,
-        vendor: item.vendor,
-        portion: item.portion || "Regular",
-        preference: item.jain ? "Jain" : "Non-Jain",
-        total: item.price * item.quantity,
       }));
 
-      const orderData = {
-        orderId: Math.floor(100000 + Math.random() * 900000),
-        customer: customerInfo,
+      // Map user-app data into backend Order schema.
+      const backendOrderPayload = {
+        customerName: customerInfo.fullName || customerInfo.name,
+        customerPhone: customerInfo.phoneNumber || customerInfo.phone,
+        pickupAddress:
+          cart[0]?.vendorAddress ||
+          cart[0]?.restaurantName ||
+          cart[0]?.vendor ||
+          "Restaurant Pickup",
+        dropAddress: customerInfo.fullAddress || customerInfo.address,
         items: orderItems,
-        total,
-        paymentMethod: method,
-        status: "Pending",
-        orderDate: new Date().toISOString(),
-        // Format for Rider DB (GeoJSON: [longitude, latitude])
+        price: total,
+        paymentMethod: method === "cod" ? "cash_on_delivery" : "online",
         dropLocation: {
           type: "Point",
-          coordinates: [customerInfo?.longitude, customerInfo?.latitude]
+          coordinates: [
+            customerInfo?.longitude ?? 0,
+            customerInfo?.latitude ?? 0,
+          ],
         },
-        // Legacy fields for Google Sheets compatibility if needed
-        delivery_lat: customerInfo?.latitude,
-        delivery_lng: customerInfo?.longitude,
       };
 
-      const scriptUrl = import.meta.env.VITE_APP_SCRIPT_URL;
-      if (!scriptUrl) {
-        console.error("VITE_APP_SCRIPT_URL is not defined in .env");
-        alert("Configuration Error: API URL missing");
-        setLoading(false);
-        return;
-      }
-
-      console.log("Submitting order to Apps Script:", orderData);
-
-      const response = await fetch(scriptUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderData),
-        mode: "no-cors",
-      });
-
-      console.log("Apps Script request sent.");
-
-      // Update user profile in localStorage (removed - now handled by backend)
-      /* 
-      try {
-        const savedProfile = localStorage.getItem("userProfile");
-        if (savedProfile) {
-          const userProfile = JSON.parse(savedProfile);
-          const updatedProfile = {
-            ...userProfile,
-            currentOrder: orderData,
-            totalOrders: (userProfile.totalOrders || 0) + 1,
-          };
-          localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
-        }
-      } catch (err) {
-        console.error("Error updating user profile:", err);
-      }
-      */
-
+      const createdOrder = await createOrder(backendOrderPayload);
 
       setShowSuccess(true);
       setTimeout(() => {
         navigate("/success", {
           state: {
-            orderData,
+            orderId: createdOrder._id,
             customerInfo,
             cart,
           },
