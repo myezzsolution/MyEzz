@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTheme } from '../context/ThemeContext';
+import { Pizza, Soup, Salad, UtensilsCrossed, Bike, Wind, Coffee } from 'lucide-react';
 
 const FoodDeliveryLoader = () => {
   const { isDark } = useTheme();
@@ -21,21 +22,29 @@ const FoodDeliveryLoader = () => {
           <div className={`absolute inset-4 rounded-full flex items-center justify-center animate-pulse ${
             isDark ? 'bg-slate-800' : 'bg-white'
           }`}>
-            <div className="text-5xl">🍽️</div>
+            <UtensilsCrossed className="w-12 h-12 text-orange-500" />
           </div>
           
           {/* Orbiting food items */}
           <div className="absolute inset-0 animate-spin" style={{ animationDuration: '4s' }}>
-            <div className="absolute -top-2 left-1/2 -translate-x-1/2 text-2xl">🍕</div>
+            <div className="absolute -top-2 left-1/2 -translate-x-1/2">
+              <Pizza className="w-8 h-8 text-orange-500" />
+            </div>
           </div>
           <div className="absolute inset-0 animate-spin" style={{ animationDuration: '4s', animationDelay: '-1s' }}>
-            <div className="absolute top-1/2 -right-2 -translate-y-1/2 text-2xl">🍔</div>
+            <div className="absolute top-1/2 -right-2 -translate-y-1/2">
+              <Coffee className="w-8 h-8 text-orange-500" />
+            </div>
           </div>
           <div className="absolute inset-0 animate-spin" style={{ animationDuration: '4s', animationDelay: '-2s' }}>
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-2xl">🍜</div>
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2">
+              <Soup className="w-8 h-8 text-orange-500" />
+            </div>
           </div>
           <div className="absolute inset-0 animate-spin" style={{ animationDuration: '4s', animationDelay: '-3s' }}>
-            <div className="absolute top-1/2 -left-2 -translate-y-1/2 text-2xl">🥗</div>
+            <div className="absolute top-1/2 -left-2 -translate-y-1/2">
+              <Salad className="w-8 h-8 text-orange-500" />
+            </div>
           </div>
         </div>
 
@@ -58,13 +67,10 @@ const FoodDeliveryLoader = () => {
           <div className="h-full bg-gradient-to-r from-orange-500 to-orange-600 rounded-full animate-pulse"></div>
         </div>
 
-        {/* Delivery scooter animation at bottom */}
         <div className="mt-12 relative h-12">
           <div className="absolute left-0 right-0 flex items-center justify-center">
-            <div className="text-4xl animate-bounce" style={{ animationDuration: '1s' }}>
-              🛵
-            </div>
-            <div className="text-2xl ml-2 animate-pulse">💨</div>
+            <Bike className="w-10 h-10 text-orange-500 animate-bounce" style={{ animationDuration: '1s' }} />
+            <Wind className="w-8 h-8 text-orange-400 ml-2 animate-pulse" />
           </div>
         </div>
       </div>

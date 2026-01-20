@@ -35,7 +35,7 @@ export const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     localStorage.setItem('currentUser', JSON.stringify(result.user));
-    return result;
+    return result.user;
   } catch (error) {
     console.error("Error signing in with Google: ", error);
     throw error;

@@ -250,3 +250,11 @@ code {
 .animate-ping-once {
   animation: ping-once 0.5s ease-out forwards;
 }
+
+::-webkit-scrollbar {
+  display: none !important;
+}
+html, body {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
