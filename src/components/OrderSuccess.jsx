@@ -1,17 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CheckCircle, Home, Printer, MapPin, Phone, Mail, User, ShoppingBag, Calendar } from "lucide-react";
+import { getOrderStatus } from "../api/riderService";
 
 const OrderSuccess = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  const order = state?.orderData;
+  const orderId = state?.orderId;
   const customerInfo = state?.customerInfo;
   const cartItems = state?.cart;
 
-  if (!order || !customerInfo || !cartItems) {
+  const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchOrder = async () => {
+      if (!orderId) {
+        setLoading(false);
+        return;
+      }
+      try {
+        const data = await getOrderStatus(orderId);
+        setOrder(data);
+      } catch (err) {
+        setError("Unable to load your order from the server.");
+        // eslint-disable-next-line no-console
+        console.error("Error fetching order:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrder();
+  }, [orderId]);
+
+  if (!orderId || !customerInfo || !cartItems) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
         <div className="text-center space-y-4">
@@ -19,6 +45,33 @@ const OrderSuccess = () => {
             <ShoppingBag className="w-8 h-8 text-red-500" />
           </div>
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">No order found</h2>
+          <button
+            onClick={() => navigate("/")}
+            className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+          >
+            Go Home
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+        <div className="text-center space-y-4">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Loading your order...</h2>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !order) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+        <div className="text-center space-y-4">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">There was a problem loading your order</h2>
+          <p className="text-gray-500 dark:text-gray-400">{error || "Order not found."}</p>
           <button
             onClick={() => navigate("/")}
             className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
@@ -63,13 +116,13 @@ const OrderSuccess = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="bg-orange-50 dark:bg-orange-900/10 p-4 rounded-2xl border border-orange-100 dark:border-orange-800/30">
               <p className="text-xs text-orange-600 dark:text-orange-400 font-semibold uppercase tracking-wider mb-1">Order ID</p>
-              <p className="text-lg font-bold text-gray-900 dark:text-white">#{order.orderId}</p>
+              <p className="text-lg font-bold text-gray-900 dark:text-white">#{order._id}</p>
             </div>
             <div className="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-2xl border border-blue-100 dark:border-blue-800/30">
               <p className="text-xs text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider mb-1">Date & Time</p>
               <div className="flex items-center text-gray-900 dark:text-white font-medium">
                 <Calendar className="w-4 h-4 mr-2 opacity-70" />
-                {new Date(order.orderDate).toLocaleDateString()} • {new Date(order.orderDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                {new Date(order.createdAt).toLocaleDateString()} • {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
             </div>
           </div>
@@ -139,12 +192,12 @@ const OrderSuccess = () => {
               <div className="bg-gray-50 dark:bg-gray-700/50 px-4 py-4 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex justify-between items-center">
                   <span className="font-bold text-gray-900 dark:text-white">Total Amount</span>
-                  <span className="text-xl font-bold text-orange-600 dark:text-orange-400">₹{order.total}</span>
+                  <span className="text-xl font-bold text-orange-600 dark:text-orange-400">₹{order.price}</span>
                 </div>
                 <div className="flex justify-between items-center mt-2 text-sm">
                   <span className="text-gray-500 dark:text-gray-400">Payment Method</span>
                   <span className="font-medium text-gray-900 dark:text-white bg-white dark:bg-gray-600 px-2 py-1 rounded border border-gray-200 dark:border-gray-500 uppercase text-xs tracking-wide">
-                    {order.paymentMethod}
+                    {order.paymentMethod === "cash_on_delivery" ? "Cash on Delivery" : "Online"}
                   </span>
                 </div>
               </div>
@@ -161,7 +214,7 @@ const OrderSuccess = () => {
               Home
             </button>
             <button
-              onClick={() => navigate(`/track/${order.orderId}`)}
+              onClick={() => navigate(`/track/${order._id}`)}
               className="flex-[2] flex items-center justify-center px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30 transform hover:-translate-y-1"
             >
               <MapPin className="w-5 h-5 mr-2" />
