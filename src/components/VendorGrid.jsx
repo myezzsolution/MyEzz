@@ -1,5 +1,6 @@
 // src/components/VendorGrid.jsx
 import React from "react";
+import { getRestaurantDistance } from '../utils/distance';
 
 const isVendorOpen = (vendor) => {
   if (!vendor.availableAfter) return true;
@@ -16,7 +17,7 @@ const vendorInitials = (name) => {
   return (parts[0]?.[0] || "") + (parts[1]?.[0] || "");
 };
 
-function VendorGrid({ vendors = [], setSelectedVendor, showOnlyJain }) {
+function VendorGrid({ vendors = [], setSelectedVendor, showOnlyJain, userLocation }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {vendors
@@ -65,6 +66,10 @@ function VendorGrid({ vendors = [], setSelectedVendor, showOnlyJain }) {
               <div className="mt-4 flex items-center justify-between">
                 <div className="text-sm text-gray-500 dark:text-gray-400">
                   {itemsCount} items • {vendor.estimatedTime || "20-35 min"}
+                  {userLocation && (() => {
+                    const distance = getRestaurantDistance(userLocation, vendor);
+                    return distance !== null ? ` • ${distance} km` : '';
+                  })()}
                 </div>
 
                 <div className="flex items-center gap-2">
