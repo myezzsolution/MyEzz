@@ -1,27 +1,50 @@
 import { useState, useMemo, useCallback, memo, useEffect } from "react";
-
 const SearchBar = memo(({ menuData, onDishSelect, onSearchChange }) => {
+  console.log("🔥 USER SearchBar rendered");
+
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [debouncedQuery, setDebouncedQuery] = useState("");
 
-  // Debounce the search query to prevent rapid parent updates
+  const placeholders = [
+    "Search pizza 🍕",
+    "Search burgers 🍔",
+    "Search momos 🥟",
+    "Search pasta 🍝",
+    "Search soup 🍲",
+    "Search biryani 🍛",
+  ];
+  const [currentPlaceholder, setCurrentPlaceholder] = useState(placeholders[0]);
+  
+  useEffect(() => {
+    console.log("SearchBar mounted");
+  }, []);
+
+  useEffect(() => {
+    let index = 0;
+
+    const interval = setInterval(() => {
+      index = (index + 1) % placeholders.length;
+      setCurrentPlaceholder(placeholders[index]);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedQuery(query);
-    }, 500); // Wait 500ms after user stops typing
+    }, 500);
     
     return () => clearTimeout(timer);
   }, [query]);
 
-  // Only update parent component after debounce
   useEffect(() => {
     if (onSearchChange) {
       onSearchChange(debouncedQuery);
     }
   }, [debouncedQuery, onSearchChange]);
 
-  // Memoize the search results to prevent unnecessary recalculations
   const results = useMemo(() => {
     if (query.length === 0) return [];
     
@@ -41,7 +64,6 @@ const SearchBar = memo(({ menuData, onDishSelect, onSearchChange }) => {
     return matches;
   }, [query, menuData]);
 
-  // Use useCallback to prevent function recreation on every render
   const handleSearch = useCallback((e) => {
     e.stopPropagation();
     const value = e.target.value;
@@ -72,7 +94,7 @@ const SearchBar = memo(({ menuData, onDishSelect, onSearchChange }) => {
         onChange={handleSearch}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        placeholder="Search menu items..."
+        placeholder={query.length === 0 ? currentPlaceholder : ""}
         className="w-full p-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
         autoComplete="off"
       />
@@ -84,7 +106,10 @@ const SearchBar = memo(({ menuData, onDishSelect, onSearchChange }) => {
               onClick={() => handleDishSelect(dish)}
               className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
             >
-              {dish.name} — <span className="text-gray-500 dark:text-gray-400">{dish.vendorName}</span>
+              {dish.name} —{" "}
+              <span className="text-gray-500 dark:text-gray-400">
+                {dish.vendorName}
+              </span>
             </div>
           ))}
         </div>
@@ -93,6 +118,6 @@ const SearchBar = memo(({ menuData, onDishSelect, onSearchChange }) => {
   );
 });
 
-SearchBar.displayName = 'SearchBar';
+SearchBar.displayName = "SearchBar";
 
 export default SearchBar;
