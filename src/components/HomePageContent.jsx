@@ -337,6 +337,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                                         }}
                                         isFavorite={favorites.includes(restaurant.id)}
                                         onToggleFavorite={() => toggleFavorite(restaurant.id)}
+                                        userLocation={userLocation}
                                     />
                                 </div>
                             ))}
