@@ -1,5 +1,6 @@
 import React from 'react';
 import { StarIcon, HeartIcon } from './Icons';
+import { getRestaurantDistance } from '../utils/distance';
 
 const RestaurantCard = ({
     name,
@@ -11,8 +12,18 @@ const RestaurantCard = ({
     image_url,
     onClick,
     isFavorite,
-    onToggleFavorite
-}) => (
+    onToggleFavorite,
+    userLocation,
+    ...restaurantProps
+}) => {
+    // Calculate distance if userLocation is available, otherwise use the provided distance
+    const calculatedDistance = userLocation 
+        ? getRestaurantDistance(userLocation, { ...restaurantProps, latitude: restaurantProps.latitude, longitude: restaurantProps.longitude })
+        : distance;
+    
+    const displayDistance = calculatedDistance !== null ? calculatedDistance : distance;
+
+    return (
     <div
         onClick={onClick}
         className="hologram-card group relative bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))]
@@ -90,7 +101,7 @@ const RestaurantCard = ({
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                             d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    <span className="font-medium">{distance} km</span>
+                    <span className="font-medium">{displayDistance !== null && displayDistance !== undefined ? `${displayDistance} km` : 'N/A'}</span>
                 </div>
 
                 <div className="flex items-center gap-1">
@@ -127,6 +138,7 @@ const RestaurantCard = ({
 
         </div>
     </div>
-);
+    );
+};
 
 export default RestaurantCard;

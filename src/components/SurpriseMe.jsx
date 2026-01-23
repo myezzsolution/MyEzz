@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, X, Leaf, GlassWater, UtensilsCrossed, Dices, ShoppingCart, RotateCcw, AlertCircle, Check } from 'lucide-react';
 
-const SurpriseMe = ({ supabase, addToCart, onClose }) => {
+const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaurantName = null }) => {
     const [budget, setBudget] = useState(300);
     const [selectedTypes, setSelectedTypes] = useState(['Vegetarian']);
     const [rolling, setRolling] = useState(false);
@@ -54,12 +54,18 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
 
             // Fetch beverages if selected
             if (hasBeverages) {
-                const { data: beverageData } = await supabase
+                let beverageQuery = supabase
                     .from('menu_items')
                     .select('id, name, price, is_veg, category_id, restaurant_id, restaurants(name)')
                     .lte('price', budget)
                     .or('category_id.eq.5,name.ilike.%Shake%,name.ilike.%Juice%,name.ilike.%Tea%,name.ilike.%Coffee%,name.ilike.%Cold Drink%,name.ilike.%Lassi%,name.ilike.%Mojito%');
+                
+                // Filter by restaurant if restaurantId is provided
+                if (restaurantId) {
+                    beverageQuery = beverageQuery.eq('restaurant_id', restaurantId);
+                }
 
+                const { data: beverageData } = await beverageQuery;
                 if (beverageData) allItems = [...allItems, ...beverageData];
             }
 
@@ -78,6 +84,11 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
                         .not('name', 'ilike', '%Cold Drink%')
                         .not('name', 'ilike', '%Lassi%')
                         .not('name', 'ilike', '%Mojito%');
+                    
+                    // Filter by restaurant if restaurantId is provided
+                    if (restaurantId) {
+                        foodQuery = foodQuery.eq('restaurant_id', restaurantId);
+                    }
 
                     if (type === 'Jain') {
                         foodQuery = foodQuery
@@ -121,7 +132,12 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
             const allCombinations = [];
             const targetMin = budget - 20; // Ideally within 20 rupees of budget
 
-            Object.values(itemsByRestaurant).forEach(restaurant => {
+            // If restaurantId is provided, only use items from that restaurant
+            const restaurantsToProcess = restaurantId 
+                ? [itemsByRestaurant[restaurantId]].filter(Boolean)
+                : Object.values(itemsByRestaurant);
+
+            restaurantsToProcess.forEach(restaurant => {
                 // Add all single items as combinations
                 restaurant.forEach(item => {
                     allCombinations.push({
@@ -206,8 +222,223 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
     };
 
     const handleReroll = () => {
-        // Keep the settings and just reroll
-        getSurpriseDish();
+        // Keep selected items and reroll only unselected ones
+        if (result && selectedItems.length > 0) {
+            // Keep selected items, reroll the rest
+            setRolling(true);
+            setError(null);
+            
+            // Get the restaurant ID from the current result or use the prop
+            const currentRestaurantId = restaurantId || result.items[0]?.restaurant_id;
+            const keptItems = result.items.filter(item => selectedItems.includes(item.id));
+            const keptTotal = keptItems.reduce((sum, item) => sum + item.price, 0);
+            const remainingBudget = budget - keptTotal;
+            
+            if (!currentRestaurantId) {
+                setError('Unable to reroll: Restaurant information missing.');
+                setRolling(false);
+                setTimeout(() => setError(null), 3000);
+                return;
+            }
+            
+            if (remainingBudget <= 0) {
+                setError('Selected items exceed budget! Please deselect some items.');
+                setRolling(false);
+                setTimeout(() => setError(null), 3000);
+                return;
+            }
+            
+            // Reroll with remaining budget and same restaurant
+            getSurpriseDishForReroll(currentRestaurantId, remainingBudget, keptItems, keptTotal);
+        } else {
+            // No items selected, reroll everything
+            setRolling(true);
+            setResult(null);
+            setSelectedItems([]);
+            getSurpriseDish();
+        }
+    };
+
+    const getSurpriseDishForReroll = async (restaurantId, remainingBudget, keptItems, keptTotal) => {
+        try {
+            // Similar logic to getSurpriseDish but with remaining budget
+            const hasBeverages = selectedTypes.includes('Beverages');
+            const foodTypes = selectedTypes.filter(t => t !== 'Beverages');
+
+            let allItems = [];
+
+            // Fetch beverages if selected
+            if (hasBeverages) {
+                let beverageQuery = supabase
+                    .from('menu_items')
+                    .select('id, name, price, is_veg, category_id, restaurant_id, restaurants(name)')
+                    .eq('restaurant_id', restaurantId)
+                    .lte('price', remainingBudget)
+                    .or('category_id.eq.5,name.ilike.%Shake%,name.ilike.%Juice%,name.ilike.%Tea%,name.ilike.%Coffee%,name.ilike.%Cold Drink%,name.ilike.%Lassi%,name.ilike.%Mojito%');
+
+                const { data: beverageData } = await beverageQuery;
+                if (beverageData) allItems = [...allItems, ...beverageData];
+            }
+
+            // Fetch food items based on selected types
+            if (foodTypes.length > 0) {
+                for (const type of foodTypes) {
+                    let foodQuery = supabase
+                        .from('menu_items')
+                        .select('id, name, price, is_veg, category_id, restaurant_id, restaurants(name)')
+                        .eq('restaurant_id', restaurantId)
+                        .lte('price', remainingBudget)
+                        .neq('category_id', 5)
+                        .not('name', 'ilike', '%Shake%')
+                        .not('name', 'ilike', '%Juice%')
+                        .not('name', 'ilike', '%Tea%')
+                        .not('name', 'ilike', '%Coffee%')
+                        .not('name', 'ilike', '%Cold Drink%')
+                        .not('name', 'ilike', '%Lassi%')
+                        .not('name', 'ilike', '%Mojito%');
+
+                    if (type === 'Jain') {
+                        foodQuery = foodQuery
+                            .eq('is_veg', true)
+                            .ilike('name', '%Jain%');
+                    } else if (type === 'Vegetarian') {
+                        foodQuery = foodQuery
+                            .eq('is_veg', true)
+                            .not('name', 'ilike', '%Jain%');
+                    } else if (type === 'Non-veg') {
+                        foodQuery = foodQuery.eq('is_veg', false);
+                    }
+
+                    const { data: foodData } = await foodQuery;
+                    if (foodData) allItems = [...allItems, ...foodData];
+                }
+            }
+
+            // Remove duplicates and items already kept
+            const keptItemIds = new Set(keptItems.map(item => item.id));
+            const uniqueItems = Array.from(
+                new Map(allItems
+                    .filter(item => !keptItemIds.has(item.id))
+                    .map(item => [item.id, item]))
+                    .values()
+            );
+
+            if (uniqueItems.length === 0) {
+                // No new items found, just keep the selected items
+                setTimeout(() => {
+                    setResult({
+                        items: keptItems,
+                        total: keptTotal,
+                        closeness: 0
+                    });
+                    setSelectedItems(keptItems.map(item => item.id));
+                    setRolling(false);
+                }, 1500);
+                return;
+            }
+
+            // Generate combinations with remaining budget
+            const allCombinations = [];
+            const targetMin = remainingBudget - 20;
+
+            // Add single items
+            uniqueItems.forEach(item => {
+                allCombinations.push({
+                    items: [item],
+                    total: item.price,
+                    closeness: remainingBudget - item.price,
+                });
+            });
+
+            // Generate multi-item combinations
+            const sortedItems = [...uniqueItems].sort((a, b) => b.price - a.price);
+
+            for (let i = 0; i < sortedItems.length; i++) {
+                let combo = [sortedItems[i]];
+                let total = sortedItems[i].price;
+
+                for (let j = i + 1; j < sortedItems.length; j++) {
+                    if (total + sortedItems[j].price <= remainingBudget) {
+                        combo.push(sortedItems[j]);
+                        total += sortedItems[j].price;
+                    }
+                }
+
+                if (combo.length > 1) {
+                    allCombinations.push({
+                        items: combo,
+                        total: total,
+                        closeness: remainingBudget - total,
+                    });
+                }
+            }
+
+            if (allCombinations.length === 0) {
+                setTimeout(() => {
+                    setResult({
+                        items: keptItems,
+                        total: keptTotal,
+                        closeness: 0
+                    });
+                    setSelectedItems(keptItems.map(item => item.id));
+                    setRolling(false);
+                }, 1500);
+                return;
+            }
+
+            // Add diversity scoring
+            allCombinations.forEach(combo => {
+                const hasNonBeverage = combo.items.some(item =>
+                    item.category_id !== 5 &&
+                    !['Shake', 'Juice', 'Tea', 'Coffee', 'Cold Drink', 'Lassi', 'Mojito'].some(
+                        term => item.name.toLowerCase().includes(term.toLowerCase())
+                    )
+                );
+                combo.diversityScore = hasNonBeverage ? 1 : 0;
+            });
+
+            allCombinations.sort((a, b) => {
+                if (a.diversityScore !== b.diversityScore) {
+                    return b.diversityScore - a.diversityScore;
+                }
+                return a.closeness - b.closeness;
+            });
+
+            const topCombos = allCombinations.slice(0, Math.ceil(allCombinations.length * 0.4));
+            
+            if (topCombos.length === 0) {
+                // Fallback: just keep the selected items
+                setTimeout(() => {
+                    setResult({
+                        items: keptItems,
+                        total: keptTotal,
+                        closeness: 0
+                    });
+                    setSelectedItems(keptItems.map(item => item.id));
+                    setRolling(false);
+                }, 1500);
+                return;
+            }
+            
+            const randomCombo = topCombos[Math.floor(Math.random() * topCombos.length)];
+
+            setTimeout(() => {
+                // Combine kept items with new items
+                const newResult = {
+                    items: [...keptItems, ...randomCombo.items],
+                    total: keptTotal + randomCombo.total,
+                };
+                setResult(newResult);
+                // Keep selected items selected, and select all new items by default
+                setSelectedItems([...keptItems.map(item => item.id), ...randomCombo.items.map(item => item.id)]);
+                setRolling(false);
+            }, 1500);
+        } catch (error) {
+            console.error('Error rerolling:', error);
+            setError('Something went wrong! Please try again.');
+            setRolling(false);
+            setTimeout(() => setError(null), 3000);
+        }
     };
 
     return (
@@ -226,7 +457,9 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
                     </button>
                     <Sparkles className="w-7 h-7 mb-1 relative z-10" />
                     <h2 className="text-2xl font-black tracking-tight relative z-10">Magic Pick</h2>
-                    <p className="text-orange-50 opacity-90 text-xs font-medium relative z-10">Confused? Let us decide for you!</p>
+                    <p className="text-orange-50 opacity-90 text-xs font-medium relative z-10">
+                        {restaurantName ? `Surprise from ${restaurantName}!` : 'Confused? Let us decide for you!'}
+                    </p>
                 </div>
 
                 <div className="p-6 overflow-y-auto flex-1">
@@ -343,8 +576,26 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
                                         {result.items[0].restaurants?.name}
                                     </p>
 
-                                    <div className="text-4xl font-black bg-gradient-to-br from-orange-500 to-orange-600 bg-clip-text text-transparent mb-6">
+                                    <div className="text-4xl font-black bg-gradient-to-br from-orange-500 to-orange-600 bg-clip-text text-transparent mb-4">
                                         ₹{result.items[0].price}
+                                    </div>
+
+                                    <div className="mb-4 flex items-center justify-center gap-2">
+                                        <label className="flex items-center gap-2 cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedItems.includes(result.items[0].id)}
+                                                onChange={() => {
+                                                    setSelectedItems(prev =>
+                                                        prev.includes(result.items[0].id)
+                                                            ? prev.filter(id => id !== result.items[0].id)
+                                                            : [...prev, result.items[0].id]
+                                                    );
+                                                }}
+                                                className="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
+                                            />
+                                            <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Select this item</span>
+                                        </label>
                                     </div>
                                 </>
                             ) : (
@@ -364,27 +615,26 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
                                             return (
                                                 <div
                                                     key={item.id}
-                                                    onClick={() => {
-                                                        setSelectedItems(prev =>
-                                                            prev.includes(item.id)
-                                                                ? prev.filter(id => id !== item.id)
-                                                                : [...prev, item.id]
-                                                        );
-                                                    }}
-                                                    className={`flex justify-between items-center py-1.5 px-2.5 rounded-xl cursor-pointer transition-all ${isSelected
+                                                    className={`flex justify-between items-center py-1.5 px-2.5 rounded-xl transition-all ${isSelected
                                                         ? 'bg-white dark:bg-gray-900 ring-2 ring-orange-500'
                                                         : 'bg-white/50 dark:bg-gray-900/50 opacity-50 hover:opacity-75'
                                                         }`}
                                                 >
-                                                    <span className="text-xs font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1.5">
-                                                        <span className={`w-5 h-5 flex items-center justify-center rounded-full transition-all text-xs ${isSelected
-                                                            ? 'bg-orange-500 text-white'
-                                                            : 'bg-gray-200 dark:bg-gray-700 text-gray-500'
-                                                            }`}>
-                                                            {isSelected ? <Check className="w-3 h-3" /> : index + 1}
-                                                        </span>
-                                                        {item.name}
-                                                    </span>
+                                                    <label className="text-xs font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1.5 cursor-pointer flex-1">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={isSelected}
+                                                            onChange={() => {
+                                                                setSelectedItems(prev =>
+                                                                    prev.includes(item.id)
+                                                                        ? prev.filter(id => id !== item.id)
+                                                                        : [...prev, item.id]
+                                                                );
+                                                            }}
+                                                            className="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
+                                                        />
+                                                        <span>{item.name}</span>
+                                                    </label>
                                                     <span className="text-xs font-black text-orange-600">₹{item.price}</span>
                                                 </div>
                                             );
@@ -401,18 +651,23 @@ const SurpriseMe = ({ supabase, addToCart, onClose }) => {
                             )}
 
                             <div className="space-y-2">
-                                <button
-                                    onClick={() => {
-                                        const itemsToAdd = result.items.filter(item => selectedItems.includes(item.id));
-                                        itemsToAdd.forEach(item => addToCart(item));
-                                        onClose();
-                                    }}
-                                    disabled={selectedItems.length === 0}
-                                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 dark:from-orange-500 dark:to-orange-600 text-white py-4 rounded-2xl font-black text-base hover:shadow-2xl transition-all hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-                                >
-                                    <ShoppingCart className="w-4 h-4" />
-                                    ADD {result.items.length > 1 ? (selectedItems.length > 0 ? `SELECTED (${selectedItems.length})` : 'SELECTED') : ''} TO CART
-                                </button>
+                                {selectedItems.length > 0 ? (
+                                    <button
+                                        onClick={() => {
+                                            const itemsToAdd = result.items.filter(item => selectedItems.includes(item.id));
+                                            itemsToAdd.forEach(item => addToCart(item));
+                                            onClose();
+                                        }}
+                                        className="w-full bg-gradient-to-r from-orange-500 to-orange-600 dark:from-orange-500 dark:to-orange-600 text-white py-4 rounded-2xl font-black text-base hover:shadow-2xl transition-all hover:scale-105 flex items-center justify-center gap-2"
+                                    >
+                                        <ShoppingCart className="w-4 h-4" />
+                                        ADD {result.items.length > 1 ? `SELECTED (${selectedItems.length})` : ''} TO CART
+                                    </button>
+                                ) : (
+                                    <div className="w-full bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 py-4 rounded-2xl font-black text-base text-center cursor-not-allowed">
+                                        SELECT ITEMS TO ADD TO CART
+                                    </div>
+                                )}
                                 <button
                                     onClick={handleReroll}
                                     disabled={rolling}

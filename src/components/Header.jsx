@@ -1,3 +1,4 @@
+import SearchBar from "./SearchBar";
 import React from 'react';
 import { MapPin } from 'lucide-react';
 import logo from './myezzlogopage0001removebgpreview2329-xmz0h-400w.png';
@@ -28,7 +29,7 @@ const Header = ({ onCartClick, cartItems, searchQuery, onSearchChange, isProfile
       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
         <SearchIcon className="text-gray-400" />
       </div>
-      <input
+      <SearchBar
         type="text"
         placeholder="Search for restaurants..."
         value={searchQuery}
