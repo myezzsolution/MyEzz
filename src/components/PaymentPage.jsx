@@ -139,6 +139,46 @@ function PaymentPage() {
 
       const createdOrder = await submitOrderToRider(backendOrderPayload);
 
+      // Store order in Google Apps Script URL
+      try {
+        const scriptUrl = import.meta.env.VITE_APP_SCRIPT_URL;
+        if (scriptUrl) {
+          const appScriptPayload = {
+            customer: {
+              fullName: customerInfo.fullName || customerInfo.name,
+              emailId: customerInfo.emailId || customerInfo.email,
+              phoneNumber: customerInfo.phoneNumber || customerInfo.phone,
+              fullAddress: customerInfo.fullAddress || customerInfo.address,
+              latitude: customerInfo.latitude,
+              longitude: customerInfo.longitude
+            },
+            items: cart.map(item => ({
+              name: item.name,
+              quantity: item.quantity,
+              price: item.price,
+              vendor: item.vendor || item.restaurantName
+            })),
+            paymentMethod: method === "cod" ? "Cash on Delivery" : "Online",
+            status: "Pending",
+            orderDate: new Date().toISOString(),
+            dropLocation: backendOrderPayload.dropLocation
+          };
+
+          await fetch(scriptUrl, {
+            method: 'POST',
+            mode: 'no-cors', // Apps Script often requires no-cors for simple POSTs
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(appScriptPayload),
+          });
+          console.log("Order synced with Apps Script successfully");
+        }
+      } catch (syncError) {
+        console.error("Error syncing with Apps Script:", syncError);
+        // We don't block the UI for sync errors as the main order is placed
+      }
+
       setShowSuccess(true);
       setTimeout(() => {
         navigate("/success", {
