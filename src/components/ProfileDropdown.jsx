@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
-import { UserIcon, LogoutIcon } from './Icons';
+import { User, LogOut, Moon, Sun } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 
 const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
@@ -71,48 +71,79 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
                     <img
                         src={profilePhoto}
                         alt="Profile"
-                        className="h-9 w-9 rounded-full object-cover"
+                        className="h-9 w-9 rounded-full object-cover ring-2 ring-orange-200 dark:ring-orange-800"
                     />
                 ) : (
-                    <UserIcon className="h-6 w-6" />
+                    <User className="h-6 w-6" />
                 )}
             </button>
 
             {/* Dropdown Menu */}
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-64 bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-lg shadow-lg border border-gray-200 z-50">
+                <div className="absolute right-0 mt-3 w-72 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 z-50 overflow-hidden animate-in slide-in-from-top-2 duration-200">
 
-                    {/* User Info */}
-                    <div className="p-4 border-b border-gray-200">
-                        <p className="font-semibold">Hello, {userName}!</p>
-                        <p className="text-sm opacity-70">{userEmail}</p>
+                    {/* User Info Header */}
+                    <div className="p-5 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-gray-800 dark:to-gray-800 border-b border-gray-100 dark:border-gray-700">
+                        <div className="flex items-center gap-3">
+                            {profilePhoto ? (
+                                <img
+                                    src={profilePhoto}
+                                    alt="Profile"
+                                    className="h-12 w-12 rounded-full object-cover ring-3 ring-orange-200 dark:ring-orange-700"
+                                />
+                            ) : (
+                                <div className="h-12 w-12 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
+                                    <User className="h-6 w-6 text-orange-500" />
+                                </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                                <p className="font-bold text-gray-900 dark:text-white truncate">Hello, {userName}!</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{userEmail}</p>
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Dark Mode */}
-                    <div className="flex items-center justify-between px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 border-b border-gray-200 dark:border-white-700">
-                        <span className="text-sm font-medium">Dark Mode</span>
-                        <ThemeToggle />
+                    {/* Menu Items */}
+                    <div className="py-2">
+                        {/* Dark Mode Toggle */}
+                        <div className="flex items-center justify-between px-5 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                                    <Moon className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+                                </div>
+                                <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Dark Mode</span>
+                            </div>
+                            <ThemeToggle />
+                        </div>
+
+                        {/* Divider */}
+                        <div className="mx-4 my-1 border-t border-gray-100 dark:border-gray-800"></div>
+
+                        {/* My Profile */}
+                        <button
+                            onClick={onMyProfile}
+                            className="w-full flex items-center gap-3 px-5 py-3 text-left hover:bg-orange-50 dark:hover:bg-gray-800 transition-colors group"
+                        >
+                            <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg group-hover:bg-orange-200 dark:group-hover:bg-orange-900/50 transition-colors">
+                                <User className="w-4 h-4 text-orange-600 dark:text-orange-400" />
+                            </div>
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">My Profile</span>
+                        </button>
+
+                        {/* Divider */}
+                        <div className="mx-4 my-1 border-t border-gray-100 dark:border-gray-800"></div>
+
+                        {/* Logout */}
+                        <button
+                            onClick={handleLogout}
+                            className="w-full flex items-center gap-3 px-5 py-3 text-left hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors group"
+                        >
+                            <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg group-hover:bg-red-200 dark:group-hover:bg-red-900/50 transition-colors">
+                                <LogOut className="w-4 h-4 text-red-600 dark:text-red-400" />
+                            </div>
+                            <span className="text-sm font-medium text-red-600 dark:text-red-400">Logout</span>
+                        </button>
                     </div>
-
-                    {/* My Profile */}
-                    <button
-                        onClick={onMyProfile}
-                        className="w-full flex items-center px-4 py-3 text-left hover:bg-orange-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-colors duration-200"
-                    >
-                        <UserIcon />
-                        <span className="ml-3">My Profile</span>
-                    </button>
-
-                    <div className="border-t border-gray-200"></div>
-
-                    {/* Logout */}
-                    <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center px-4 py-3 text-left text-red-800 hover:bg-orange-400 transition-colors duration-200"
-                    >
-                        <LogoutIcon />
-                        <span className="ml-3">Logout</span>
-                    </button>
                 </div>
             )}
         </div>
