@@ -8,7 +8,7 @@ import RestaurantCard from './RestaurantCard';
 import SurpriseMe from './SurpriseMe';
 import LocationSelector from './LocationSelector';
 import { FilterIcon } from './Icons';
-import { useDebounce } from '../hooks/useDebounce'; // Add this import
+import { useDebounce } from '../hooks/useDebounce';
 
 const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems, showToastMessage, onSurpriseMe }) => {
     const navigate = useNavigate();
@@ -29,9 +29,27 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
         const saved = localStorage.getItem('userLocation');
         return saved ? JSON.parse(saved) : null;
     });
+    const [showVegetarian, setShowVegetarian] = useState(false);
+    const [vegRestaurantIds, setVegRestaurantIds] = useState([]);
 
-    // Add debounced search query - only triggers after 500ms of no typing
     const debouncedSearchQuery = useDebounce(searchQuery, 500);
+
+    // Fetch restaurants that have vegetarian items
+    useEffect(() => {
+        async function fetchVegRestaurants() {
+            const { data, error } = await supabase
+                .from('menu_items')
+                .select('restaurant_id')
+                .eq('is_veg', true);
+            
+            if (!error && data) {
+                // Get unique restaurant IDs
+                const uniqueIds = [...new Set(data.map(item => item.restaurant_id))];
+                setVegRestaurantIds(uniqueIds);
+            }
+        }
+        fetchVegRestaurants();
+    }, []);
 
     const handleLocationSelect = (location) => {
         setUserLocation(location);
@@ -74,7 +92,6 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
         });
     };
 
-    // Changed from searchQuery to debouncedSearchQuery
     useEffect(() => {
         async function getRestaurants() {
             setLoading(true);
@@ -111,9 +128,8 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
             setLoading(false);
         }
         getRestaurants();
-    }, [debouncedSearchQuery]); // Changed dependency
+    }, [debouncedSearchQuery]);
 
-    // Changed from searchQuery to debouncedSearchQuery
     useEffect(() => {
         async function fetchDishes() {
             if (debouncedSearchQuery.trim() === '') {
@@ -132,12 +148,25 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
             }
         }
         fetchDishes();
-    }, [debouncedSearchQuery]); // Changed dependency
+    }, [debouncedSearchQuery]);
 
     const filteredRestaurants = restaurants.filter(restaurant => {
-        const matchesCuisine = selectedCuisines.length === 0 || selectedCuisines.some(c => restaurant.cuisines.includes(c));
+       
+        const matchesCuisine = selectedCuisines.length === 0 || 
+                               selectedCuisines.some(c => restaurant.cuisines.includes(c));
+
         const matchesFavorite = !showFavorites || favorites.includes(restaurant.id);
-        return matchesCuisine && matchesFavorite;
+
+        const isBeverageSelectedOnly = selectedCuisines.length === 1 && selectedCuisines.includes("Beverages");
+        
+        let matchesVegetarian;
+        if (isBeverageSelectedOnly) {
+            matchesVegetarian = true; 
+        } else {
+            matchesVegetarian = !showVegetarian || vegRestaurantIds.includes(restaurant.id);
+        }
+        
+        return matchesCuisine && matchesFavorite && matchesVegetarian;
     });
 
     if (loading) {
@@ -159,6 +188,8 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                 onClose={() => setShowFilters(false)}
                 showFavorites={showFavorites}
                 setShowFavorites={setShowFavorites}
+                showVegetarian={showVegetarian}
+                setShowVegetarian={setShowVegetarian}
                 onSurpriseMe={onSurpriseMe}
             />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full">
@@ -168,7 +199,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                     </div>
 
                     <div className="hidden md:flex items-center space-x-3 sm:space-x-4 overflow-x-auto pb-6 scrollbar-hide px-1 sm:px-2">
-                        {["Jain", "Non-Jain", "Beverages", "Vegetarian"].map(cuisine => {
+                        {["Jain", "Non-Jain", "Beverages"].map(cuisine => {
                             const isSelected = selectedCuisines.includes(cuisine);
                             return (
                                 <button
@@ -197,6 +228,22 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                         })}
 
                         <button
+                            onClick={() => setShowVegetarian(!showVegetarian)}
+                            className={`
+                                group flex-shrink-0 px-6 py-3 text-sm font-medium rounded-xl border whitespace-nowrap
+                                transition-all duration-300 ease-out backdrop-blur-md
+                                hover:-translate-y-1 hover:shadow-lg
+                                ${showVegetarian
+                                    ? 'bg-green-500 text-white border-green-400 shadow-[0_8px_20px_rgba(34,197,94,0.4)] scale-105'
+                                    : 'bg-white/40 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-green-400/50'
+                                }
+                                active:scale-95
+                            `}
+                        >
+                            Vegetarian
+                        </button>
+
+                        <button
                             onClick={() => setShowFavorites(!showFavorites)}
                             className={`
                                 group flex-shrink-0 px-6 py-3 text-sm font-medium rounded-xl border whitespace-nowrap
@@ -213,11 +260,12 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                             Favourites
                         </button>
 
-                        {(selectedCuisines.length > 0 || showFavorites) && (
+                        {(selectedCuisines.length > 0 || showFavorites || showVegetarian) && (
                             <button
                                 onClick={() => {
                                     setSelectedCuisines([]);
                                     setShowFavorites(false);
+                                    setShowVegetarian(false);
                                 }}
                                 className="group flex-shrink-0 px-4 py-2 text-sm font-medium text-gray-500 hover:text-red-500 transition-all duration-200 whitespace-nowrap flex items-center gap-1"
                             >
@@ -347,11 +395,12 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                             <UtensilsCrossed className="w-16 h-16 mx-auto mb-5 text-orange-400 animate-bounce" />
                             <p className="text-gray-800 dark:text-gray-200 font-bold text-xl mb-2">No restaurants found</p>
                             <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">Try adjusting your search or filters</p>
-                            {(selectedCuisines.length > 0 || showFavorites || searchQuery.trim() !== '') && (
+                            {(selectedCuisines.length > 0 || showFavorites || showVegetarian || searchQuery.trim() !== '') && (
                                 <button
                                     onClick={() => {
                                         setSelectedCuisines([]);
                                         setShowFavorites(false);
+                                        setShowVegetarian(false);
                                         setShowFilters(false);
                                     }}
                                     className="mt-4 px-6 py-2.5 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg"

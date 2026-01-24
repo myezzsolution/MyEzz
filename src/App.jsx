@@ -4,6 +4,7 @@ import PaymentPage from "./components/PaymentPage";
 import OrderSuccess from "./components/OrderSuccess";
 import LiveTracking from "./components/LiveTracking";
 import Header from "./components/Header.jsx";
+import SearchPage from "./components/SearchPage.jsx";
 
 // Auth pages
 import Login from "./auth/Login.jsx";
@@ -11,6 +12,7 @@ import Register from "./auth/Register.jsx";
 import OTPVerification from "./auth/OTPVerification.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 import { AuthProvider } from "./auth/AuthContext.jsx";
+import { useEffect, useState } from "react";
 
 function App() {
   return (
@@ -27,6 +29,14 @@ function App() {
           element={
             <ProtectedRoute>
               <HomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <ProtectedRoute>
+              <SearchPage/>
             </ProtectedRoute>
           }
         />

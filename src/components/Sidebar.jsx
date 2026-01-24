@@ -14,7 +14,7 @@ export const FilterCheckbox = ({ label, description, checked, onChange }) => (
     </div>
 );
 
-const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showFavorites, setShowFavorites, onSurpriseMe }) => {
+const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showFavorites, setShowFavorites, onSurpriseMe, showVegetarian, setShowVegetarian }) => {
 
     const handleCuisineChange = (cuisine) => {
         setSelectedCuisines(prev =>
@@ -25,6 +25,7 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
     const clearFilters = () => {
         setSelectedCuisines([]);
         setShowFavorites(false);
+        setShowVegetarian(false);
     };
 
     return (
@@ -90,7 +91,7 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
                     <section>
                         <h3 className="text-xs font-bold text-slate-400 dark:text-slate-300 uppercase tracking-[0.2em] mb-4">Cuisine</h3>
                         <div className="grid grid-cols-2 gap-3">
-                            {["Jain", "Non-Jain", "Beverages", "Vegetarian"].map(cuisine => {
+                            {["Jain", "Non-Jain", "Beverages"].map(cuisine => {
                                 const isSelected = selectedCuisines.includes(cuisine);
                                 return (
                                     <button
@@ -110,25 +111,44 @@ const Sidebar = ({ selectedCuisines, setSelectedCuisines, isOpen, onClose, showF
 
                     <section>
                         <h3 className="text-xs font-bold text-slate-400 dark:text-slate-300 uppercase tracking-[0.2em] mb-4">Preferences</h3>
-                        <button
-                            onClick={() => setShowFavorites(!showFavorites)}
-                            className={`w-full p-4 rounded-2xl border flex items-center justify-between transition-all duration-300 ${showFavorites
-                                ? 'bg-rose-500/10 border-rose-500 text-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
-                                : 'bg-transparent border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-100'
-                                }`}
-                        >
-                            <span className="font-bold flex items-center gap-3">
-                                <Heart className={`w-5 h-5 ${showFavorites ? 'fill-current animate-pulse' : ''}`} />
-                                Favourites
-                            </span>
-                            <div className={`w-10 h-5 rounded-full relative transition-colors duration-300 ${showFavorites ? 'bg-rose-500' : 'bg-slate-700'}`}>
-                                <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all duration-300 ${showFavorites ? 'left-6' : 'left-1'}`} />
-                            </div>
-                        </button>
+                        <div className="space-y-3">
+                            {/* Vegetarian Toggle */}
+                            <button
+                                onClick={() => setShowVegetarian(!showVegetarian)}
+                                className={`w-full p-4 rounded-2xl border flex items-center justify-between transition-all duration-300 ${showVegetarian
+                                    ? 'bg-green-500/10 border-green-500 text-green-600 dark:text-green-400 shadow-[0_0_15px_rgba(34,197,94,0.1)]'
+                                    : 'bg-transparent border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-100'
+                                    }`}
+                            >
+                                <span className="font-bold flex items-center gap-3">
+                                    <span className="text-lg">🥗</span>
+                                    Vegetarian
+                                </span>
+                                <div className={`w-10 h-5 rounded-full relative transition-colors duration-300 ${showVegetarian ? 'bg-green-500' : 'bg-slate-700'}`}>
+                                    <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all duration-300 ${showVegetarian ? 'left-6' : 'left-1'}`} />
+                                </div>
+                            </button>
+
+                            {/* Favourites Toggle */}
+                            <button
+                                onClick={() => setShowFavorites(!showFavorites)}
+                                className={`w-full p-4 rounded-2xl border flex items-center justify-between transition-all duration-300 ${showFavorites
+                                    ? 'bg-rose-500/10 border-rose-500 text-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
+                                    : 'bg-transparent border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-100'
+                                    }`}
+                            >
+                                <span className="font-bold flex items-center gap-3">
+                                    <Heart className={`w-5 h-5 ${showFavorites ? 'fill-current animate-pulse' : ''}`} />
+                                    Favourites
+                                </span>
+                                <div className={`w-10 h-5 rounded-full relative transition-colors duration-300 ${showFavorites ? 'bg-rose-500' : 'bg-slate-700'}`}>
+                                    <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all duration-300 ${showFavorites ? 'left-6' : 'left-1'}`} />
+                                </div>
+                            </button>
+                        </div>
                     </section>
                 </div>
-
-                {/* Footer - Updated with Clear Filter */}
+                
                 <div className="p-6 bg-slate-50 dark:bg-slate-900/40 border-t border-slate-200 dark:border-slate-800 space-y-3">
                     <button
                         onClick={onClose}
