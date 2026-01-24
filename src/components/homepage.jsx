@@ -20,7 +20,10 @@ import SurpriseMe from './SurpriseMe';
 import { HomeIcon, CartIcon } from './Icons';
 
 export default function App() {
-    const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState(() => {
+        const saved = localStorage.getItem('cartItems');
+        return saved ? JSON.parse(saved) : [];
+    });
     const [searchQuery, setSearchQuery] = useState('');
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [showToast, setShowToast] = useState(false);
@@ -66,6 +69,11 @@ export default function App() {
             }
         }
     }, []);
+
+    // Persist cart to localStorage
+    useEffect(() => {
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }, [cartItems]);
 
     // Sync auth data
     useEffect(() => {

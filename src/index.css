@@ -2,10 +2,10 @@
 @variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Light mode */
-  --background: 0 0% 100%;
+  /* Light mode - warm cream for better depth (more noticeable) */
+  --background: 35 33% 93%;
   --foreground: 0 0% 0%;
-  --card: 0 0% 100%;
+  --card: 35 25% 97%;
   --card-foreground: 222.2 84% 4.9%;
   --popover: 0 0% 100%;
   --popover-foreground: 222.2 84% 4.9%;
@@ -22,7 +22,7 @@
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
   --ring: 221.2 83.2% 53.3%;
-  
+
   /* Brand colors */
   --brand-orange: #ff6a00;
   --bg-main: #0b0b0d;
@@ -64,14 +64,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #F8F9FB !important;
+  background-color: #F5EFE6 !important;
   color: #1F2937;
   transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100vh;
 }
 
 html {
-  background-color: #F8F9FB;
+  background-color: #F5EFE6;
   min-height: 100vh;
 }
 
@@ -88,7 +88,7 @@ body.dark,
 
 /* Ensure root element also has the background */
 #root {
-  background-color: #F8F9FB;
+  background-color: #F5EFE6;
   min-height: 100vh;
   width: 100%;
 }
@@ -188,12 +188,10 @@ code {
   position: absolute;
   inset: 0;
   z-index: 10;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
+  background: linear-gradient(to right,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
   transform: translateX(-100%);
   pointer-events: none;
   transition: transform 0.6s ease;
@@ -205,12 +203,10 @@ code {
 
 /* Warmer tint for dark mode */
 .dark .hologram-card::after {
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(255, 245, 230, 0.15),
-    transparent
-  );
+  background: linear-gradient(to right,
+      transparent,
+      rgba(255, 245, 230, 0.15),
+      transparent);
 }
 
 /* Favorite button animations */
@@ -218,15 +214,19 @@ code {
   0% {
     transform: scale(1);
   }
+
   25% {
     transform: scale(1.25);
   }
+
   50% {
     transform: scale(0.95);
   }
+
   75% {
     transform: scale(1.1);
   }
+
   100% {
     transform: scale(1);
   }
@@ -237,6 +237,7 @@ code {
     transform: scale(1);
     opacity: 0.6;
   }
+
   100% {
     transform: scale(1.8);
     opacity: 0;
@@ -254,16 +255,33 @@ code {
 ::-webkit-scrollbar {
   display: none !important;
 }
-html, body {
+
+html,
+body {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }
 
 @keyframes roll-up {
-  0% { transform: translateY(20px); opacity: 0; }
-  10% { transform: translateY(0); opacity: 1; }
-  90% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(-20px); opacity: 0; }
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  10% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  90% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
 }
 
 .animate-roll {

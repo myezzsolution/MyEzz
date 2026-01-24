@@ -41,7 +41,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                 .from('menu_items')
                 .select('restaurant_id')
                 .eq('is_veg', true);
-            
+
             if (!error && data) {
                 // Get unique restaurant IDs
                 const uniqueIds = [...new Set(data.map(item => item.restaurant_id))];
@@ -59,7 +59,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
     const toggleFavorite = (restaurantId) => {
         const isCurrentlyFavorite = favorites.includes(restaurantId);
         const restaurant = restaurants.find(r => r.id === restaurantId);
-        
+
         setFavorites(prev => {
             const newFavorites = isCurrentlyFavorite
                 ? prev.filter(id => id !== restaurantId)
@@ -67,7 +67,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
             localStorage.setItem('favorites', JSON.stringify(newFavorites));
             return newFavorites;
         });
-        
+
         if (isCurrentlyFavorite) {
             showToastMessage(`${restaurant?.name || 'Restaurant'} removed from favourites`);
         } else {
@@ -151,21 +151,21 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
     }, [debouncedSearchQuery]);
 
     const filteredRestaurants = restaurants.filter(restaurant => {
-       
-        const matchesCuisine = selectedCuisines.length === 0 || 
-                               selectedCuisines.some(c => restaurant.cuisines.includes(c));
+
+        const matchesCuisine = selectedCuisines.length === 0 ||
+            selectedCuisines.some(c => restaurant.cuisines.includes(c));
 
         const matchesFavorite = !showFavorites || favorites.includes(restaurant.id);
 
         const isBeverageSelectedOnly = selectedCuisines.length === 1 && selectedCuisines.includes("Beverages");
-        
+
         let matchesVegetarian;
         if (isBeverageSelectedOnly) {
-            matchesVegetarian = true; 
+            matchesVegetarian = true;
         } else {
             matchesVegetarian = !showVegetarian || vegRestaurantIds.includes(restaurant.id);
         }
-        
+
         return matchesCuisine && matchesFavorite && matchesVegetarian;
     });
 
@@ -217,7 +217,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                                         hover:-translate-y-1 hover:shadow-lg
                                         ${isSelected
                                             ? 'bg-orange-500 text-white border-orange-400 shadow-[0_8px_20px_rgba(249,115,22,0.4)] scale-105'
-                                            : 'bg-white/40 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-orange-400/50'
+                                            : 'bg-gray-100/80 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-orange-400/50'
                                         }
                                         active:scale-95
                                     `}
@@ -235,7 +235,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                                 hover:-translate-y-1 hover:shadow-lg
                                 ${showVegetarian
                                     ? 'bg-green-500 text-white border-green-400 shadow-[0_8px_20px_rgba(34,197,94,0.4)] scale-105'
-                                    : 'bg-white/40 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-green-400/50'
+                                    : 'bg-gray-100/80 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-green-400/50'
                                 }
                                 active:scale-95
                             `}
@@ -251,7 +251,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                                 hover:-translate-y-1 hover:shadow-lg
                                 ${showFavorites
                                     ? 'bg-rose-500 text-white border-rose-400 shadow-[0_8px_20px_rgba(244,63,94,0.4)] scale-105'
-                                    : 'bg-white/40 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-rose-400/50'
+                                    : 'bg-gray-100/80 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-rose-400/50'
                                 }
                                 active:scale-95
                             `}
