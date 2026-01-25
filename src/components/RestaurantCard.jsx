@@ -26,9 +26,9 @@ const RestaurantCard = ({
     return (
     <div
         onClick={onClick}
-        className="hologram-card group relative bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))]
-                 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800
-                 shadow-md hover:shadow-2xl transition-all duration-300
+        className="hologram-card group relative bg-white dark:bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))]
+                 rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-800
+                 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-md hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] dark:hover:shadow-2xl transition-all duration-300
                  hover:-translate-y-1 cursor-pointer flex flex-col h-full"
     >
         <div className="relative h-48 sm:h-52 overflow-hidden">
@@ -46,7 +46,7 @@ const RestaurantCard = ({
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
             <div className="absolute bottom-3 left-3 flex items-center gap-1
-                        bg-green-600 text-white px-3 py-1 rounded-xl
+                        bg-[#059669] dark:bg-emerald-600 text-white px-3 py-1 rounded-xl
                         text-sm font-semibold shadow-lg">
                 <StarIcon className="w-4 h-4" />
                 {rating}
@@ -81,7 +81,7 @@ const RestaurantCard = ({
 
         {/* CONTENT */}
         <div className="p-5 flex flex-col flex-1">
-            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100
+            <h3 className="text-lg sm:text-xl font-bold text-[#1A1A1A] dark:text-gray-100
                        line-clamp-1 group-hover:text-orange-500 transition-colors">
                 {name}
             </h3>

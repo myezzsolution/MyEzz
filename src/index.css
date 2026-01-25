@@ -2,10 +2,10 @@
 @variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Light mode - warm cream for better depth (more noticeable) */
-  --background: 35 33% 93%;
+  /* Light mode - grey for better card contrast */
+  --background: 220 13% 91%;
   --foreground: 0 0% 0%;
-  --card: 35 25% 97%;
+  --card: 0 0% 100%;
   --card-foreground: 222.2 84% 4.9%;
   --popover: 0 0% 100%;
   --popover-foreground: 222.2 84% 4.9%;
@@ -64,14 +64,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #F5EFE6 !important;
+  background-color: #E5E7EB !important;
   color: #1F2937;
   transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100vh;
 }
 
 html {
-  background-color: #F5EFE6;
+  background-color: #E5E7EB;
   min-height: 100vh;
 }
 
@@ -88,7 +88,7 @@ body.dark,
 
 /* Ensure root element also has the background */
 #root {
-  background-color: #F5EFE6;
+  background-color: #E5E7EB;
   min-height: 100vh;
   width: 100%;
 }
