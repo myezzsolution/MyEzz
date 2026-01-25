@@ -217,7 +217,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                                         hover:shadow-lg
                                         ${isSelected
                                             ? 'bg-orange-500 text-white border-orange-400 shadow-[0_8px_20px_rgba(249,115,22,0.4)] scale-105'
-                                            : 'bg-white dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700/50 hover:border-orange-400 shadow-md hover:shadow-lg'
+                                            : 'bg-white dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700/50 hover:border-orange-400 shadow-sm hover:shadow-md'
                                         }
                                         active:scale-95
                                     `}
@@ -235,7 +235,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                                 hover:shadow-lg
                                 ${showVegetarian
                                     ? 'bg-emerald-600 text-white border-emerald-500 shadow-[0_8px_20px_rgba(16,185,129,0.4)] scale-105'
-                                    : 'bg-white dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700/50 hover:border-emerald-400 shadow-md hover:shadow-lg'
+                                    : 'bg-white dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700/50 hover:border-emerald-400 shadow-sm hover:shadow-md'
                                 }
                                 active:scale-95
                             `}
@@ -251,7 +251,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                                 hover:shadow-lg
                                 ${showFavorites
                                     ? 'bg-rose-500 text-white border-rose-400 shadow-[0_8px_20px_rgba(244,63,94,0.4)] scale-105'
-                                    : 'bg-white dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700/50 hover:border-rose-400 shadow-md hover:shadow-lg'
+                                    : 'bg-white dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700/50 hover:border-rose-400 shadow-sm hover:shadow-md'
                                 }
                                 active:scale-95
                             `}
