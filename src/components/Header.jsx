@@ -50,14 +50,14 @@ const Header = ({ onCartClick, cartItems, isProfileOpen, onProfileToggle, onProf
         onClick={() => navigate('/search')}
         className="relative flex-1 max-w-xl mx-4 cursor-pointer group h-11" // Fixed height for smooth transition
       >
-        <div className="absolute inset-0 bg-gray-100 dark:bg-gray-800 border border-transparent rounded-full group-hover:border-orange-300 transition-all flex items-center px-4">
-          <SearchIcon className="text-gray-400 group-hover:text-orange-500 transition-colors" />
+        <div className="absolute inset-0 bg-white dark:bg-gray-800 border border-gray-100 dark:border-transparent rounded-full shadow-[inset_0_1px_3px_rgba(0,0,0,0.06)] dark:shadow-none group-hover:border-orange-200 dark:group-hover:border-orange-500/30 transition-all flex items-center px-4">
+          <SearchIcon className="text-gray-300 dark:text-gray-400 group-hover:text-orange-500 transition-colors" />
 
           {/* Rolling Animation Container */}
           <div className="ml-3 flex-1 overflow-hidden h-full relative">
             <div
               key={index} // Key change triggers the animation
-              className="animate-roll absolute inset-0 flex items-center text-sm font-medium text-gray-400 dark:text-gray-500"
+              className="animate-roll absolute inset-0 flex items-center text-sm font-medium text-gray-300 dark:text-gray-500"
             >
               {placeholders[index]}
             </div>

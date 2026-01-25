@@ -195,7 +195,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full">
                 <div className="hidden md:block mb-6">
                     <div className="flex items-center justify-between mb-3">
-                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-200">What's on your mind?</h2>
+                        <h2 className="text-xl sm:text-2xl font-bold text-[#1A1A1A] dark:text-gray-200">What's on your mind?</h2>
                     </div>
 
                     <div className="hidden md:flex items-center space-x-3 sm:space-x-4 overflow-x-auto pb-6 scrollbar-hide px-1 sm:px-2">
@@ -217,7 +217,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                                         hover:shadow-lg
                                         ${isSelected
                                             ? 'bg-orange-500 text-white border-orange-400 shadow-[0_8px_20px_rgba(249,115,22,0.4)] scale-105'
-                                            : 'bg-gray-100/80 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-orange-400/50'
+                                            : 'bg-white dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700/50 hover:border-orange-400 shadow-md hover:shadow-lg'
                                         }
                                         active:scale-95
                                     `}
@@ -234,8 +234,8 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                                 transition-all duration-300 ease-out backdrop-blur-md
                                 hover:shadow-lg
                                 ${showVegetarian
-                                    ? 'bg-green-500 text-white border-green-400 shadow-[0_8px_20px_rgba(34,197,94,0.4)] scale-105'
-                                    : 'bg-gray-100/80 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-green-400/50'
+                                    ? 'bg-emerald-600 text-white border-emerald-500 shadow-[0_8px_20px_rgba(16,185,129,0.4)] scale-105'
+                                    : 'bg-white dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700/50 hover:border-emerald-400 shadow-md hover:shadow-lg'
                                 }
                                 active:scale-95
                             `}
@@ -251,7 +251,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                                 hover:shadow-lg
                                 ${showFavorites
                                     ? 'bg-rose-500 text-white border-rose-400 shadow-[0_8px_20px_rgba(244,63,94,0.4)] scale-105'
-                                    : 'bg-gray-100/80 dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700/50 hover:border-rose-400/50'
+                                    : 'bg-white dark:bg-gray-800/40 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700/50 hover:border-rose-400 shadow-md hover:shadow-lg'
                                 }
                                 active:scale-95
                             `}

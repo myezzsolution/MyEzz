@@ -157,7 +157,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress, addT
     }, [displayProfile?.currentOrder?.status]);
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900">
+        <div className="min-h-screen bg-[#E5E7EB] dark:bg-gray-900">
             <Toast
                 message={toast.message}
                 type={toast.type}
@@ -183,7 +183,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress, addT
             <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
 
                 {/* Profile Card */}
-                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg shadow-orange-100/50 dark:shadow-none border border-gray-100 dark:border-gray-700 p-6 sm:p-8">
+                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] dark:shadow-none border border-gray-200 dark:border-gray-700 p-6 sm:p-8">
                     <div className="flex flex-col sm:flex-row items-center gap-6">
                         {/* Avatar */}
                         <div className="relative">
@@ -234,7 +234,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress, addT
                 </div>
 
                 {/* Personal Details */}
-                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg shadow-orange-100/50 dark:shadow-none border border-gray-100 dark:border-gray-700 p-6 sm:p-8">
+                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] dark:shadow-none border border-gray-200 dark:border-gray-700 p-6 sm:p-8">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                         <User className="w-5 h-5 text-orange-500" />
                         Personal Details
@@ -327,7 +327,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress, addT
                 )}
 
                 {/* Order History */}
-                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg shadow-orange-100/50 dark:shadow-none border border-gray-100 dark:border-gray-700 p-6 sm:p-8">
+                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] dark:shadow-none border border-gray-200 dark:border-gray-700 p-6 sm:p-8">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                         <Package className="w-5 h-5 text-orange-500" />
                         Order History
@@ -387,7 +387,7 @@ const MyProfilePage = ({ onBack, userProfile, setUserProfile, onAddAddress, addT
                 </div>
 
                 {/* Saved Addresses */}
-                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg shadow-orange-100/50 dark:shadow-none border border-gray-100 dark:border-gray-700 p-6 sm:p-8">
+                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] dark:shadow-none border border-gray-200 dark:border-gray-700 p-6 sm:p-8">
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
                             <MapPinned className="w-5 h-5 text-orange-500" />

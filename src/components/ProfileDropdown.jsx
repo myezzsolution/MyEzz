@@ -83,7 +83,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
                 <div className="absolute right-0 mt-3 w-72 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 z-50 overflow-hidden animate-in slide-in-from-top-2 duration-200">
 
                     {/* User Info Header */}
-                    <div className="p-5 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-gray-800 dark:to-gray-800 border-b border-gray-100 dark:border-gray-700">
+                    <div className="p-5 bg-gradient-to-br from-orange-500 to-orange-600 dark:from-gray-800 dark:to-gray-800 border-b border-gray-100 dark:border-gray-700">
                         <div className="flex items-center gap-3">
                             {profilePhoto ? (
                                 <img
@@ -97,8 +97,8 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, onMyProfile }) => {
                                 </div>
                             )}
                             <div className="flex-1 min-w-0">
-                                <p className="font-bold text-gray-900 dark:text-white truncate">Hello, {userName}!</p>
-                                <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{userEmail}</p>
+                                <p className="font-bold text-white dark:text-white truncate">Hello, {userName}!</p>
+                                <p className="text-sm text-orange-100 dark:text-gray-400 truncate">{userEmail}</p>
                             </div>
                         </div>
                     </div>

@@ -246,7 +246,7 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                                 const quantity = cartItem?.quantity || 0;
 
                                 return (
-                                    <div key={item.id} className="flex justify-between items-center p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <div key={item.id} className="flex justify-between items-center p-4 rounded-lg bg-gray-100 dark:bg-gray-800 border border-transparent dark:border-gray-700 hover:border-orange-200 dark:hover:border-gray-600 transition-all">
                                         <div>
                                             <h4 className="font-semibold text-gray-800 dark:text-gray-100">{item.name}</h4>
                                             {item.price && <p className="text-sm text-gray-500 dark:text-gray-400">₹{item.price}</p>}
