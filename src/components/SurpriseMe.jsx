@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, X, Leaf, GlassWater, UtensilsCrossed, Dices, ShoppingCart, RotateCcw, AlertCircle, Check } from 'lucide-react';
+import { X, Leaf, GlassWater, UtensilsCrossed, Dices, ShoppingCart, RotateCcw, AlertCircle, Check } from 'lucide-react';
 
 const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaurantName = null }) => {
     const [budget, setBudget] = useState(300);
@@ -12,7 +12,7 @@ const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaur
     const toggleType = (type) => {
         setSelectedTypes(prev => {
             const dietaryOptions = ['Jain', 'Vegetarian', 'Non-veg'];
-            
+
             if (dietaryOptions.includes(type)) {
                 // For dietary options (Jain, Veg, Non-veg) - mutually exclusive
                 if (prev.includes(type)) {
@@ -59,7 +59,7 @@ const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaur
                     .select('id, name, price, is_veg, category_id, restaurant_id, restaurants(name)')
                     .lte('price', budget)
                     .or('category_id.eq.5,name.ilike.%Shake%,name.ilike.%Juice%,name.ilike.%Tea%,name.ilike.%Coffee%,name.ilike.%Cold Drink%,name.ilike.%Lassi%,name.ilike.%Mojito%');
-                
+
                 // Filter by restaurant if restaurantId is provided
                 if (restaurantId) {
                     beverageQuery = beverageQuery.eq('restaurant_id', restaurantId);
@@ -84,7 +84,7 @@ const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaur
                         .not('name', 'ilike', '%Cold Drink%')
                         .not('name', 'ilike', '%Lassi%')
                         .not('name', 'ilike', '%Mojito%');
-                    
+
                     // Filter by restaurant if restaurantId is provided
                     if (restaurantId) {
                         foodQuery = foodQuery.eq('restaurant_id', restaurantId);
@@ -133,7 +133,7 @@ const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaur
             const targetMin = budget - 20; // Ideally within 20 rupees of budget
 
             // If restaurantId is provided, only use items from that restaurant
-            const restaurantsToProcess = restaurantId 
+            const restaurantsToProcess = restaurantId
                 ? [itemsByRestaurant[restaurantId]].filter(Boolean)
                 : Object.values(itemsByRestaurant);
 
@@ -227,27 +227,27 @@ const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaur
             // Keep selected items, reroll the rest
             setRolling(true);
             setError(null);
-            
+
             // Get the restaurant ID from the current result or use the prop
             const currentRestaurantId = restaurantId || result.items[0]?.restaurant_id;
             const keptItems = result.items.filter(item => selectedItems.includes(item.id));
             const keptTotal = keptItems.reduce((sum, item) => sum + item.price, 0);
             const remainingBudget = budget - keptTotal;
-            
+
             if (!currentRestaurantId) {
                 setError('Unable to reroll: Restaurant information missing.');
                 setRolling(false);
                 setTimeout(() => setError(null), 3000);
                 return;
             }
-            
+
             if (remainingBudget <= 0) {
                 setError('Selected items exceed budget! Please deselect some items.');
                 setRolling(false);
                 setTimeout(() => setError(null), 3000);
                 return;
             }
-            
+
             // Reroll with remaining budget and same restaurant
             getSurpriseDishForReroll(currentRestaurantId, remainingBudget, keptItems, keptTotal);
         } else {
@@ -405,7 +405,7 @@ const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaur
             });
 
             const topCombos = allCombinations.slice(0, Math.ceil(allCombinations.length * 0.4));
-            
+
             if (topCombos.length === 0) {
                 // Fallback: just keep the selected items
                 setTimeout(() => {
@@ -419,7 +419,7 @@ const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaur
                 }, 1500);
                 return;
             }
-            
+
             const randomCombo = topCombos[Math.floor(Math.random() * topCombos.length)];
 
             setTimeout(() => {
@@ -455,7 +455,6 @@ const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaur
                     >
                         <X className="w-5 h-5" />
                     </button>
-                    <Sparkles className="w-7 h-7 mb-1 relative z-10" />
                     <h2 className="text-2xl font-black tracking-tight relative z-10">Magic Pick</h2>
                     <p className="text-orange-50 opacity-90 text-xs font-medium relative z-10">
                         {restaurantName ? `Surprise from ${restaurantName}!` : 'Confused? Let us decide for you!'}
