@@ -1,0 +1,25 @@
+# MyEzz - Street Food Delivery
+# https://myezz.com
+
+User-agent: *
+Allow: /
+Allow: /restaurant/
+
+# Block authentication and private pages
+Disallow: /login
+Disallow: /register
+Disallow: /otp-verify
+Disallow: /checkout
+Disallow: /profile
+Disallow: /payment
+Disallow: /success
+Disallow: /track/
+
+# Block API endpoints
+Disallow: /api/
+
+# Crawl-delay for politeness
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://my-ezz.vercel.app/sitemap.xml
