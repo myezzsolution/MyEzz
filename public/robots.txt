@@ -22,4 +22,4 @@ Disallow: /api/
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://myezz.com/sitemap.xml
+Sitemap: https://my-ezz.vercel.app/sitemap.xml
