@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, X, Clock, Star, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Search, X, Clock, Star, TrendingUp,  Pizza, 
+  Coffee, 
+  IceCream, 
+  Beef, 
+  Cake,
+  Utensils,
+  Circle  ,
+  Soup } from 'lucide-react';
 import { 
   IoPizzaOutline, 
   IoFastFoodOutline, 
@@ -8,7 +15,21 @@ import {
   IoCafeOutline, 
   IoSearchOutline,
 } from 'react-icons/io5';
-import { GiHotMeal } from 'react-icons/gi';
+import { 
+  GiNoodles,
+  GiWrappedSweet,
+  GiChickenOven,
+  GiKebabSpit,
+  GiHotMeal,
+  GiDumpling,
+  GiFlatfish,
+  GiBowlOfRice,
+  GiHamburger,
+  GiSandwich,
+  GiSushis,
+  GiCircle,
+  GiCheeseWedge
+} from 'react-icons/gi';
 import { supabase } from '../supabaseClient'; 
 
 const SearchPage = () => {
@@ -78,12 +99,23 @@ const SearchPage = () => {
   };
 
   const popularCravings = [
-    { name: 'Pizza', icon: <IoPizzaOutline className="w-8 h-8" /> },
-    { name: 'Burger', icon: <IoFastFoodOutline className="w-8 h-8" /> },
-    { name: 'Biryani', icon: <GiHotMeal className="w-8 h-8" /> },
-    { name: 'Coffee', icon: <IoCafeOutline className="w-8 h-8" /> },
+    { name: 'Pizza', icon: <Pizza className="w-8 h-8" /> },
+    { name: 'Burger', icon: <GiHamburger className="w-8 h-8" /> },
+    { name: 'Biryani', icon: <GiBowlOfRice className="w-8 h-8" /> },
+    { name: 'Coffee', icon: <Coffee className="w-8 h-8" /> },
+    { name: 'Ice Cream', icon: <IceCream className="w-8 h-8" /> },
+    { name: 'Momos', icon: <GiDumpling className="w-8 h-8" /> },
+    { name: 'Pasta', icon: <Soup className="w-8 h-8" /> },
+    { name: 'Sandwich', icon: <GiSandwich className="w-8 h-8" /> },
+    { name: 'Noodles', icon: <GiNoodles className="w-8 h-8" /> },
+    { name: 'Rolls', icon: <IoFastFoodOutline className="w-8 h-8" /> },
+    { name: 'Sushi', icon: <GiSushis className="w-8 h-8" /> },
+    { name: 'Chicken', icon: <GiChickenOven className="w-8 h-8" /> },
+    { name: 'Cake', icon: <Cake className="w-8 h-8" /> },
+    { name: 'Thali', icon: <Utensils className="w-8 h-8" /> },
+    { name: 'Fried Rice', icon: <GiBowlOfRice className="w-8 h-8" /> },
+    { name: 'Kebab', icon: <GiKebabSpit className="w-8 h-8" /> },
   ];
-
   return (
     <div className="fixed inset-0 z-[100] bg-white dark:bg-[#0b0b0b] text-gray-900 dark:text-white overflow-y-auto font-sans transition-colors duration-300">
       
