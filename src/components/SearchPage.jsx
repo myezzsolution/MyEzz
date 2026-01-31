@@ -207,7 +207,7 @@ const SearchPage = () => {
                     className="flex gap-4 p-4 bg-white dark:bg-[#161616] rounded-3xl border border-gray-100 dark:border-white/5 hover:border-orange-500/20 transition-all cursor-pointer group shadow-sm dark:shadow-none"
                   >
                     <div className="relative shrink-0 h-24 w-24">
-                      <img src={vendor.image_url} alt="" className="h-full w-full rounded-2xl object-cover" />
+                      <img src={vendor.image_url} alt={`${vendor.name} restaurant - order food online`} className="h-full w-full rounded-2xl object-cover" />
                     </div>
                     <div className="flex-1 py-1">
                       <h4 className="font-bold text-gray-800 dark:text-gray-100 group-hover:text-orange-500 transition-colors">{vendor.name}</h4>
