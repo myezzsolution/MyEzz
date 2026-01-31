@@ -5,38 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Primary Meta Tags -->
-    <title>MyEzz - Street Food Delivery | Jain & Non-Jain Food Online</title>
-    <meta name="title" content="MyEzz - Street Food Delivery | Jain & Non-Jain Food Online" />
-    <meta name="description" content="Order authentic Jain & Non-Jain street food delivery. Fresh, homemade taste delivered to your doorstep in minutes. Samosas, Chaat, Pakoras & more!" />
-    <meta name="keywords" content="food delivery, Jain food, street food, MyEzz, online food order, Indian food delivery, homemade food" />
+    <title>MyEzz - Street Food Delivery | Fast & Easy Food Order Online</title>
+    <meta name="title" content="MyEzz - Street Food Delivery | Fast & Easy Food Order Online" />
+    <meta name="description" content="Order delicious street food delivery in Ghatkopar. Vada Pav, Samosa, South Indian dishes, Maharashtrian snacks, desserts & shakes delivered fast to your doorstep!" />
+    <meta name="keywords" content="food delivery, Jain food, street food, MyEzz, online food order, Indian food delivery, south indian food, fastfood, vada pav, samosa, Ghatkopar food delivery" />
     <meta name="author" content="MyEzz" />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#ff6a00" />
+    <meta name="geo.region" content="IN-MH" />
+    <meta name="geo.placename" content="Ghatkopar, Mumbai" />
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://my-ezz.vercel.app/" />
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="./myezzlogopage0001removebgpreview2329-xmz0h-400w.png" />
-    <link rel="apple-touch-icon" href="./myezzlogopage0001removebgpreview2329-xmz0h-400w.png" />
+    <link rel="icon" type="image/png" href="/myezzlogopage0001removebgpreview2329-xmz0h-400w.png" />
+    <link rel="apple-touch-icon" href="/myezzlogopage0001removebgpreview2329-xmz0h-400w.png" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://my-ezz.vercel.app/" />
-    <meta property="og:title" content="MyEzz - Street Food Delivery | Jain & Non-Jain Food Online" />
-    <meta property="og:description" content="Order authentic Jain & Non-Jain street food delivery. Fresh, homemade taste delivered to your doorstep in minutes." />
+    <meta property="og:title" content="MyEzz - Street Food Delivery | Fast & Easy Food Order" />
+    <meta property="og:description" content="Order delicious street food delivery in Ghatkopar. Vada Pav, Samosa, South Indian dishes, desserts & shakes delivered fast!" />
     <meta property="og:image" content="https://my-ezz.vercel.app/og-image.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="683" />
+    <meta property="og:image:alt" content="MyEzz Fast & Easy Food Delivery - Order street food online" />
     <meta property="og:site_name" content="MyEzz" />
     <meta property="og:locale" content="en_IN" />
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://my-ezz.vercel.app/" />
-    <meta name="twitter:title" content="MyEzz - Street Food Delivery | Jain & Non-Jain Food Online" />
-    <meta name="twitter:description" content="Order authentic Jain & Non-Jain street food delivery. Fresh, homemade taste delivered to your doorstep in minutes." />
+    <meta name="twitter:title" content="MyEzz - Street Food Delivery | Fast & Easy Food Order" />
+    <meta name="twitter:description" content="Order delicious street food delivery in Ghatkopar. Vada Pav, Samosa, South Indian dishes, desserts & shakes delivered fast!" />
     <meta name="twitter:image" content="https://my-ezz.vercel.app/og-image.png" />
+    <meta name="twitter:image:alt" content="MyEzz Fast & Easy Food Delivery" />
     
     <!-- Additional SEO -->
     <meta name="format-detection" content="telephone=no" />
@@ -44,11 +49,43 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="MyEzz" />
+    
+    <!-- JSON-LD Structured Data for Rich Results -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FoodEstablishment",
+      "name": "MyEzz",
+      "image": "https://my-ezz.vercel.app/og-image.png",
+      "url": "https://my-ezz.vercel.app",
+      "logo": "https://my-ezz.vercel.app/myezzlogopage0001removebgpreview2329-xmz0h-400w.png",
+      "description": "Fast & easy street food delivery in Ghatkopar. Order Vada Pav, Samosa, South Indian dishes, Maharashtrian snacks, desserts and shakes online.",
+      "servesCuisine": ["Street Food", "South Indian", "Maharashtrian", "Indian", "Fast Food"],
+      "priceRange": "₹₹",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Ghatkopar",
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 19.0867,
+        "longitude": 72.9081
+      },
+      "hasMenu": "https://my-ezz.vercel.app/",
+      "acceptsReservations": false,
+      "potentialAction": {
+        "@type": "OrderAction",
+        "target": "https://my-ezz.vercel.app/login"
+      },
+      "sameAs": []
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
   </body>
 </html>
