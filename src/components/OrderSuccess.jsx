@@ -122,7 +122,7 @@ const OrderSuccess = () => {
               <p className="text-xs text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider mb-1">Date & Time</p>
               <div className="flex items-center text-gray-900 dark:text-white font-medium">
                 <Calendar className="w-4 h-4 mr-2 opacity-70" />
-                {new Date(order.createdAt).toLocaleDateString()} • {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                {order.created_at ? `${new Date(order.created_at).toLocaleDateString()} • ${new Date(order.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : 'Just now'}
               </div>
             </div>
           </div>
@@ -192,7 +192,7 @@ const OrderSuccess = () => {
               <div className="bg-gray-50 dark:bg-gray-700/50 px-4 py-4 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex justify-between items-center">
                   <span className="font-bold text-gray-900 dark:text-white">Total Amount</span>
-                  <span className="text-xl font-bold text-orange-600 dark:text-orange-400">₹{order.price}</span>
+                  <span className="text-xl font-bold text-orange-600 dark:text-orange-400">₹{order.total_amount || order.price || cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)}</span>
                 </div>
                 <div className="flex justify-between items-center mt-2 text-sm">
                   <span className="text-gray-500 dark:text-gray-400">Payment Method</span>
