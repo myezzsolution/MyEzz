@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { BiFork } from "react-icons/bi";
 
 function Cart({ cart, removeFromCart, addToCart, clearCart, setShowOrderForm, closeCart }) {
   const calculateTotal = () => {
@@ -53,7 +54,7 @@ function Cart({ cart, removeFromCart, addToCart, clearCart, setShowOrderForm, cl
             {Object.entries(groupedCart).map(([vendor, items]) => (
               <div key={vendor} className="mb-6">
                 <h3 className="font-bold text-sky-700 border-b border-sky-100 pb-2 mb-2 flex items-center gap-2">
-                  <span>🍽️</span>
+                  {/* <span><BiFork /></span> */}
                   <span>{vendor}</span>
                 </h3>
                 <AnimatePresence>
