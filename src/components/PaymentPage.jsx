@@ -372,7 +372,7 @@ function PaymentPage() {
                         {item.portion && ` • ${item.portion}`}
                       </p>
                       <p className="text-xs text-orange-600 dark:text-orange-400 mt-1 flex items-center gap-1">
-                        <span>🍽️</span>
+                        {/* <span>🍽️</span> */}
                         <span className="font-medium">{restaurantName}</span>
                       </p>
                     </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wallet, MapPin } from 'lucide-react';
+import { Wallet, MapPin, Utensils } from 'lucide-react';
 
 const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, onPayNow, userLocation }) => {
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -68,8 +68,8 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
 
                                 return Object.entries(groupedItems).map(([vendor, items]) => (
                                     <div key={vendor} className="mb-4">
-                                        <h3 className="text-sm font-bold text-orange-600 dark:text-orange-400 mb-2 pb-1 border-b border-orange-200 dark:border-orange-800">
-                                            🍽️ {vendor}
+                                        <h3 className="text-sm font-bold text-orange-600 dark:text-orange-400 mb-2 pb-1 border-b border-orange-200 dark:border-orange-800 flex items-center gap-2">
+                                            <Utensils className="w-4 h-4" /> {vendor}
                                         </h3>
                                         {items.map((item, index) => (
                                             <div key={`${item.id}-${index}`} className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700 mb-3 hover:border-orange-200 dark:hover:border-orange-800 transition-colors">
@@ -158,7 +158,7 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
                                     placeholder="Full Delivery Address"
                                     className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition-all"
                                 />
-                                {userLocation && userLocation.lat && (
+                                {/* {userLocation && userLocation.lat && (
                                     <div className="flex gap-4 px-1">
                                         <div className="flex-1 p-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-100 dark:border-gray-700">
                                             <p className="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-0.5">Latitude</p>
@@ -169,7 +169,7 @@ const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, on
                                             <p className="text-sm font-mono text-orange-600 dark:text-orange-400">{userLocation.lng.toFixed(6)}</p>
                                         </div>
                                     </div>
-                                )}
+                                )} */}
                             </div>
                         </div>
                         <button onClick={() => onPayNow(address)} className="w-full mt-8 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30 transform hover:scale-[1.02] active:scale-[0.98]">
