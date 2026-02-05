@@ -34,7 +34,7 @@ export default function Login() {
       });
       
       setTimeout(() => {
-        navigate("/");
+        navigate("/home");
       }, 1500);
       
     } catch (error) {

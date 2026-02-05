@@ -5,6 +5,7 @@ import OrderSuccess from "./components/OrderSuccess";
 import LiveTracking from "./components/LiveTracking";
 import Header from "./components/Header.jsx";
 import SearchPage from "./components/SearchPage.jsx";
+import LandingPage from "./components/LandingPage.jsx";
 
 // Auth pages
 import Login from "./auth/Login.jsx";
@@ -19,6 +20,7 @@ function App() {
     <AuthProvider>
       <Routes>
         {/* Public routes */}
+        <Route path="/welcome" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/otp-verify" element={<OTPVerification />} />

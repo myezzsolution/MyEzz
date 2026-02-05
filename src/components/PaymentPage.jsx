@@ -180,6 +180,12 @@ function PaymentPage() {
       }
 
       setShowSuccess(true);
+      
+      // Save active order ID for persistent tracking FAB
+      if (createdOrder?._id) {
+        localStorage.setItem('activeOrderId', createdOrder._id);
+      }
+      
       setTimeout(() => {
         navigate("/success", {
           state: {

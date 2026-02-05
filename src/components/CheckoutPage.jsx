@@ -1,7 +1,7 @@
 import React from 'react';
 import { Wallet, MapPin, Utensils } from 'lucide-react';
 
-const CheckoutPage = ({ cartItems, onBack, address, setAddress, setCartItems, onPayNow, userLocation }) => {
+const CheckoutPage = ({ cartItems = [], onBack = () => window.history.back(), address = { fullName: '', emailId: '', phoneNumber: '', fullAddress: '' }, setAddress = () => {}, setCartItems = () => {}, onPayNow = () => {}, userLocation = null }) => {
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const platformFee = cartItems.length > 0 ? 8 : 0;
 
