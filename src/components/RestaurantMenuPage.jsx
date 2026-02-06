@@ -15,10 +15,16 @@ const RestaurantMenuPage = ({ restaurant, onBack = () => window.history.back(), 
     const [vegOnly, setVegOnly] = useState(false);
     const [showSurpriseMe, setShowSurpriseMe] = useState(false);
     const [showCategoryModal, setShowCategoryModal] = useState(false);
+    const [showLoader, setShowLoader] = useState(true);
 
     useEffect(() => {
         async function fetchRestaurant() {
             if (!currentRestaurant && restaurantId) {
+                // Start minimum loader timer
+                const loaderTimer = setTimeout(() => {
+                    setShowLoader(false);
+                }, 1500);
+
                 const { data, error } = await supabase
                     .from('restaurants')
                     .select('*, cuisines(name)')
@@ -32,6 +38,12 @@ const RestaurantMenuPage = ({ restaurant, onBack = () => window.history.back(), 
                     };
                     setCurrentRestaurant(formatted);
                 }
+
+                // Cleanup timer if component unmounts
+                return () => clearTimeout(loaderTimer);
+            } else {
+                // If restaurant already exists, still show loader for minimum time
+                setTimeout(() => setShowLoader(false), 1500);
             }
         }
         fetchRestaurant();
@@ -140,7 +152,11 @@ const RestaurantMenuPage = ({ restaurant, onBack = () => window.history.back(), 
             item.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
-    if (!currentRestaurant) return <div className="p-8 text-center">Loading restaurant...</div>;
+    if (!currentRestaurant || showLoader) return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm">
+            <div className="restaurant-loader"></div>
+        </div>
+    );
 
     return (
         <>

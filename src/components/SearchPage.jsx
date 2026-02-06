@@ -95,7 +95,7 @@ const SearchPage = () => {
 
   const handleBack = () => {
     if (searchQuery.length > 0) setSearchQuery('');
-    else navigate('/home');
+    else navigate('/');
   };
 
   const popularCravings = [
