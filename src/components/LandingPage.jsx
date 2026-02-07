@@ -170,7 +170,8 @@ export default function LandingPage() {
               </h1>
               
               <p className="text-gray-600 text-base sm:text-lg md:text-xl mb-8 max-w-md">
-                Fast delivery from local vendors & street food near you. Simple. Reliable. MyEzz.
+                <span className="block">Fast delivery from local vendors & street food near you.</span>
+                <span className="block">Simple. Reliable. MyEzz.</span>
               </p>
               
               {/* CTA Buttons */}

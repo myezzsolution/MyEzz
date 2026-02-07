@@ -1,12 +1,12 @@
 import { Linkedin, Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-// Orange tape SVG matching MyEzz brand
+// Orange tape SVG matching MyEzz brand - larger size
 const OrangeTape = ({ className = "" }) => (
   <svg 
     xmlns="http://www.w3.org/2000/svg" 
-    width="95" 
-    height="80" 
+    width="120" 
+    height="100" 
     viewBox="0 0 95 80" 
     fill="none"
     className={className}
@@ -29,13 +29,13 @@ export default function TapedFooter() {
         }}
       />
       <div className="max-w-5xl mx-auto relative z-10">
-        {/* Main Footer Card */}
-        <div className="relative bg-orange-50 rounded-3xl px-6 md:px-10 py-10 border border-orange-100 shadow-lg">
-          {/* Tape decorations - hidden on mobile */}
-          <div className="hidden md:block absolute -top-5 -left-6 scale-[0.6] opacity-90">
+        {/* Main Footer Card - darker gray */}
+        <div className="relative bg-gray-800 rounded-3xl px-6 md:px-10 py-10 border border-gray-700">
+          {/* Tape decorations - larger size */}
+          <div className="hidden md:block absolute -top-6 -left-8 opacity-95">
             <OrangeTape />
           </div>
-          <div className="hidden md:block absolute -top-5 -right-6 rotate-90 scale-[0.6] opacity-90">
+          <div className="hidden md:block absolute -top-6 -right-8 rotate-90 opacity-95">
             <OrangeTape />
           </div>
 
@@ -50,7 +50,7 @@ export default function TapedFooter() {
                   className="h-12 object-contain"
                 />
               </Link>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-gray-400 text-sm leading-relaxed">
                 Your favorite food, delivered effortlessly. Fast delivery from local vendors and street food near you.
               </p>
             </div>
@@ -59,13 +59,13 @@ export default function TapedFooter() {
             <div className="flex flex-col md:flex-row gap-8 md:gap-16">
               {/* Quick Links */}
               <div className="flex flex-col gap-3">
-                <h4 className="uppercase text-xs font-bold text-gray-400 tracking-wider">Quick Links</h4>
+                <h4 className="uppercase text-xs font-bold text-gray-500 tracking-wider">Quick Links</h4>
                 <div className="flex flex-col gap-2">
                   <a 
                     href="https://myezzofficial.netlify.app/" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-orange-500 text-sm font-medium transition-colors"
+                    className="text-gray-300 hover:text-orange-400 text-sm font-medium transition-colors"
                   >
                     About Us
                   </a>
@@ -73,7 +73,7 @@ export default function TapedFooter() {
                     href="https://myezzofficial.netlify.app/" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-orange-500 text-sm font-medium transition-colors"
+                    className="text-gray-300 hover:text-orange-400 text-sm font-medium transition-colors"
                   >
                     Privacy Policy
                   </a>
@@ -81,7 +81,7 @@ export default function TapedFooter() {
                     href="https://myezzofficial.netlify.app/" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-orange-500 text-sm font-medium transition-colors"
+                    className="text-gray-300 hover:text-orange-400 text-sm font-medium transition-colors"
                   >
                     Terms of Service
                   </a>
@@ -90,46 +90,49 @@ export default function TapedFooter() {
 
               {/* Partner */}
               <div className="flex flex-col gap-3">
-                <h4 className="uppercase text-xs font-bold text-gray-400 tracking-wider">Partner</h4>
+                <h4 className="uppercase text-xs font-bold text-gray-500 tracking-wider">Partner</h4>
                 <div className="flex flex-col gap-2">
                   <a 
                     href="https://my-ezz-restaurants.vercel.app/" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-orange-500 text-sm font-medium transition-colors"
+                    className="text-gray-300 hover:text-orange-400 text-sm font-medium transition-colors"
                   >
                     Restaurant Partner
                   </a>
                 </div>
               </div>
+
+              {/* Social Links - inside card */}
+              <div className="flex flex-col gap-3">
+                <h4 className="uppercase text-xs font-bold text-gray-500 tracking-wider">Follow Us</h4>
+                <div className="flex gap-4 items-center">
+                  <a
+                    href="https://www.instagram.com/myezz.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="MyEzz Instagram"
+                    className="text-gray-300 hover:text-orange-400 transition-colors"
+                  >
+                    <Instagram className="w-5 h-5" />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/company/myezz/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="MyEzz LinkedIn"
+                    className="text-gray-300 hover:text-orange-400 transition-colors"
+                  >
+                    <Linkedin className="w-5 h-5" />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-6 px-2 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-          <p>© {currentYear} MyEzz. All rights reserved.</p>
-          
-          {/* Social Links */}
-          <div className="flex gap-4 items-center">
-            <a
-              href="https://www.instagram.com/myezz.in/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="MyEzz Instagram"
-              className="text-gray-400 hover:text-orange-400 transition-colors"
-            >
-              <Instagram className="w-5 h-5" />
-            </a>
-            <a
-              href="https://www.linkedin.com/company/myezz/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="MyEzz LinkedIn"
-              className="text-gray-400 hover:text-orange-400 transition-colors"
-            >
-              <Linkedin className="w-5 h-5" />
-            </a>
+          {/* Copyright - inside card */}
+          <div className="mt-8 pt-6 border-t border-gray-700 text-center">
+            <p className="text-gray-500 text-sm">© {currentYear} MyEzz. All rights reserved.</p>
           </div>
         </div>
       </div>
