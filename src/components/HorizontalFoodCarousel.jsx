@@ -9,45 +9,34 @@ const foodImages = [
   { id: 5, src: '/food-carousel/brownie.jpg', alt: 'Chocolate Brownie' },
 ];
 
-// Cursor SVG overlapping the carousel
+// Simple click cursor SVG
 function SwipingCursor({ className }) {
   return (
     <motion.div
       className={className}
-      animate={{ x: [0, 50, 0] }}
+      animate={{ x: [0, 60, 0] }}
       transition={{
         duration: 1.2,
         repeat: Infinity,
-        ease: "easeInOut",
+        ease: [0.4, 0, 0.2, 1],
       }}
     >
       <svg 
-        width="40" 
-        height="40" 
+        width="32" 
+        height="32" 
         viewBox="0 0 24 24" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg"
         className="drop-shadow-xl"
       >
-        {/* Cursor pointer */}
+        {/* Simple arrow pointer */}
         <path 
-          d="M4 4L10.5 20L13 13L20 10.5L4 4Z" 
+          d="M5 3L19 12L12 13L9 20L5 3Z" 
           fill="white" 
           stroke="#ff6a00" 
           strokeWidth="1.5" 
           strokeLinecap="round" 
           strokeLinejoin="round"
-        />
-        {/* Click circle */}
-        <motion.circle
-          cx="14"
-          cy="14"
-          r="4"
-          fill="none"
-          stroke="#ff6a00"
-          strokeWidth="1.5"
-          animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.3, 0.8, 0.3] }}
-          transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
         />
       </svg>
     </motion.div>
@@ -67,7 +56,7 @@ export default function HorizontalFoodCarousel() {
     });
   }, []);
 
-  // Faster auto-scroll: 1.2 seconds
+  // 1.2 second auto-scroll matching cursor animation
   useEffect(() => {
     if (isHovered) return;
     const interval = setInterval(() => {
@@ -159,8 +148,8 @@ export default function HorizontalFoodCarousel() {
           );
         })}
 
-        {/* Cursor SVG - overlapping on top of images */}
-        <SwipingCursor className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none" />
+        {/* Cursor SVG - positioned lower, over the bottom portion of images */}
+        <SwipingCursor className="absolute bottom-[30%] left-1/2 transform -translate-x-1/2 z-50 pointer-events-none" />
       </div>
 
       {/* Navigation dots */}
