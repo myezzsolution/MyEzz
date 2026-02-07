@@ -139,7 +139,7 @@ function ServiceCard({ icon: Icon, title, description, iconBgColor }) {
 // ========== Main Landing Page Component ==========
 export default function LandingPage() {
   return (
-    <div className="min-h-screen relative overflow-x-hidden bg-gray-50">
+    <div className="min-h-screen relative overflow-x-hidden bg-gray-50 scroll-smooth">
       {/* ===== FIXED NAVBAR ===== */}
       <LandingNavbar />
 
@@ -163,15 +163,14 @@ export default function LandingPage() {
           <main className="flex-1 flex flex-col lg:flex-row items-center justify-between px-6 md:px-12 lg:px-16 py-8 gap-6 lg:gap-4">
             
             {/* Left Side - Text Content */}
-            <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-xl z-20">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4">
-                Your Favorite Food,{' '}
-                <br />
-                Delivered <RollingText />
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl z-20 px-2">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight mb-4">
+                <span className="block">Your Favorite Food,</span>
+                <span className="block">Delivered <RollingText /></span>
               </h1>
               
-              <p className="text-gray-600 text-lg md:text-xl mb-8 max-w-md">
-                Fast delivery from top restaurants near you. Simple. Reliable. MyEzz.
+              <p className="text-gray-600 text-base sm:text-lg md:text-xl mb-8 max-w-md">
+                Fast delivery from local vendors & street food near you. Simple. Reliable. MyEzz.
               </p>
               
               {/* CTA Buttons */}

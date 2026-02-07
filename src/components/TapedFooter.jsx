@@ -20,108 +20,117 @@ export default function TapedFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-8 px-4 max-w-5xl mx-auto">
-      {/* Main Footer Card */}
-      <div className="relative bg-white rounded-3xl px-6 md:px-10 py-10 shadow-lg">
-        {/* Tape decorations - hidden on mobile */}
-        <div className="hidden md:block absolute -top-5 -left-6 scale-[0.6] opacity-90">
-          <OrangeTape />
-        </div>
-        <div className="hidden md:block absolute -top-5 -right-6 rotate-90 scale-[0.6] opacity-90">
-          <OrangeTape />
-        </div>
-
-        {/* Footer Content */}
-        <div className="flex flex-col md:flex-row justify-between items-start gap-8">
-          {/* Brand Section */}
-          <div className="flex flex-col gap-3 max-w-xs">
-            <Link to="/" className="flex items-center gap-2">
-              <img 
-                src="/myezzlogopage0001removebgpreview2329-xmz0h-400w.png" 
-                alt="MyEzz Logo" 
-                className="h-12 object-contain"
-              />
-            </Link>
-            <p className="text-gray-500 text-sm leading-relaxed">
-              Your favorite food, delivered effortlessly. Fast delivery from top restaurants near you.
-            </p>
+    <footer className="relative py-10 px-4 bg-black overflow-hidden">
+      {/* Grain texture overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.15] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        }}
+      />
+      <div className="max-w-5xl mx-auto relative z-10">
+        {/* Main Footer Card */}
+        <div className="relative bg-gray-900 rounded-3xl px-6 md:px-10 py-10 border border-gray-800">
+          {/* Tape decorations - hidden on mobile */}
+          <div className="hidden md:block absolute -top-5 -left-6 scale-[0.6] opacity-90">
+            <OrangeTape />
+          </div>
+          <div className="hidden md:block absolute -top-5 -right-6 rotate-90 scale-[0.6] opacity-90">
+            <OrangeTape />
           </div>
 
-          {/* Links Section */}
-          <div className="flex flex-col md:flex-row gap-8 md:gap-16">
-            {/* Quick Links */}
-            <div className="flex flex-col gap-3">
-              <h4 className="uppercase text-xs font-bold text-gray-400 tracking-wider">Quick Links</h4>
-              <div className="flex flex-col gap-2">
-                <a 
-                  href="https://myezzofficial.netlify.app/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-orange-500 text-sm font-medium transition-colors"
-                >
-                  About Us
-                </a>
-                <a 
-                  href="https://myezzofficial.netlify.app/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-orange-500 text-sm font-medium transition-colors"
-                >
-                  Privacy Policy
-                </a>
-                <a 
-                  href="https://myezzofficial.netlify.app/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-orange-500 text-sm font-medium transition-colors"
-                >
-                  Terms of Service
-                </a>
-              </div>
+          {/* Footer Content */}
+          <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+            {/* Brand Section */}
+            <div className="flex flex-col gap-3 max-w-xs">
+              <Link to="/" className="flex items-center gap-2">
+                <img 
+                  src="/myezzlogopage0001removebgpreview2329-xmz0h-400w.png" 
+                  alt="MyEzz Logo" 
+                  className="h-12 object-contain"
+                />
+              </Link>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Your favorite food, delivered effortlessly. Fast delivery from local vendors and street food near you.
+              </p>
             </div>
 
-            {/* Partner */}
-            <div className="flex flex-col gap-3">
-              <h4 className="uppercase text-xs font-bold text-gray-400 tracking-wider">Partner</h4>
-              <div className="flex flex-col gap-2">
-                <a 
-                  href="https://my-ezz-restaurants.vercel.app/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-orange-500 text-sm font-medium transition-colors"
-                >
-                  Restaurant Partner
-                </a>
+            {/* Links Section */}
+            <div className="flex flex-col md:flex-row gap-8 md:gap-16">
+              {/* Quick Links */}
+              <div className="flex flex-col gap-3">
+                <h4 className="uppercase text-xs font-bold text-gray-500 tracking-wider">Quick Links</h4>
+                <div className="flex flex-col gap-2">
+                  <a 
+                    href="https://myezzofficial.netlify.app/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-orange-400 text-sm font-medium transition-colors"
+                  >
+                    About Us
+                  </a>
+                  <a 
+                    href="https://myezzofficial.netlify.app/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-orange-400 text-sm font-medium transition-colors"
+                  >
+                    Privacy Policy
+                  </a>
+                  <a 
+                    href="https://myezzofficial.netlify.app/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-orange-400 text-sm font-medium transition-colors"
+                  >
+                    Terms of Service
+                  </a>
+                </div>
+              </div>
+
+              {/* Partner */}
+              <div className="flex flex-col gap-3">
+                <h4 className="uppercase text-xs font-bold text-gray-500 tracking-wider">Partner</h4>
+                <div className="flex flex-col gap-2">
+                  <a 
+                    href="https://my-ezz-restaurants.vercel.app/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-orange-400 text-sm font-medium transition-colors"
+                  >
+                    Restaurant Partner
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="mt-4 px-2 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-        <p>© {currentYear} MyEzz. All rights reserved.</p>
-        
-        {/* Social Links */}
-        <div className="flex gap-4 items-center">
-          <a
-            href="https://www.instagram.com/myezz.in/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="MyEzz Instagram"
-            className="text-gray-500 hover:text-orange-500 transition-colors"
-          >
-            <Instagram className="w-5 h-5" />
-          </a>
-          <a
-            href="https://www.linkedin.com/company/myezz/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="MyEzz LinkedIn"
-            className="text-gray-500 hover:text-orange-500 transition-colors"
-          >
-            <Linkedin className="w-5 h-5" />
-          </a>
+        {/* Bottom Bar */}
+        <div className="mt-6 px-2 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+          <p>© {currentYear} MyEzz. All rights reserved.</p>
+          
+          {/* Social Links */}
+          <div className="flex gap-4 items-center">
+            <a
+              href="https://www.instagram.com/myezz.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="MyEzz Instagram"
+              className="text-gray-400 hover:text-orange-400 transition-colors"
+            >
+              <Instagram className="w-5 h-5" />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/myezz/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="MyEzz LinkedIn"
+              className="text-gray-400 hover:text-orange-400 transition-colors"
+            >
+              <Linkedin className="w-5 h-5" />
+            </a>
+          </div>
         </div>
       </div>
     </footer>

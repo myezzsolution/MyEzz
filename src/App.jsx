@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./components/homepage.jsx";
 import PaymentPage from "./components/PaymentPage";
 import OrderSuccess from "./components/OrderSuccess";
@@ -19,6 +19,9 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
+        {/* Redirect / to /welcome */}
+        <Route path="/" element={<Navigate to="/welcome" replace />} />
+        
         {/* Public routes */}
         <Route path="/welcome" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
