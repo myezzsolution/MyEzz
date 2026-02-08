@@ -108,7 +108,7 @@ export default function TapedFooter() {
                 <h4 className="uppercase text-xs font-bold text-gray-400 tracking-wider">Follow Us</h4>
                 <div className="flex gap-4 items-center">
                   <a
-                    href="https://www.instagram.com/myezz.in/"
+                    href="https://www.instagram.com/mycravezz/"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="MyEzz Instagram"
