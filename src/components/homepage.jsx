@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from '../auth/AuthContext';
+import { Bike } from 'lucide-react';
 
 import { supabase } from '../supabaseClient';
 
@@ -19,7 +20,150 @@ import SurpriseMe from './SurpriseMe';
 // Icons for bottom nav
 import { HomeIcon, CartIcon } from './Icons';
 
+// Internal component for the Floating Cart Panel
+const CartFloatingPanel = ({ cartItems, onClick, currentPath }) => {
+    // Hide on profile page
+    if (currentPath === '/profile') return null;
+    if (!cartItems || cartItems.length === 0) return null;
+
+    // Group items by restaurant
+    const groupedItems = cartItems.reduce((acc, item) => {
+        const vendor = item.vendor || item.restaurantName || "Restaurant";
+        const image = item.restaurantImage || null;
+        if (!acc[vendor]) {
+            acc[vendor] = {
+                name: vendor,
+                image: image,
+                items: [],
+                count: 0,
+                total: 0
+            };
+        }
+        acc[vendor].items.push(item);
+        acc[vendor].count += item.quantity;
+        acc[vendor].total += (item.price * item.quantity);
+        return acc;
+    }, {});
+
+    const restaurants = Object.values(groupedItems);
+    const totalCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+    const totalPrice = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+    // Calculate dynamic height based on number of stacked cards
+    const stackHeight = 80 + (restaurants.length - 1) * 12; // Base height + offset for each additional card
+
+    return (
+        <div 
+            className="fixed bottom-24 md:bottom-8 left-1/2 transform -translate-x-1/2 z-40 w-[95%] max-w-[420px]"
+            style={{ perspective: '1000px' }}
+        >
+            <div 
+                className="relative w-full cursor-pointer" 
+                onClick={onClick}
+                style={{ height: `${stackHeight}px` }}
+            >
+                {restaurants.map((rest, index) => {
+                    // Create stack effect - bottom cards appear above
+                    const reverseIndex = restaurants.length - 1 - index;
+                    const isTop = index === restaurants.length - 1;
+                    const scale = 1 - (reverseIndex * 0.04);
+                    const translateY = reverseIndex * -12; // More visible offset
+                    const zIndex = index + 10;
+                    
+                    return (
+                        <div 
+                            key={rest.name}
+                            className={`absolute inset-x-0 bottom-0 h-20 rounded-2xl transition-all duration-500 ease-out overflow-hidden
+                                bg-white dark:bg-[#1A1A1A]
+                                border border-gray-200 dark:border-gray-800
+                                ${isTop 
+                                    ? 'shadow-[0_8px_30px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] ring-1 ring-gray-900/5 dark:ring-white/10 hover:ring-orange-500/30 hover:shadow-orange-500/10' 
+                                    : 'shadow-lg opacity-90 brightness-95 dark:brightness-75'
+                                }
+                            `}
+                            style={{
+                                transform: `translateY(${translateY}px) scale(${scale}) rotateX(2deg)`,
+                                zIndex: zIndex,
+                                transformOrigin: 'bottom center'
+                            }}
+                        >
+                            {/* Card Content */}
+                            <div className="flex items-center justify-between p-3 h-full">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-14 h-14 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 overflow-hidden relative flex-shrink-0 shadow-inner">
+                                        {rest.image ? (
+                                            <img src={rest.image} alt={rest.name} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-orange-500 bg-orange-50 dark:bg-orange-500/10">
+                                                <span className="font-bold text-xs">🍽️</span>
+                                            </div>
+                                        )}
+                                        {restaurants.length > 1 && (
+                                            <div className="absolute -top-0.5 -right-0.5 bg-orange-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-md">
+                                                {rest.count}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="flex flex-col justify-center">
+                                        <p className="font-bold text-gray-800 dark:text-gray-200 text-sm leading-tight line-clamp-1">{rest.name}</p>
+                                        <p className="text-xs text-orange-600 dark:text-orange-500 font-semibold">
+                                            {isTop && restaurants.length > 1 ? `+ ${restaurants.length - 1} more` : `${rest.count} item${rest.count > 1 ? 's' : ''}`}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {isTop && (
+                                    <div className="flex items-center gap-3">
+                                        <div className="text-right pr-1">
+                                            <p className="font-black text-gray-900 dark:text-white text-lg leading-none">₹{totalPrice}</p>
+                                            <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-0.5 font-medium">Total</p>
+                                        </div>
+                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/30 text-white">
+                                            <CartIcon className="w-5 h-5" />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                            
+                            {/* Glass Shine Effect */}
+                            <div className="absolute inset-0 bg-gradient-to-tr from-white/10 dark:from-white/5 to-transparent pointer-events-none"></div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+};
+
+const TrackingFAB = ({ onTrack }) => {
+    const [activeOrderId, setActiveOrderId] = useState(null);
+
+    useEffect(() => {
+        // Check periodically or just on mount. For now, on mount + interval to catch updates
+        const checkOrder = () => {
+            const id = localStorage.getItem('activeOrderId');
+            if (id) setActiveOrderId(id);
+        };
+        
+        checkOrder();
+        // Optional: Check every few seconds if multiple tabs behavior matters, 
+        // but typically user stays on this tab. Sticking to mount for now.
+    }, []);
+
+    if (!activeOrderId) return null;
+
+    return (
+        <button
+            onClick={() => onTrack(activeOrderId)}
+            className="fixed bottom-24 right-4 md:bottom-10 md:right-10 z-30 w-14 h-14 bg-green-500 rounded-full shadow-[0_4px_20px_rgba(34,197,94,0.4)] flex items-center justify-center text-white animate-in zoom-in duration-300 hover:scale-110 transition-transform border-4 border-white dark:border-gray-900"
+        >
+            <Bike className="w-6 h-6" />
+        </button>
+    );
+};
+
 export default function App() {
+    const location = useLocation();
     const [cartItems, setCartItems] = useState(() => {
         const saved = localStorage.getItem('cartItems');
         return saved ? JSON.parse(saved) : [];
@@ -273,6 +417,15 @@ export default function App() {
                 } />
             </Routes>
 
+
+
+            <CartFloatingPanel 
+                cartItems={cartItems} 
+                onClick={() => navigate('/checkout')}
+                currentPath={location.pathname}
+            />
+            
+            <TrackingFAB onTrack={(orderId) => navigate(`/track/${orderId}`)} />
 
             {/* Mobile Bottom Nav */}
             <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-2">

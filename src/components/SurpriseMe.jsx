@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { X, Leaf, GlassWater, UtensilsCrossed, Dices, ShoppingCart, RotateCcw, AlertCircle, Check } from 'lucide-react';
+import { supabase as supabaseClient } from '../supabaseClient';
 
-const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaurantName = null }) => {
+const SurpriseMe = ({ supabase = supabaseClient, addToCart = () => {}, onClose = () => window.history.back(), restaurantId = null, restaurantName = null }) => {
     const [budget, setBudget] = useState(300);
     const [selectedTypes, setSelectedTypes] = useState(['Vegetarian']);
     const [rolling, setRolling] = useState(false);
@@ -56,8 +57,8 @@ const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaur
             if (hasBeverages) {
                 let beverageQuery = supabase
                     .from('menu_items')
-                    .select('id, name, price, is_veg, category_id, restaurant_id, restaurants(name)')
-                    .lte('price', budget)
+                    .select('id, name, price, is_veg, category_id, restaurant_id, restaurants(name, image_url)')
+                    .lte('price', budget + 20) // Fetch items up to budget + 20 for priority logic
                     .or('category_id.eq.5,name.ilike.%Shake%,name.ilike.%Juice%,name.ilike.%Tea%,name.ilike.%Coffee%,name.ilike.%Cold Drink%,name.ilike.%Lassi%,name.ilike.%Mojito%');
 
                 // Filter by restaurant if restaurantId is provided
@@ -74,8 +75,8 @@ const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaur
                 for (const type of foodTypes) {
                     let foodQuery = supabase
                         .from('menu_items')
-                        .select('id, name, price, is_veg, category_id, restaurant_id, restaurants(name)')
-                        .lte('price', budget)
+                        .select('id, name, price, is_veg, category_id, restaurant_id, restaurants(name, image_url)')
+                        .lte('price', budget + 20) // Fetch items up to budget + 20 for priority logic
                         .neq('category_id', 5)
                         .not('name', 'ilike', '%Shake%')
                         .not('name', 'ilike', '%Juice%')
@@ -119,9 +120,38 @@ const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaur
                 return;
             }
 
-            // Group items by restaurant
-            const itemsByRestaurant = {};
+            // Apply priority scoring based on budget closeness:
+            // Priority 1: Items priced between budget and budget + 20 (slightly above)
+            // Priority 2: Items priced exactly at budget
+            // Priority 3: Items priced less than budget
             uniqueItems.forEach(item => {
+                const price = item.price;
+                if (price > budget && price <= budget + 20) {
+                    item.budgetPriority = 1; // Slightly above - HIGHEST priority
+                } else if (price === budget) {
+                    item.budgetPriority = 2; // Exact match
+                } else if (price < budget) {
+                    item.budgetPriority = 3; // Below budget - fallback
+                } else {
+                    item.budgetPriority = 99; // Should not happen, but exclude
+                }
+            });
+
+            // Filter out items that are too expensive (more than budget + 20)
+            const validItems = uniqueItems.filter(item => item.budgetPriority <= 3);
+
+            // Sort by priority, then by closeness to budget
+            validItems.sort((a, b) => {
+                if (a.budgetPriority !== b.budgetPriority) {
+                    return a.budgetPriority - b.budgetPriority;
+                }
+                // For same priority, prefer prices closer to budget
+                return Math.abs(a.price - budget) - Math.abs(b.price - budget);
+            });
+
+            // Group items by restaurant (using validItems which are sorted by priority)
+            const itemsByRestaurant = {};
+            validItems.forEach(item => {
                 if (!itemsByRestaurant[item.restaurant_id]) {
                     itemsByRestaurant[item.restaurant_id] = [];
                 }
@@ -451,9 +481,9 @@ const SurpriseMe = ({ supabase, addToCart, onClose, restaurantId = null, restaur
                     <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-12 -mb-12"></div>
                     <button
                         onClick={onClose}
-                        className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 transition-colors z-10"
+                        className="absolute top-4 right-4 w-10 h-10 p-2 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 transition-colors z-50 cursor-pointer"
                     >
-                        <X className="w-5 h-5" />
+                        <X className="w-6 h-6" />
                     </button>
                     <h2 className="text-2xl font-black tracking-tight relative z-10">Magic Pick</h2>
                     <p className="text-orange-50 opacity-90 text-xs font-medium relative z-10">

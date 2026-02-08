@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { StarIcon, BackIcon } from './Icons';
 import SurpriseMe from './SurpriseMe';
-import { Dices } from 'lucide-react';
+import { Dices, X, Grid, ChevronDown } from 'lucide-react';
 
-const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searchQuery, showToastMessage }) => {
+const RestaurantMenuPage = ({ restaurant, onBack = () => window.history.back(), cartItems = [], setCartItems = () => {}, searchQuery = '', showToastMessage = () => {} }) => {
     const { restaurantId } = useParams();
     const [currentRestaurant, setCurrentRestaurant] = useState(restaurant);
     const [menuItems, setMenuItems] = useState([]);
@@ -14,10 +14,17 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [vegOnly, setVegOnly] = useState(false);
     const [showSurpriseMe, setShowSurpriseMe] = useState(false);
+    const [showCategoryModal, setShowCategoryModal] = useState(false);
+    const [showLoader, setShowLoader] = useState(true);
 
     useEffect(() => {
         async function fetchRestaurant() {
             if (!currentRestaurant && restaurantId) {
+                // Start minimum loader timer
+                const loaderTimer = setTimeout(() => {
+                    setShowLoader(false);
+                }, 1500);
+
                 const { data, error } = await supabase
                     .from('restaurants')
                     .select('*, cuisines(name)')
@@ -31,6 +38,12 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                     };
                     setCurrentRestaurant(formatted);
                 }
+
+                // Cleanup timer if component unmounts
+                return () => clearTimeout(loaderTimer);
+            } else {
+                // If restaurant already exists, still show loader for minimum time
+                setTimeout(() => setShowLoader(false), 1500);
             }
         }
         fetchRestaurant();
@@ -83,7 +96,13 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                 );
             }
             showToastMessage(`${item.name} added to cart!`);
-            return [...prevItems, { ...item, quantity: 1, vendor: currentRestaurant.name, restaurantName: currentRestaurant.name }];
+            return [...prevItems, { 
+                ...item, 
+                quantity: 1, 
+                vendor: currentRestaurant.name, 
+                restaurantName: currentRestaurant.name,
+                restaurantImage: currentRestaurant.image_url 
+            }];
         });
     };
 
@@ -133,7 +152,11 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
             item.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
-    if (!currentRestaurant) return <div className="p-8 text-center">Loading restaurant...</div>;
+    if (!currentRestaurant || showLoader) return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm">
+            <div className="restaurant-loader"></div>
+        </div>
+    );
 
     return (
         <>
@@ -197,41 +220,110 @@ const RestaurantMenuPage = ({ restaurant, onBack, cartItems, setCartItems, searc
                             </button>
                         </div>
                         {availableCategories.length > 0 && (
-                            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                            <>
+                                {/* Mobile Category Button */}
                                 <button
-                                    onClick={() => setSelectedCategory('All')}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${selectedCategory === 'All'
-                                        ? 'bg-orange-500 text-white shadow-md'
-                                        : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
-                                        }`}
+                                    onClick={() => setShowCategoryModal(true)}
+                                    className="md:hidden w-full flex items-center justify-between px-5 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl mb-4 active:scale-95 transition-transform"
                                 >
-                                    <span className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${selectedCategory === 'All' ? 'bg-white/20' : 'bg-gray-200 dark:bg-gray-700'
-                                        }`}>
-                                        All
+                                    <span className="font-bold flex items-center gap-2">
+                                        <Grid className="w-5 h-5 text-orange-500" />
+                                        {selectedCategory === 'All' ? 'Browse Menu Categories' : selectedCategory}
                                     </span>
-                                    <span>All</span>
+                                    <ChevronDown className="w-5 h-5 text-gray-500" />
                                 </button>
-                                {availableCategories.map((cat) => (
+
+                                {/* Desktop Horizontal Scroll */}
+                                <div className="hidden md:flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                                     <button
-                                        key={cat.name}
-                                        onClick={() => setSelectedCategory(cat.name)}
-                                        className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${selectedCategory === cat.name
+                                        onClick={() => setSelectedCategory('All')}
+                                        className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${selectedCategory === 'All'
                                             ? 'bg-orange-500 text-white shadow-md'
                                             : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
                                             }`}
                                     >
-                                        <img
-                                            src={cat.image_url}
-                                            alt={cat.name}
-                                            className="w-8 h-8 rounded-full object-cover"
-                                        />
-                                        <span>{cat.name}</span>
+                                        <span className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${selectedCategory === 'All' ? 'bg-white/20' : 'bg-gray-200 dark:bg-gray-700'
+                                            }`}>
+                                            All
+                                        </span>
+                                        <span>All</span>
                                     </button>
-                                ))}
-                            </div>
+                                    {availableCategories.map((cat) => (
+                                        <button
+                                            key={cat.name}
+                                            onClick={() => setSelectedCategory(cat.name)}
+                                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${selectedCategory === cat.name
+                                                ? 'bg-orange-500 text-white shadow-md'
+                                                : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
+                                                }`}
+                                        >
+                                            <img
+                                                src={cat.image_url}
+                                                alt={cat.name}
+                                                className="w-8 h-8 rounded-full object-cover"
+                                            />
+                                            <span>{cat.name}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </>
                         )}
                     </div>
                 )}
+
+            {/* Mobile Category Modal */}
+            {showCategoryModal && (
+                <div className="fixed inset-0 z-[60] bg-white dark:bg-gray-950 flex flex-col md:hidden animate-in slide-in-from-bottom-5 duration-300">
+                    <div className="p-4 flex items-center justify-between border-b dark:border-gray-800 bg-white dark:bg-gray-950 sticky top-0 z-10">
+                        <h3 className="text-lg font-black uppercase tracking-tight">Menu Categories</h3>
+                        <button 
+                            onClick={() => setShowCategoryModal(false)}
+                            className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full"
+                        >
+                            <X className="w-6 h-6" />
+                        </button>
+                    </div>
+                    
+                    <div className="p-4 grid grid-cols-2 gap-3 overflow-y-auto">
+                        <button
+                            onClick={() => {
+                                setSelectedCategory('All');
+                                setShowCategoryModal(false);
+                            }}
+                            className={`flex flex-col items-center justify-center p-4 rounded-2xl border-2 transition-all ${selectedCategory === 'All'
+                                ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/10'
+                                : 'border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50'
+                            }`}
+                        >
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold mb-3 ${selectedCategory === 'All' ? 'bg-orange-500 text-white' : 'bg-gray-200 dark:bg-gray-800 text-gray-500'}`}>
+                                All
+                            </div>
+                            <span className="font-bold text-sm">All Items</span>
+                        </button>
+
+                        {availableCategories.map((cat) => (
+                            <button
+                                key={cat.name}
+                                onClick={() => {
+                                    setSelectedCategory(cat.name);
+                                    setShowCategoryModal(false);
+                                }}
+                                className={`flex flex-col items-center justify-center p-4 rounded-2xl border-2 transition-all ${selectedCategory === cat.name
+                                    ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/10'
+                                    : 'border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50'
+                                }`}
+                            >
+                                <img
+                                    src={cat.image_url}
+                                    alt={cat.name}
+                                    className="w-12 h-12 rounded-full object-cover mb-3"
+                                />
+                                <span className="font-bold text-sm text-center line-clamp-2">{cat.name}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
 
                 <div className="p-6">
                     <h3 className="text-2xl font-bold mb-4">

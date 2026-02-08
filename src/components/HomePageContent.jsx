@@ -88,7 +88,13 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                 );
             }
             showToastMessage(`${dish.name} added to cart!`);
-            return [...prevItems, { ...dish, quantity: 1, vendor: restaurantName, restaurantName: restaurantName }];
+            return [...prevItems, { 
+                ...dish, 
+                quantity: 1, 
+                vendor: restaurantName, 
+                restaurantName: restaurantName,
+                restaurantImage: dish.restaurants?.image_url
+            }];
         });
     };
 
@@ -138,7 +144,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
             }
             const { data, error } = await supabase
                 .from('menu_items')
-                .select('id, name, price, restaurant_id, restaurants(name)')
+                .select('id, name, price, restaurant_id, restaurants(name, image_url)')
                 .ilike('name', `%${debouncedSearchQuery}%`);
             if (error) {
                 console.error('Error fetching dishes:', error);
