@@ -1,12 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, Bike, MapPin } from 'lucide-react';
+import { Clock, Bike, MapPin, X } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
 import HorizontalFoodCarousel from './HorizontalFoodCarousel';
 import TapedFooter from './TapedFooter';
 import LandingNavbar from './LandingNavbar';
+import LocationSearchBar from './LocationSearchBar';
+import HowItWorks from './HowItWorks';
 
 // ========== Three.js Particle System ==========
 function Particles({ count = 50 }) {
@@ -101,14 +103,14 @@ function RollingText() {
   }, []);
 
   return (
-    <span className="inline-block relative h-[1.2em] overflow-hidden align-bottom">
+    <span className="inline-block">
       <AnimatePresence mode="wait">
         <motion.span
           key={rollingWords[index]}
-          initial={{ y: 40, opacity: 0 }}
+          initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -40, opacity: 0 }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
+          exit={{ y: -20, opacity: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
           className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600"
         >
           {rollingWords[index]}
@@ -118,12 +120,16 @@ function RollingText() {
   );
 }
 
-// ========== Service Card Component ==========
-function ServiceCard({ icon: Icon, title, description, iconBgColor }) {
+// ========== Service Card Component (Enhanced hover effects) ==========
+function ServiceCard({ icon: Icon, title, description, iconBgColor, isMiddle = false }) {
   return (
-    <div className="flex-1 min-w-[280px] flex flex-col items-center gap-4 p-6 rounded-2xl bg-white border border-gray-100 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div 
+      className={`flex-1 min-w-[240px] max-w-[300px] flex flex-col items-center gap-4 p-6 rounded-xl bg-white border border-gray-100 shadow-md transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2 ${
+        isMiddle ? '-translate-y-2 shadow-xl' : ''
+      }`}
+    >
       <div 
-        className="w-14 h-14 rounded-xl flex items-center justify-center shadow-md"
+        className="w-14 h-14 rounded-xl flex items-center justify-center shadow-md transition-shadow duration-300 group-hover:shadow-lg group-hover:shadow-orange-500/25"
         style={{ background: iconBgColor }}
       >
         <Icon className="w-7 h-7 text-white" strokeWidth={2} />
@@ -136,15 +142,43 @@ function ServiceCard({ icon: Icon, title, description, iconBgColor }) {
   );
 }
 
+// ========== Toast Component ==========
+function Toast({ message, type = 'info', onClose }) {
+  useEffect(() => {
+    const timer = setTimeout(onClose, 4000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 50 }}
+      className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 bg-gray-900 text-white rounded-xl shadow-2xl"
+    >
+      <span className="text-sm font-medium">{message}</span>
+      <button onClick={onClose} className="text-gray-400 hover:text-white">
+        <X className="w-4 h-4" />
+      </button>
+    </motion.div>
+  );
+}
+
 // ========== Main Landing Page Component ==========
 export default function LandingPage() {
+  const [toast, setToast] = useState(null);
+
+  const showToast = useCallback((message, type = 'info') => {
+    setToast({ message, type });
+  }, []);
+
   return (
     <div className="min-h-screen relative overflow-x-hidden bg-gray-50 scroll-smooth">
       {/* ===== FIXED NAVBAR ===== */}
       <LandingNavbar />
 
       {/* ===== HERO SECTION ===== */}
-      <section id="home" className="relative min-h-screen overflow-hidden pt-16">
+      <section id="home" className="relative min-h-screen overflow-hidden pt-20">
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -160,7 +194,7 @@ export default function LandingPage() {
         {/* Main Content */}
         <div className="relative z-10 min-h-screen flex flex-col">
           {/* Hero Content */}
-          <main className="flex-1 flex flex-col lg:flex-row items-center justify-between px-6 md:px-12 lg:px-16 py-8 gap-6 lg:gap-4">
+          <main className="flex-1 flex flex-col lg:flex-row items-center justify-between px-4 sm:px-6 md:px-12 lg:px-16 py-8 gap-6 lg:gap-4">
             
             {/* Left Side - Text Content */}
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl z-20 px-2">
@@ -169,54 +203,49 @@ export default function LandingPage() {
                 <span className="block">Delivered <RollingText /></span>
               </h1>
               
-              <p className="text-gray-600 text-base sm:text-lg md:text-xl mb-8 max-w-md">
+              <p className="text-gray-600 text-base sm:text-lg md:text-xl mb-6 max-w-md">
                 <span className="block">Fast delivery from local vendors & street food near you.</span>
                 <span className="block">Simple. Reliable. MyEzz.</span>
               </p>
-              
-              {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                <Link
-                  to="/login"
-                  className="px-10 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-lg font-bold rounded-2xl shadow-xl shadow-orange-500/40 hover:from-orange-600 hover:to-orange-700 hover:shadow-2xl hover:shadow-orange-500/50 hover:scale-105 transition-all duration-300"
-                >
-                  Order Now
-                </Link>
-                <a
-                  href="https://my-ezz-restaurants.vercel.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-8 py-4 bg-white/90 backdrop-blur-sm text-gray-700 font-semibold rounded-2xl border border-gray-200 shadow-md hover:bg-orange-500 hover:text-white hover:border-orange-500 hover:shadow-lg hover:shadow-orange-500/30 hover:scale-105 transition-all duration-300"
-                >
-                  Partner With Us
-                </a>
+
+              {/* Location Search Bar */}
+              <div className="w-full max-w-md mb-6">
+                <LocationSearchBar showToast={showToast} />
               </div>
+              
+              {/* Partner text link - secondary action */}
+              <a
+                href="https://my-ezz-restaurants.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-gray-600 hover:text-orange-600 text-sm font-medium transition-colors"
+              >
+                Own a restaurant? <span className="text-orange-500 font-semibold">Partner with us →</span>
+              </a>
             </div>
 
             {/* Right Side - Food Carousel */}
-            <div className="w-full lg:w-[55%] flex items-center justify-center">
+            <div className="w-full lg:w-[55%] flex items-center justify-center mt-4 lg:mt-0">
               <HorizontalFoodCarousel />
             </div>
           </main>
-
-          {/* Scroll indicator */}
-          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500">
-            <span className="text-xs font-medium uppercase tracking-widest">Scroll</span>
-            <div className="w-6 h-10 rounded-full border-2 border-gray-400 flex items-start justify-center p-2">
-              <div className="w-1.5 h-3 bg-gray-400 rounded-full animate-bounce" />
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* ===== SECTION DIVIDER ===== */}
-      <div className="h-1 bg-gradient-to-r from-transparent via-orange-200 to-transparent" />
+      {/* ===== SOFT GRADIENT TRANSITION ===== */}
+      <div className="h-16 bg-gradient-to-b from-transparent via-gray-50 to-white" />
+
+      {/* ===== HOW IT WORKS SECTION ===== */}
+      <HowItWorks />
+
+      {/* ===== SOFT GRADIENT TRANSITION ===== */}
+      <div className="h-8 bg-gradient-to-b from-white to-gray-50" />
 
       {/* ===== SERVICES SECTION ===== */}
-      <section id="how-it-works" className="relative py-12 px-6 md:px-12 lg:px-16 bg-white">
+      <section className="relative py-12 px-4 sm:px-6 md:px-12 lg:px-16 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-5xl mx-auto">
-          {/* Section Header - tighter spacing */}
-          <div className="text-center mb-8">
+          {/* Section Header */}
+          <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
               Why Choose <span className="text-orange-500">MyEzz</span>?
             </h2>
@@ -225,37 +254,44 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* Service Cards - equal width grid */}
+          {/* Service Cards - Updated specific text */}
           <div className="flex flex-col md:flex-row gap-5 justify-center">
             <ServiceCard 
               icon={Clock} 
               title="24/7 Service"
-              description="Order anytime, day or night. We're always here."
+              description="Order anytime, day or night. We're always here for you."
               iconBgColor="linear-gradient(135deg, #FFB347, #FF6A00)"
             />
             <ServiceCard 
               icon={Bike} 
-              title="Quick Delivery"
-              description="Lightning-fast delivery in under 30 minutes."
+              title="30-min Average Delivery"
+              description="Lightning-fast delivery to your doorstep."
               iconBgColor="linear-gradient(135deg, #FFB347, #FF6A00)"
+              isMiddle={true}
             />
             <ServiceCard 
               icon={MapPin} 
-              title="Live Tracking"
-              description="Track your order in real-time from restaurant to door."
+              title="Track Your Rider in Real Time"
+              description="Watch your order on live Google Maps tracking."
               iconBgColor="linear-gradient(135deg, #FF6B6B, #FF4757)"
             />
           </div>
         </div>
       </section>
 
-      {/* ===== SECTION DIVIDER ===== */}
-      <div className="h-1 bg-gradient-to-r from-transparent via-orange-100 to-transparent" />
-
       {/* ===== FOOTER ===== */}
-      <section className="bg-gray-50">
-        <TapedFooter />
-      </section>
+      <TapedFooter />
+
+      {/* Toast */}
+      <AnimatePresence>
+        {toast && (
+          <Toast 
+            message={toast.message} 
+            type={toast.type} 
+            onClose={() => setToast(null)} 
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
