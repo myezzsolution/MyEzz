@@ -96,7 +96,7 @@ export default function HorizontalFoodCarousel() {
 
   return (
     <div 
-      className="relative flex flex-col items-center justify-center w-full h-[450px] sm:h-[520px] md:h-[580px]"
+      className="relative flex flex-col items-center justify-center w-full h-[300px] sm:h-[380px] md:h-[450px] lg:h-[520px]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -130,8 +130,8 @@ export default function HorizontalFoodCarousel() {
               <div
                 className="relative overflow-hidden rounded-2xl sm:rounded-3xl"
                 style={{
-                  width: isCurrent ? 'clamp(320px, 75vw, 430px)' : 'clamp(250px, 60vw, 340px)',
-                  height: isCurrent ? 'clamp(220px, 50vw, 295px)' : 'clamp(170px, 40vw, 230px)',
+                  width: isCurrent ? 'clamp(260px, 70vw, 400px)' : 'clamp(200px, 55vw, 300px)',
+                  height: isCurrent ? 'clamp(175px, 45vw, 270px)' : 'clamp(135px, 35vw, 200px)',
                   boxShadow: isCurrent
                     ? '0 35px 70px -15px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.25), inset 0 0 0 1px rgba(255,255,255,0.1)'
                     : '0 20px 40px -12px rgba(0,0,0,0.3)',
