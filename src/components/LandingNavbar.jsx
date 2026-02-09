@@ -8,7 +8,7 @@ export default function LandingNavbar() {
   const navLinks = [
     { label: 'Home', href: '#home', isAnchor: true },
     { label: 'How It Works', href: '#how-it-works', isAnchor: true },
-    { label: 'Partner', href: 'https://my-ezz-restaurants.vercel.app/', external: true },
+    { label: 'Restaurant Partner', href: 'https://my-ezz-restaurants.vercel.app/', external: true },
   ];
 
   const handleAnchorClick = (e, href) => {
@@ -64,16 +64,16 @@ export default function LandingNavbar() {
           </div>
 
           {/* Auth Buttons - Desktop */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-4">
             <Link
               to="/login"
-              className="px-6 py-2.5 text-gray-700 font-medium text-sm rounded-xl border border-gray-200 hover:border-orange-400 hover:text-orange-500 transition-all"
+              className="px-5 py-2 text-orange-500 font-medium text-sm border border-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition-all duration-200"
             >
               Login
             </Link>
             <Link
               to="/register"
-              className="px-6 py-2.5 text-white font-semibold text-sm rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 shadow-md shadow-orange-500/25 hover:from-orange-600 hover:to-orange-700 hover:shadow-lg hover:shadow-orange-500/40 hover:scale-105 transition-all"
+              className="px-6 py-2.5 text-white font-semibold text-sm rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 shadow-md hover:shadow-xl hover:shadow-orange-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
             >
               Register
             </Link>

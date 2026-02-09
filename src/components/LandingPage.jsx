@@ -103,7 +103,7 @@ function RollingText() {
   }, []);
 
   return (
-    <span className="inline-block">
+    <span className="relative inline-block" style={{ minWidth: '180px' }}>
       <AnimatePresence mode="wait">
         <motion.span
           key={rollingWords[index]}
@@ -111,32 +111,32 @@ function RollingText() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -20, opacity: 0 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600"
+          className="absolute left-0 whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600"
         >
           {rollingWords[index]}
         </motion.span>
       </AnimatePresence>
+      {/* Invisible text to maintain height */}
+      <span className="invisible">Effortlessly</span>
     </span>
   );
 }
 
 // ========== Service Card Component (Enhanced hover effects) ==========
-function ServiceCard({ icon: Icon, title, description, iconBgColor, isMiddle = false }) {
+function ServiceCard({ icon: Icon, title, description, iconBgColor }) {
   return (
     <div 
-      className={`flex-1 min-w-[240px] max-w-[300px] flex flex-col items-center gap-4 p-6 rounded-xl bg-white border border-gray-100 shadow-md transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2 ${
-        isMiddle ? '-translate-y-2 shadow-xl' : ''
-      }`}
+      className="w-full sm:flex-1 sm:min-w-[200px] sm:max-w-[280px] flex flex-col items-center gap-3 sm:gap-4 p-5 sm:p-6 rounded-xl bg-white border border-gray-100 shadow-md transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2"
     >
       <div 
-        className="w-14 h-14 rounded-xl flex items-center justify-center shadow-md transition-shadow duration-300 group-hover:shadow-lg group-hover:shadow-orange-500/25"
+        className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center shadow-md transition-shadow duration-300 group-hover:shadow-lg group-hover:shadow-orange-500/25"
         style={{ background: iconBgColor }}
       >
-        <Icon className="w-7 h-7 text-white" strokeWidth={2} />
+        <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" strokeWidth={2} />
       </div>
       <div className="text-center">
-        <h3 className="text-lg font-bold text-gray-800 mb-1">{title}</h3>
-        <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
+        <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-1">{title}</h3>
+        <p className="text-gray-500 text-xs sm:text-sm leading-relaxed">{description}</p>
       </div>
     </div>
   );
@@ -192,24 +192,24 @@ export default function LandingPage() {
         <ParticleCanvas />
         
         {/* Main Content */}
-        <div className="relative z-10 min-h-screen flex flex-col">
+        <div className="relative z-10 min-h-[90vh] sm:min-h-screen flex flex-col">
           {/* Hero Content */}
-          <main className="flex-1 flex flex-col lg:flex-row items-center justify-center lg:justify-between px-4 sm:px-6 md:px-12 lg:px-16 py-6 lg:py-8 gap-4 lg:gap-4">
+          <main className="flex-1 flex flex-col lg:flex-row items-center justify-center px-4 sm:px-6 md:px-12 lg:px-16 pt-4 pb-6 lg:py-8 gap-2 sm:gap-4 lg:gap-8">
             
             {/* Left Side - Text Content */}
-            <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl z-20 px-2">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight mb-3 lg:mb-4">
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl z-20 px-2 mt-4 sm:mt-0">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight mb-2 sm:mb-3 lg:mb-4">
                 <span className="block">Your Favorite Food,</span>
                 <span className="block">Delivered <RollingText /></span>
               </h1>
               
-              <p className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-xl mb-4 lg:mb-6 max-w-md">
+              <p className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-xl mb-3 sm:mb-4 lg:mb-6 max-w-md">
                 <span className="block">Fast delivery from local vendors & street food near you.</span>
                 <span className="block">Simple. Reliable. MyEzz.</span>
               </p>
 
               {/* Location Search Bar */}
-              <div className="w-full max-w-md mb-4 lg:mb-6">
+              <div className="w-full max-w-md mb-3 sm:mb-4 lg:mb-6">
                 <LocationSearchBar showToast={showToast} />
               </div>
               
@@ -225,7 +225,7 @@ export default function LandingPage() {
             </div>
 
             {/* Right Side - Food Carousel */}
-            <div className="w-full lg:w-[55%] flex items-center justify-center mt-2 lg:mt-0 max-h-[350px] sm:max-h-[400px] lg:max-h-none overflow-hidden">
+            <div className="w-full lg:w-[55%] flex items-center justify-center mt-0 lg:mt-0">
               <HorizontalFoodCarousel />
             </div>
           </main>
@@ -242,20 +242,20 @@ export default function LandingPage() {
       <div className="h-8 bg-gradient-to-b from-white to-gray-50" />
 
       {/* ===== SERVICES SECTION ===== */}
-      <section className="relative py-12 px-4 sm:px-6 md:px-12 lg:px-16 bg-gradient-to-b from-gray-50 to-white">
+      <section className="relative py-10 sm:py-12 px-4 sm:px-6 md:px-12 lg:px-16 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-5xl mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+          <div className="text-center mb-8 sm:mb-10">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2">
               Why Choose <span className="text-orange-500">MyEzz</span>?
             </h2>
-            <p className="text-gray-500 text-base max-w-lg mx-auto">
+            <p className="text-gray-500 text-sm sm:text-base max-w-lg mx-auto">
               Features designed for your convenience
             </p>
           </div>
 
           {/* Service Cards - Updated specific text */}
-          <div className="flex flex-col md:flex-row gap-5 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center items-center sm:items-stretch">
             <ServiceCard 
               icon={Clock} 
               title="24/7 Service"
@@ -267,7 +267,6 @@ export default function LandingPage() {
               title="30-min Average Delivery"
               description="Lightning-fast delivery to your doorstep."
               iconBgColor="linear-gradient(135deg, #FFB347, #FF6A00)"
-              isMiddle={true}
             />
             <ServiceCard 
               icon={MapPin} 
