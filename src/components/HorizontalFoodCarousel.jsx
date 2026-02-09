@@ -96,9 +96,7 @@ export default function HorizontalFoodCarousel() {
 
   return (
     <div 
-      className="relative flex flex-col items-center justify-center w-full h-[300px] sm:h-[380px] md:h-[450px] lg:h-[520px]"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="relative flex flex-col items-center justify-center w-full h-[260px] sm:h-[340px] md:h-[420px] lg:h-[500px]"
     >
       {/* Card Stack */}
       <div className="relative flex items-center justify-center w-full h-full">
@@ -125,10 +123,12 @@ export default function HorizontalFoodCarousel() {
                 mass: 0.7,
               }}
               style={{ zIndex: style.zIndex }}
+              onMouseEnter={() => isCurrent && setIsHovered(true)}
+              onMouseLeave={() => isCurrent && setIsHovered(false)}
             >
               {/* Glassmorphism border + shadow */}
               <div
-                className="relative overflow-hidden rounded-2xl sm:rounded-3xl"
+                className="relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer"
                 style={{
                   width: isCurrent ? 'clamp(260px, 70vw, 400px)' : 'clamp(200px, 55vw, 300px)',
                   height: isCurrent ? 'clamp(175px, 45vw, 270px)' : 'clamp(135px, 35vw, 200px)',

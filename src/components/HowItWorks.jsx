@@ -79,7 +79,7 @@ export default function HowItWorks() {
         </div>
 
         {/* Mobile: Vertical Stepper */}
-        <div className="md:hidden flex flex-col gap-6">
+        <div className="md:hidden flex flex-col gap-8 px-2">
           {steps.map((step, index) => (
             <motion.div
               key={step.id}
@@ -89,25 +89,24 @@ export default function HowItWorks() {
               transition={{ delay: index * 0.1 }}
               className="flex items-start gap-4 relative"
             >
-              {/* Vertical connector line */}
-              {index < steps.length - 1 && (
-                <div className="absolute left-8 top-[72px] w-0.5 h-[calc(100%-40px)] bg-gradient-to-b from-orange-300 to-orange-100" />
-              )}
-              
               {/* Icon */}
               <div className="relative shrink-0">
-                <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/25">
-                  <step.icon className="w-8 h-8 text-white" strokeWidth={1.5} />
+                {/* Vertical connector line - connects to next item */}
+                {index < steps.length - 1 && (
+                  <div className="absolute left-1/2 -translate-x-1/2 top-full w-0.5 h-8 bg-gradient-to-b from-orange-300 to-orange-100" />
+                )}
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/25">
+                  <step.icon className="w-7 h-7 text-white" strokeWidth={1.5} />
                 </div>
                 {/* Step number */}
-                <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-orange-500 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-md">
+                <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-md">
                   {step.id}
                 </div>
               </div>
               
               {/* Content */}
-              <div className="pt-2">
-                <h3 className="font-bold text-gray-800 text-lg mb-1">
+              <div className="pt-1">
+                <h3 className="font-bold text-gray-800 text-base mb-0.5">
                   {step.title}
                 </h3>
                 <p className="text-gray-500 text-sm leading-relaxed">
