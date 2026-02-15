@@ -137,20 +137,67 @@ const CartFloatingPanel = ({ cartItems, onClick, currentPath }) => {
 
 const TrackingFAB = ({ onTrack }) => {
     const [activeOrderId, setActiveOrderId] = useState(null);
+    const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-        // Check periodically or just on mount. For now, on mount + interval to catch updates
-        const checkOrder = () => {
+        const checkOrder = async () => {
             const id = localStorage.getItem('activeOrderId');
-            if (id) setActiveOrderId(id);
+            if (!id) {
+                setVisible(false);
+                setActiveOrderId(null);
+                return;
+            }
+
+            setActiveOrderId(id);
+
+            // Check if order was already delivered — hide 30 min after delivery
+            const deliveredAt = localStorage.getItem('activeOrderDeliveredAt');
+            if (deliveredAt) {
+                const elapsed = Date.now() - parseInt(deliveredAt, 10);
+                if (elapsed > 30 * 60 * 1000) {
+                    // 30 min passed since delivery — clean up
+                    localStorage.removeItem('activeOrderId');
+                    localStorage.removeItem('activeOrderDeliveredAt');
+                    setVisible(false);
+                    setActiveOrderId(null);
+                    return;
+                }
+                // Still within 30 min window — keep showing
+                setVisible(true);
+                return;
+            }
+
+            // Try to check order status from API
+            try {
+                const { getOrderStatus } = await import('../api/riderService');
+                const order = await getOrderStatus(id);
+                const status = order?.status?.toLowerCase?.() || '';
+
+                if (status === 'delivered' || status === 'completed') {
+                    // Mark delivery time, keep visible for 30 more min
+                    localStorage.setItem('activeOrderDeliveredAt', Date.now().toString());
+                    setVisible(true);
+                } else if (status === 'cancelled') {
+                    localStorage.removeItem('activeOrderId');
+                    setVisible(false);
+                    setActiveOrderId(null);
+                } else {
+                    // Order is active (pending, picked_up, on_the_way, etc.)
+                    setVisible(true);
+                }
+            } catch {
+                // API error or order not found — still show if ID exists
+                // (user might be offline or server down)
+                setVisible(true);
+            }
         };
-        
+
         checkOrder();
-        // Optional: Check every few seconds if multiple tabs behavior matters, 
-        // but typically user stays on this tab. Sticking to mount for now.
+        const interval = setInterval(checkOrder, 30000); // Re-check every 30s
+        return () => clearInterval(interval);
     }, []);
 
-    if (!activeOrderId) return null;
+    if (!visible || !activeOrderId) return null;
 
     return (
         <button
