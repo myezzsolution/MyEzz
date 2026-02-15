@@ -697,23 +697,37 @@ const SurpriseMe = ({ supabase = supabaseClient, addToCart = () => {}, onClose =
                                         SELECT ITEMS TO ADD TO CART
                                     </div>
                                 )}
-                                <button
-                                    onClick={handleReroll}
-                                    disabled={rolling}
-                                    className="w-full text-orange-600 font-bold py-2.5 text-xs uppercase tracking-widest hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-colors border-2 border-transparent hover:border-orange-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    {rolling ? (
-                                        <>
-                                            <div className="w-3.5 h-3.5 border-2 border-orange-600/30 border-t-orange-600 rounded-full animate-spin"></div>
-                                            Rerolling...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <RotateCcw className="w-3.5 h-3.5" />
-                                            Try Again
-                                        </>
-                                    )}
-                                </button>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={handleReroll}
+                                        disabled={rolling}
+                                        className="flex-1 text-orange-600 font-bold py-2.5 text-[10px] uppercase tracking-widest hover:bg-orange-50 dark:hover:bg-orange-500/10 rounded-xl transition-colors border-2 border-orange-200 dark:border-orange-800 hover:border-orange-400 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        {rolling ? (
+                                            <>
+                                                <div className="w-3.5 h-3.5 border-2 border-orange-600/30 border-t-orange-600 rounded-full animate-spin"></div>
+                                                Rerolling...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <RotateCcw className="w-3.5 h-3.5" />
+                                                Try Again
+                                            </>
+                                        )}
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setResult(null);
+                                            setSelectedItems([]);
+                                            setError(null);
+                                        }}
+                                        disabled={rolling}
+                                        className="flex-1 text-gray-500 dark:text-gray-400 font-bold py-2.5 text-[10px] uppercase tracking-widest hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors border-2 border-gray-200 dark:border-gray-700 hover:border-gray-400 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        <Dices className="w-3.5 h-3.5" />
+                                        Start Fresh
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     )}
