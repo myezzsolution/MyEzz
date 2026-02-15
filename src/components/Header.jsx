@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import logo from './myezzlogopage0001removebgpreview2329-xmz0h-400w.png';
+const logo = '/Myezz final logo.svg';
 import { SearchIcon, CartIcon } from './Icons';
 import ProfileDropdown from './ProfileDropdown';
 
@@ -32,7 +32,7 @@ const Header = ({ onCartClick, cartItems, isProfileOpen, onProfileToggle, onProf
       {/* Logo & Location */}
       <div className="flex items-center gap-4">
         <button onClick={onLogoClick} className="focus:outline-none shrink-0">
-          <img src={logo} alt="MyEzz Logo" className="h-10 sm:h-20" />
+          <img src={logo} alt="MyEzz Logo" className="h-7 sm:h-10" />
         </button>
         <button onClick={onLocationClick} className="flex items-center gap-2 px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-2xl transition-all group max-w-[120px] sm:max-w-[200px]">
           <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-full group-hover:bg-orange-500 transition-colors">

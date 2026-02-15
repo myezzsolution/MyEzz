@@ -42,7 +42,7 @@ const Login = (props) => {
           className="login-phone"
         />
         <img
-          src="/myezzlogopage0001removebgpreview1338-07fh-400h.png"
+          src="/Myezz final logo.svg"
           alt="myezzlogopage0001removebgpreview1338"
           className="login-myezzlogopage0001removebgpreview1"
         />

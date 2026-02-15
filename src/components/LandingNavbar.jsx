@@ -29,9 +29,9 @@ export default function LandingNavbar() {
           {/* Logo - larger */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <img 
-              src="/myezzlogopage0001removebgpreview2329-xmz0h-400w.png" 
+              src="/Myezz final logo.svg" 
               alt="MyEzz" 
-              className="h-12 md:h-16 object-contain"
+              className="h-8 md:h-10 object-contain"
             />
           </Link>
 
