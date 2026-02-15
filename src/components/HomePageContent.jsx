@@ -283,7 +283,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                             onClick={onSurpriseMe}
                             className="group flex-shrink-0 px-6 py-3 text-sm font-black rounded-2xl border-2 whitespace-nowrap
                                 flex items-center gap-2 transition-all duration-300 ease-out backdrop-blur-md
-                                bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400/50
+                                bg-gradient-to-br from-orange-500 to-orange-600 text-white border-orange-400/50
                                 hover:shadow-[0_10px_25px_rgba(249,115,22,0.4)] active:scale-95
                                 hidden md:flex"
                         >
@@ -300,7 +300,7 @@ const HomePageContent = ({ searchQuery, setSearchQuery, cartItems, setCartItems,
                         </p>
                         <button
                             onClick={onSurpriseMe}
-                            className="md:hidden flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-orange-500/20 transition-all active:scale-95"
+                            className="md:hidden flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-orange-500/20 transition-all active:scale-95"
                         >
                             <Dices className="w-5 h-5" />
                             <span>Surprise Me</span>
