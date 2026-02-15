@@ -45,9 +45,9 @@ export default function TapedFooter() {
             <div className="flex flex-col gap-3 max-w-xs">
               <Link to="/" className="flex items-center gap-2">
                 <img 
-                  src="/myezzlogopage0001removebgpreview2329-xmz0h-400w.png" 
+                  src="/Myezz final logo.svg" 
                   alt="MyEzz Logo" 
-                  className="h-12 object-contain"
+                  className="h-8 object-contain"
                 />
               </Link>
               <p className="text-gray-600 text-sm leading-relaxed">

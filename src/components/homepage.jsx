@@ -192,11 +192,12 @@ export default function App() {
         previousOrders: []
     });
 
-    const [address, setAddress] = useState({
-        fullName: '',
-        emailId: '',
-        phoneNumber: '',
-        fullAddress: ''
+    const [address, setAddress] = useState(() => {
+        const saved = localStorage.getItem('deliveryInfo');
+        if (saved) {
+            try { return JSON.parse(saved); } catch (e) { /* ignore */ }
+        }
+        return { fullName: '', emailId: '', phoneNumber: '', fullAddress: '' };
     });
 
     const { currentUser } = useAuth();
@@ -323,6 +324,9 @@ export default function App() {
             alert("Please fill in all delivery information fields.");
             return;
         }
+
+        // Persist delivery info for future orders
+        localStorage.setItem('deliveryInfo', JSON.stringify(addressData));
 
         const customerInfo = {
             ...addressData,

@@ -91,7 +91,7 @@ const Signup = (props) => {
           <div className="signup-frame2"></div>
         </div>
         <img
-          src="/myezzlogopage0001removebgpreview2329-xmz0h-400w.png"
+          src="/Myezz final logo.svg"
           alt="myezzlogopage0001removebgpreview2329"
           className="signup-myezzlogopage0001removebgpreview2"
         />

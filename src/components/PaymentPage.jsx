@@ -181,6 +181,9 @@ function PaymentPage() {
 
       setShowSuccess(true);
       
+      // Clear cart after successful order
+      localStorage.removeItem('cartItems');
+
       // Save active order ID for persistent tracking FAB
       if (createdOrder?._id) {
         localStorage.setItem('activeOrderId', createdOrder._id);
